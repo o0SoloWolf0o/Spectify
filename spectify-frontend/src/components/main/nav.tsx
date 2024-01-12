@@ -1,6 +1,7 @@
 import Link from "next/link";
-import LoginForm from "./loginForm";
-import TransitionsModal from "./transitionsModal";
+import ThemeToggle from "../theme/theme-toggle";
+import AuthPopup from "./auth/authPopup";
+import ModalComponent from "../utils/modal";
 
 export default function NavComponent() {
     return (
@@ -14,9 +15,10 @@ export default function NavComponent() {
                 <Link href="/build">Build</Link>
                 <Link href="/product">Product</Link>
                 <Link href="/compare">Compare</Link>
-                <TransitionsModal buttonText="Login">
-                    <LoginForm />
-                </TransitionsModal>
+                <ThemeToggle />
+                <ModalComponent buttonText="Sign In">
+                    <AuthPopup />
+                </ModalComponent>
             </div>
         </>
     );
