@@ -1,16 +1,8 @@
 import React from "react";
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    useDisclosure,
-} from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 
 interface Props {
-    buttonText: string;
+    buttonText?: string | "modal";
     children: React.ReactNode;
 }
 
@@ -19,7 +11,7 @@ export default function ModalComponent({ buttonText, children }: Props) {
 
     return (
         <>
-            <button onClick={onOpen}>{buttonText}</button>
+            {buttonText && <button onClick={onOpen}>{buttonText}</button>}{" "}
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (

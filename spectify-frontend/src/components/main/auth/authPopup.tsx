@@ -1,16 +1,25 @@
-import { useState } from "react";
-import SignInComponent from "./signIn";
-import SignUpComponent from "./signUp";
-import ForgetPasswordComponent from "./forgetPassword";
+"use client";
 
-export default function AuthPopup() {
+import { useState } from "react";
+import SignInComponent from "@/components/main/auth/signIn";
+import SignUpComponent from "./signUp";
+import ForgetPasswordComponent from "@/components/main/auth/forgetPassword";
+import ModalComponent from "@/components/utils/modal";
+
+interface AuthPopupProps {
+    buttonText?: string | "modal";
+}
+
+export default function AuthPopup({ buttonText }: AuthPopupProps) {
     const [panel, setPanel] = useState("signIn");
 
     return (
         <>
-            {panel === "signIn" && <SignInComponent setPanel={setPanel} />}
-            {panel === "signUp" && <SignUpComponent setPanel={setPanel} />}
-            {panel === "forgotPassword" && <ForgetPasswordComponent setPanel={setPanel} />}
+            <ModalComponent buttonText={buttonText}>
+                {panel === "signIn" && <SignInComponent setPanel={setPanel} />}
+                {panel === "signUp" && <SignUpComponent setPanel={setPanel} />}
+                {panel === "forgotPassword" && <ForgetPasswordComponent setPanel={setPanel} />}
+            </ModalComponent>
         </>
     );
 }

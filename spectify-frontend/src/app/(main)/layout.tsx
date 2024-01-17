@@ -1,5 +1,3 @@
-"use client";
-
 import NavComponent from "@/components/main/nav";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
