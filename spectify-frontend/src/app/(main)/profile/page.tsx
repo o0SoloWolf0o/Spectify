@@ -8,7 +8,8 @@ export default async function ProfilePage() {
 
 	return (
 		<>
-			<div className="ml-52 mr-52 pb-12 border-b border-gray-300">
+		<div className="flex justify-center">
+			<div className="pb-12 border-b border-gray-300">
 				<div className="flex justify-between">
 				<div className="flex items-start">
 					<Avatar src={user?.image} className="w-44 h-44" />
@@ -19,7 +20,7 @@ export default async function ProfilePage() {
 						</div>
 						<button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full ml-12 mt-6"> Edit Profile </button>
 				</div>
-					<div className="flex items-end">
+					<div className="ml-16">
 							<Image
 							className="w-44 h-44"
 							isZoomed
@@ -39,7 +40,7 @@ export default async function ProfilePage() {
 					</div>
 				</div>
 			</div>
-
+		</div>
 		</>
 	);
 }
