@@ -1,6 +1,7 @@
 import { userDetail } from "@/hooks/userDetail";
 import {Avatar} from "@nextui-org/react";
 import {Image} from "@nextui-org/react";
+import Link from "next/link";
 
 
 export default async function ProfilePage() {
@@ -18,7 +19,7 @@ export default async function ProfilePage() {
 						<p>username: {user?.username}</p>
 						<p>bio: {user?.bio}</p>
 						</div>
-						<button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full ml-12 mt-6"> Edit Profile </button>
+						<Link href="/profile/edit"><button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full ml-12 mt-6"> Edit Profile </button></Link>
 				</div>
 					<div className="ml-16">
 							<Image
