@@ -38,20 +38,17 @@ export default function SignUpComponent({ setPanel }: SignUpProps) {
 	function signUpSubmit(values: zod.infer<typeof signUpSchema>) {
 		setAuthError("");
 		startTransition(() => {
-			createUser(values)
-				.then((res) => {
-					if (res.success) {
-						authSignIn(values).then((res) => {
+			createUser(values).then((createRes) => {
+				if (createRes.success) {
+					authSignIn(values).then((res) => {
+						if (res && !res.success) {
 							setAuthError(res.message);
-						});
-					} else {
-						setAuthError(res.error || "Error");
-					}
-				})
-				.catch((err) => {
-					setAuthError("An unknown error occurred.");
-					// console.log(err);
-				});
+						}
+					});
+				} else {
+					setAuthError(createRes.message || "Error");
+				}
+			});
 		});
 	}
 

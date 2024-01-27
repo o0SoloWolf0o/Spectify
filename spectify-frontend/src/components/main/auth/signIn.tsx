@@ -37,7 +37,9 @@ export default function SignInComponent({ setPanel }: SignInProps) {
 		setAuthError("");
 		startTransition(() => {
 			authSignIn(values).then((res) => {
-				setAuthError(res.message);
+				if (res && !res.success) {
+					setAuthError(res.message);
+				}
 			});
 		});
 	}
