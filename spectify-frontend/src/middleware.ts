@@ -4,7 +4,7 @@ import NextAuth from "next-auth";
 const { auth } = NextAuth(authConfig);
 const DEFAULT_LOGIN_URL = "/login";
 const DEFAULT_HOME_URL = "/";
-const privateRoutes = ["/profile", "/following"];
+const privateRoutes = ["/profile", "/following", "/profile/edit"];
 const authRoutes = ["/login", "/register", "/reset-password"];
 
 export default auth((req) => {
