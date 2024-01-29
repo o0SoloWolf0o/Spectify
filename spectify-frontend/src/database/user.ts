@@ -62,3 +62,8 @@ export async function updateUserPasswordByEmail(email: string, password: string)
 	const user = await prisma.user.update({ where: { email }, data: { password: hashedPassword } });
 	return user;
 }
+
+export async function updateUserBioById(id: string, bio: string) {
+	const user = await prisma.user.update({ where: { id }, data: { bio } });
+	return user;
+}

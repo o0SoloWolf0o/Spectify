@@ -38,3 +38,7 @@ export const newPasswordSchema = zod
 		message: "Passwords do not match",
 		path: ["confirmPassword"],
 	});
+
+export const updateProfileSchema = zod.object({
+	bio: zod.string(),
+});
