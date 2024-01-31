@@ -9,6 +9,7 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import React from 'react';
 import { useRouter } from 'next/navigation'
+import path from "path";
 
 export default function NavComponent() {
 	const session = useSession();
@@ -76,7 +77,7 @@ export default function NavComponent() {
 							<span className="mt-1">Search User</span>
 						</div>
 					</Link>
-				
+
 					<div className={pathname === '/following' ? 'active flex items-center' : 'flex items-center'} style={pathname === '/following' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '103px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
 						<Image
 							src={pathname === '/following' ? '/images/Following_light.png' : '/images/Following_black.png'}
@@ -95,7 +96,7 @@ export default function NavComponent() {
 							<AuthPopup buttonText="Following" />
 						)}
 					</div>
-					
+
 					<div className={pathname === '/profile' ? 'active flex items-center' : 'flex items-center'} style={pathname === '/profile' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '123px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
 						<Image
 							src={pathname === '/profile' ? '/images/User_light.png' : '/images/User_black.png'}
@@ -131,16 +132,18 @@ export default function NavComponent() {
 						</div>
 					</Link>
 
+
+
 					<Link href="/product">
-						<div className={pathname === '/product' ? 'active flex items-center' : 'flex item-center'} style={pathname === '/product' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '114px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }}>
+						<div className={pathname === '/product' ? 'active flex items-center' : 'flex item-center'} style={pathname === '/product' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '114px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px', height: '20px' }}>
 							<Image
 								src={pathname === '/product' ? '/images/Shop_light.png' : '/images/Shop_black.png'}
 								alt="Product"
 								width={20}
-								height={15}
+								height={20}
 								className="mr-2"
 							/>
-							<span className="mt-1">Product</span>
+							<span>Product</span>
 						</div>
 					</Link>
 
