@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import * as zod from "zod";
 import { signUpSchema } from "@/schemas";
 import { PrismaClient } from "@prisma/client";
+import { userDetail } from "@/hooks/userDetail";
 
 const prisma = new PrismaClient();
 
@@ -66,4 +67,15 @@ export async function updateUserPasswordByEmail(email: string, password: string)
 export async function updateUserBioById(id: string, bio: string) {
 	const user = await prisma.user.update({ where: { id }, data: { bio } });
 	return user;
+}
+
+export async function updateUsernameById(id: string, username: string) {
+	const user = await prisma.user.update({ where: { id }, data: { username } });
+	return user;
+}
+
+export async function isUsernameUnique(username: string) {
+	const user = await prisma.user.findUnique({ where: { username } });
+	if (user) return false;
+	return true;
 }
