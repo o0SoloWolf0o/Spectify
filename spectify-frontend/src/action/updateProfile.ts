@@ -1,14 +1,14 @@
 "use server";
 
 import { userDetail } from "@/hooks/userDetail";
-import { getUserById, updateUserBioById } from "@/database/user";
+import { getUserById, updateUserBioById, updateUsernameById, isUsernameUnique} from "@/database/user";
 import * as zod from "zod";
 import { updateProfileSchema } from "@/schemas";
 
 export async function updateProfile(values: zod.infer<typeof updateProfileSchema>) {
-	const { bio } = values;
+	const { username, bio } = values;
+	const user = await userDetail();	
 
-	const user = await userDetail();
 	if (!user) {
 		return { success: false, message: "User not found." };
 	}
@@ -20,6 +20,15 @@ export async function updateProfile(values: zod.infer<typeof updateProfileSchema
 
 	try {
 		await updateUserBioById(user.id, bio);
+		if (username && username !== user.username) {
+			// Check for uniqueness before updating
+			const isUnique = await isUsernameUnique(username);
+			if (!isUnique) {
+				return { success: false, message: "Username already exists." };
+			}
+			await updateUsernameById(user.id, username);
+		}
+
 		return { success: true, message: "" };
 	} catch (err) {
 		return { success: false, message: err as string };

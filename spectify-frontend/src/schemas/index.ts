@@ -1,4 +1,6 @@
 import * as zod from "zod";
+import { isUsernameUnique } from "@/database/user";
+
 
 export const signInSchema = zod.object({
 	email: zod.string().email(),
@@ -39,6 +41,22 @@ export const newPasswordSchema = zod
 		path: ["confirmPassword"],
 	});
 
-export const updateProfileSchema = zod.object({
-	bio: zod.string(),
-});
+	export const updateProfileSchema = zod.object({
+		username: zod
+		  .string()
+		  .min(6, {
+			message: "Username must be at least 6 characters",
+		  }).max(20, {
+			message: "Username must be less than 20 characters",
+		  }),
+		//   .refine(async (username) => {
+		// 	return await isUsernameUnique(username);
+		//   }, {
+		// 	message: "Username already exists",
+		//   })
+	  
+		bio: zod.string().max(100, {
+		  message: "Bio must be less than 100 characters",
+		}),
+	  });
+	  

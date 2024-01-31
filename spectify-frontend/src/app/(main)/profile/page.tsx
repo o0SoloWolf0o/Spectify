@@ -3,17 +3,12 @@ import {Avatar, Tab} from "@nextui-org/react";
 import {Image} from "@nextui-org/react";
 import Link from "next/link";
 import TabComponent from "@/components/main/profile/tab";
+import { userDetail } from "@/hooks/userDetail";
 
 
 export default async function ProfilePage() {
-	// const user = await userDetail();
-	const user = {
-		id: 1,
-		username: "jame_ntw",
-		image: "https://media.cnn.com/api/v1/images/stellar/prod/210104111236-beginner-gaming-pc.jpg?q=w_2065,h_1162,x_0,y_0,c_fill",
-		bio: "ACS | KMUTT"
-	}
-	
+	const user = await userDetail();
+
 
 	return (
 		<>

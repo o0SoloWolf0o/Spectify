@@ -4,6 +4,9 @@ import {Image} from "@nextui-org/react";
 import Link from "next/link";
 import {Input} from "@nextui-org/react";
 import {Textarea} from "@nextui-org/react";
+import TestComponent from "@/components/test";
+import UpdateprofileComponent from "@/components/main/profile/updateprofile";
+
 
 
 export default async function editProfilePage() {
@@ -17,29 +20,7 @@ export default async function editProfilePage() {
                     <div className="flex items-start">
                         <Avatar src={user?.image} className="w-44 h-44" />
                         <div className="w-96">
-                            <div className="ml-16 mt-6">
-                            <Input
-                                isReadOnly
-                                type="email"
-                                label="Email"
-                                defaultValue= {user?.email}
-                                />
-                                <br />
-                                <Input 
-                                type="username" 
-                                label="username" 
-                                defaultValue= {user?.username}
-                                />
-                                <br />
-                            <Textarea
-                                label="Bio"
-                                defaultValue= {user?.bio}
-                                />
-                            </div>
-                            <div className="flex justify-end">
-                                <Link href="/profile" className="ml-16 mt-6"><button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full w-[5rem]"> Cancel </button></Link>
-                                <Link href="/profile" className="ml-3 mt-6"><button className="bg-[#00A9FF] hover:bg-[#0087CC] text-white font-bold py-2 px-4 rounded-full w-[5rem]"> Save </button></Link>
-                            </div>
+                            <UpdateprofileComponent />
                         </div>
                     </div>
                 </div>
