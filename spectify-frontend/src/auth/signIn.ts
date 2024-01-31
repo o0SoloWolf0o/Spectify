@@ -16,7 +16,6 @@ export async function authSignIn(values: zod.infer<typeof signInSchema>) {
 
 	try {
 		await signIn("credentials", { email, password });
-		return { success: true };
 	} catch (error) {
 		if (error instanceof AuthError) {
 			switch (error.type) {
