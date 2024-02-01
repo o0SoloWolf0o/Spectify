@@ -49,12 +49,7 @@ export const newPasswordSchema = zod
 		  }).max(20, {
 			message: "Username must be less than 20 characters",
 		  }),
-		//   .refine(async (username) => {
-		// 	return await isUsernameUnique(username);
-		//   }, {
-		// 	message: "Username already exists",
-		//   })
-	  
+
 		bio: zod.string().max(100, {
 		  message: "Bio must be less than 100 characters",
 		}),
