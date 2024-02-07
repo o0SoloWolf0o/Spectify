@@ -79,3 +79,8 @@ export async function isUsernameUnique(username: string) {
 	if (user) return false;
 	return true;
 }
+
+export async function getUserByUsername(username: string) {
+	const user = await prisma.user.findUnique({ where: { username } });
+	return user;
+}

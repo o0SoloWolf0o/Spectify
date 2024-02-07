@@ -13,6 +13,7 @@ import path from "path";
 
 export default function NavComponent() {
 	const session = useSession();
+	const sessionUser = session?.data?.user;
 	const isSession = session.status === "authenticated";
 	const pathname = usePathname();
 
@@ -97,16 +98,16 @@ export default function NavComponent() {
 						)}
 					</div>
 
-					<div className={pathname === '/profile' ? 'active flex items-center' : 'flex items-center'} style={pathname === '/profile' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '123px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
+					<div className={pathname === `/${sessionUser?.username}` ? 'active flex items-center' : 'flex items-center'} style={pathname === `/${sessionUser?.username}` ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '123px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
 						<Image
-							src={pathname === '/profile' ? '/images/User_light.png' : '/images/User_black.png'}
+							src={pathname === `/${sessionUser?.username}` ? '/images/User_light.png' : '/images/User_black.png'}
 							alt="User"
 							width={20}
 							height={10}
 							className="mr-2"
 						/>
 						{isSession ? (
-							<Link href="/profile">
+							<Link href={`/${sessionUser?.username}`}>
 								<div className="flex items-center">
 									<span className="mt-1">Profile</span>
 								</div>
