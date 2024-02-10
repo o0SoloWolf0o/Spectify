@@ -1,7 +1,15 @@
+"use client";
+
+import SearchBarComponent from "@/components/main/searchBar";
+
 export default function SearchPage() {
-    return (
-        <>
-            <h1>Search</h1>
-        </>
-    );
+	function handleSearch(value: string) {
+		console.log(value);
+	}
+
+	return (
+		<>
+			<SearchBarComponent onSeach={handleSearch} placeholder={"Username"} />
+		</>
+	);
 }
