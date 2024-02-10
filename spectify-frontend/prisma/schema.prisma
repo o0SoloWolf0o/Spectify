@@ -60,3 +60,131 @@ model resetPasswordToken {
 
   @@unique([email, token])
 }
+
+model follow {
+  id       String   @id @default(cuid())
+  user_id  String
+  follow_id String
+  followData DateTime
+}
+
+model news {
+    id      String   @id @default(cuid())
+    title   String
+    content String
+    image   String
+    date    DateTime
+    user_id String
+}
+
+model build {
+    id      String   @id @default(cuid())
+    mobo_id String
+    cpu_id  String
+    gpu_id  String
+    ram_id  String
+    cpuCooler_id String
+    ssd_id String
+    hdd_id String
+    psu_id  String
+    case_id String
+    monitor_id String
+    date    DateTime
+    user_id String
+}
+
+model cpu {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    type    String
+    socket  String
+    coreThreads String
+    year    String
+    price   String
+    tdp    String
+    clock String
+    turbo String
+}
+
+model mobo {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    size    String
+    socket  String
+    ramslot String
+}
+
+model ram {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    size    String
+    type    String
+    kit     String
+}
+
+model case {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    size    String
+    isolation String
+}
+
+model cpuCooler {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    socket  String
+}
+
+model gpu {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    type    String
+    performance String
+    architecture String
+    year    String
+    series  String
+    vram    String
+    price   String
+    power  String
+}
+
+model hdd {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    size    String
+}
+
+model ssd {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    size    String
+    type   String
+}
+
+model monitor {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    panelType String
+    resolution String
+    refreshRate String
+    size    String
+    freesync String
+    gsync   String
+    price   String
+}
+
+model psu {
+    id      String   @id @default(cuid())
+    name    String
+    image   String
+    wattage String
+}
