@@ -37,9 +37,8 @@ export default function NewPasswordComponent({ token }: NewPasswordProps) {
 	});
 
 	function newPasswordSubmit(values: zod.infer<typeof newPasswordSchema>) {
-		setAuthError("");
-		console.log(values);
 		startTransition(() => {
+			setAuthError("");
 			NewPassword(token, values).then((res) => {
 				if (res.success) {
 					setIsResetPasswordSuccess(true);
@@ -55,9 +54,9 @@ export default function NewPasswordComponent({ token }: NewPasswordProps) {
 		return (
 			<>
 				<Form {...newPasswordForm}>
-					<h1>Set password</h1>
-					<FormDescription>Set your new password.</FormDescription>
-					<form onSubmit={newPasswordForm.handleSubmit(newPasswordSubmit)} className="space-y-8">
+					<form onSubmit={newPasswordForm.handleSubmit(newPasswordSubmit)} className="space-y-4">
+						<h1>Set password</h1>
+						<FormDescription>Set your new password.</FormDescription>
 						<div className="flex flex-col gap-3">
 							<FormField
 								control={newPasswordForm.control}
@@ -105,7 +104,7 @@ export default function NewPasswordComponent({ token }: NewPasswordProps) {
 							/>
 						</div>
 						<AuthErrorComponent message={authError} />
-						<Button type="submit" className="w-full" disabled={isPending}>
+						<Button type="submit" disabled={isPending} className="w-full bg-primary1-5">
 							Confirm
 						</Button>
 					</form>
