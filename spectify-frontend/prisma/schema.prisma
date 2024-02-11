@@ -125,7 +125,7 @@ model ram {
     kit     String
 }
 
-model case {
+model caseComputer {
     id      String   @id @default(cuid())
     name    String
     image   String
