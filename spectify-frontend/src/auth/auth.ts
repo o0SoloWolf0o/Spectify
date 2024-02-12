@@ -3,6 +3,7 @@ import authConfig from "@/auth/auth.config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient, Role } from "@prisma/client";
 import { getUserById } from "@/database/user";
+import { createUserDetailIfNotExist } from "@/database/userDetail";
 
 const prisma = new PrismaClient();
 
@@ -14,6 +15,7 @@ export const {
 } = NextAuth({
 	callbacks: {
 		async signIn({ user }) {
+			createUserDetailIfNotExist(user.id);
 			return true;
 		},
 		async session({ session, token }) {

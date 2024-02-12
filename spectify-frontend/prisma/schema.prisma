@@ -31,6 +31,15 @@ model User {
   password      String?
   bio           String?
   role          Role      @default(USER)
+  userDetail    UserDetail?
+}
+
+model UserDetail {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  img           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
