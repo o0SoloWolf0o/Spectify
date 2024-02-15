@@ -5,19 +5,19 @@ import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { updateProfileSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import Link from "next/link";
-import { Input } from "@nextui-org/react";
-import { Textarea } from "@nextui-org/react";
+import {Input} from "@nextui-org/react";
+import {Textarea} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { useEffect } from "react";
+
 
 export default function UpdateprofileComponent() {
 	const session = useSession();
 	const sessionUser = session?.data?.user;
 	const [error, setError] = useState("");
-	const [isPending, startTransition] = useTransition();
+    const [isPending, startTransition] = useTransition();
 	const [imageBase64, setImageBase64] = useState("");
 	const {
 		handleSubmit,
@@ -35,7 +35,7 @@ export default function UpdateprofileComponent() {
 	useEffect(() => {
 		setValue("image", imageBase64);
 	}, [imageBase64, setValue]);
-
+  	
 
 	function updateProfileSubmit(values: zod.infer<typeof updateProfileSchema>) {
 		setError("");
@@ -63,44 +63,43 @@ export default function UpdateprofileComponent() {
 		}
 	};
 
-	return (
 
-		<form onSubmit={handleSubmit(updateProfileSubmit)} className="flex flex-col">
-			<div className="ml-16 mt-6">
-				<input type="file" onChange={handleImageChange} />
-			</div>
-			<div className="ml-16 mt-6">
-				{imageBase64 && (
-					<>
-						<img src={imageBase64} alt="Selected" style={{ maxWidth: "80%" }} />
-						<br />
-						<div className="mt-2">Base64 Text:</div>
-						<textarea cols="40" rows="10">
-							{imageBase64}
-						</textarea>
-					</>
-				)}
-			</div>
+  return (
+    
+	<form onSubmit={handleSubmit(updateProfileSubmit)} className="flex flex-col">
+		<div className="ml-16 mt-6">
+                <input type="file" onChange={handleImageChange} />
+            </div>
+            <div className="ml-16 mt-6">
+                {imageBase64 && (
+                    <>	
+                        <img src={imageBase64} alt="Selected" style={{ maxWidth: "80%" }} />
+                        <br />
+                        <div className="mt-2">Base64 Text:</div>
+                        <textarea rows={4} value={imageBase64} readOnly />
+                    </>
+                )}
+            </div>
+		
+		<div className="ml-16 mt-6">
+			<Input isDisabled type="email" label="Email" defaultValue= {sessionUser?.email}/>
+		</div>
+		<div className="ml-16 mt-6">
+			<Input {...register("username")} type="text" label="Username" defaultValue={sessionUser?.username} />
+			{errors.username && <p className="text-red-500">{errors.username.message}</p>}
+			{error &&<p className="text-red-500">{error}</p>}
+		</div>
 
-			<div className="ml-16 mt-6">
-				<Input isDisabled type="email" label="Email" defaultValue={sessionUser?.email} />
-			</div>
-			<div className="ml-16 mt-6">
-				<Input {...register("username")} type="text" label="Username" defaultValue={sessionUser?.username} />
-				{errors.username && <p className="text-red-500">{errors.username.message}</p>}
-				{error && <p className="text-red-500">{error}</p>}
-			</div>
+		<div className="ml-16 mt-6">
+			<Textarea {...register("bio")} type="text" label="Bio" defaultValue={sessionUser?.bio}/>
+			{errors.bio && <p className="text-red-500">{errors.bio.message}</p>}
+		</div>
 
-			<div className="ml-16 mt-6">
-				<Textarea {...register("bio")} type="text" label="Bio" defaultValue={sessionUser?.bio} />
-				{errors.bio && <p className="text-red-500">{errors.bio.message}</p>}
-			</div>
-
-			<div className="flex justify-end mt-6">
-				<Link href="/profile" className="ml-16 mt-6"><button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full w-[5rem]"> Cancel </button></Link>
-				<div className="ml-3 mt-6"><button type="submit" className="bg-[#00A9FF] hover:bg-[#0087CC] text-white font-bold py-2 px-4 rounded-full w-[5rem]">Save</button></div>
-			</div>
-		</form>
-
-	)
+		<div className="flex justify-end mt-6">
+			<Link href="/profile" className="ml-16 mt-6"><button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full w-[5rem]"> Cancel </button></Link>
+			<div className="ml-3 mt-6"><button type="submit" className="bg-[#00A9FF] hover:bg-[#0087CC] text-white font-bold py-2 px-4 rounded-full w-[5rem]">Save</button></div>
+		</div>
+	</form>
+	
+  )
 }

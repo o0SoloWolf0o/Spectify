@@ -10,7 +10,6 @@ import UpdateprofileComponent from "@/components/main/profile/updateprofile";
 
 
 export default async function editProfilePage() {
-    const user = await userDetail();
 
     return (
         <>
@@ -18,7 +17,7 @@ export default async function editProfilePage() {
             <div className="flex justify-center">
                 <div className="flex justify-between">
                     <div className="flex items-start">
-                        <Avatar src={user?.image} className="w-44 h-44" />
+
                         <div className="w-96">
                             <UpdateprofileComponent />
                         </div>
@@ -28,3 +27,4 @@ export default async function editProfilePage() {
         </>
     );
 }
+

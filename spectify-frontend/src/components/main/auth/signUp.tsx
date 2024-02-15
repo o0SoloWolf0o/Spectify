@@ -36,8 +36,8 @@ export default function SignUpComponent({ setPanel }: SignUpProps) {
 	});
 
 	function signUpSubmit(values: zod.infer<typeof signUpSchema>) {
-		setAuthError("");
 		startTransition(() => {
+			setAuthError("");
 			createUser(values).then((createRes) => {
 				if (createRes.success) {
 					authSignIn(values).then((res) => {
@@ -63,9 +63,9 @@ export default function SignUpComponent({ setPanel }: SignUpProps) {
 	return (
 		<>
 			<Form {...signUpForm}>
-				<h1>Sign up</h1>
-				<FormDescription>Sign up to enjoy the feature of Revolutie.</FormDescription>
-				<form onSubmit={signUpForm.handleSubmit(signUpSubmit)} className="space-y-8">
+				<form onSubmit={signUpForm.handleSubmit(signUpSubmit)} className="space-y-4">
+					<h1>Sign up</h1>
+					<FormDescription>Sign up to enjoy the feature of Revolutie.</FormDescription>
 					<div className="flex flex-col gap-3">
 						<FormField
 							control={signUpForm.control}
@@ -134,29 +134,31 @@ export default function SignUpComponent({ setPanel }: SignUpProps) {
 						/>
 					</div>
 					<AuthErrorComponent message={authError} />
-					<Button type="submit" className="w-full" disabled={isPending}>
+					<Button type="submit" disabled={isPending} className="w-full bg-primary1-5 hover:bg-primary1-6">
 						Sign up
 					</Button>
-				</form>
-
-				<div className="flex items-center">
-					<hr className="flex-1 border-t border-gray-300" />
-					<p className="mx-4 text-gray-500">or</p>
-					<hr className="flex-1 border-t border-gray-300" />
-				</div>
-
-				<Button disabled={isPending} className="w-full">
-					<FcGoogle className="mr-2" /> Sign in with Google
-				</Button>
-
-				<div className="flex flex-col items-center">
-					<div className="flex gap-2">
-						<p>Have an account?</p>
-						<button onClick={redirectSignIn} disabled={isPending}>
-							Sign in
-						</button>
+					<div className="flex items-center">
+						<hr className="flex-1 border-t border-gray-300" />
+						<p className="mx-4 text-gray-500">or</p>
+						<hr className="flex-1 border-t border-gray-300" />
 					</div>
-				</div>
+					<Button type="button" disabled={isPending} className="w-full bg-primary1-5 hover:bg-primary1-6">
+						<FcGoogle className="mr-2" /> Sign in with Google
+					</Button>
+					<div className="flex flex-col items-center">
+						<div className="flex gap-2">
+							<p>Have an account?</p>
+							<button
+								type="button"
+								onClick={redirectSignIn}
+								disabled={isPending}
+								className="text-primary1-5 hover:text-primary1-6 disabled:text-primary1-2"
+							>
+								Sign in
+							</button>
+						</div>
+					</div>
+				</form>
 			</Form>
 		</>
 	);

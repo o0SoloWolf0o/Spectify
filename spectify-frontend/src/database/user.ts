@@ -84,3 +84,8 @@ export async function getUserByUsername(username: string) {
 	const user = await prisma.user.findUnique({ where: { username } });
 	return user;
 }
+
+export async function updateImageById(id:string, image:string) {
+	const user = await prisma.user.update({where: { id }, data:{ image }});
+	return user
+}

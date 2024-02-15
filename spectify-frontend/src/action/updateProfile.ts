@@ -1,12 +1,12 @@
 "use server";
 
 import { userDetail } from "@/hooks/userDetail";
-import { getUserById, updateUserBioById, updateUsernameById, isUsernameUnique} from "@/database/user";
+import { getUserById, updateUserBioById, updateUsernameById, isUsernameUnique, updateImageById} from "@/database/user";
 import * as zod from "zod";
 import { updateProfileSchema } from "@/schemas";
 
 export async function updateProfile(values: zod.infer<typeof updateProfileSchema>) {
-	const { username, bio } = values;
+	const { image, username, bio } = values;
 	const user = await userDetail();	
 
 	if (!user) {
@@ -20,6 +20,10 @@ export async function updateProfile(values: zod.infer<typeof updateProfileSchema
 
 	try {
 		await updateUserBioById(user.id, bio);
+		if (image) {
+            await updateImageById(user.id, image);
+        }
+
 		if (username && username !== user.username) {
 			// Check for uniqueness before updating
 			const isUnique = await isUsernameUnique(username);
