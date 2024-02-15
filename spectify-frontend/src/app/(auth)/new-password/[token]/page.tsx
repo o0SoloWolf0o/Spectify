@@ -16,7 +16,7 @@ export default async function newPasswordPage({ params }: { params: { token: str
 		} else {
 			return (
 				<>
-					<p>This token is expired</p>
+					<p className="flex justify-center">This token is expired.</p>
 				</>
 			);
 		}
