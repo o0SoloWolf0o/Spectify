@@ -3,6 +3,7 @@ import {Avatar} from "@nextui-org/react";
 import Link from "next/link";
 import TabComponent from "@/components/main/profile/tab";
 import { userDetail } from "@/hooks/userDetail";
+import { getUserImgById } from "@/database/userDetail";
 
 export default async function userProfilePage({
     params, 
@@ -12,6 +13,7 @@ export default async function userProfilePage({
     };
 }) {
     const user = await getUserByUsername(params.username);
+    const userImg = await getUserImgById(user?.id ?? "");
     const sessionUser = await userDetail();
     const isOwner = user?.id === sessionUser?.id;
 
@@ -26,7 +28,7 @@ export default async function userProfilePage({
         <div className="pb-12 border-b border-gray-300 w-[64rem]">
             <div className="flex justify-between">
             <div className="flex items-start">
-                <Avatar src={user?.image} className="w-44 h-44"/>
+                <Avatar src={userImg ?? ""} className="w-44 h-44"/>
                     <div className="ml-16 mt-6">
                     <p className="text-xl">{user?.username}</p>
                     <p className="text-base">{user?.bio}</p>

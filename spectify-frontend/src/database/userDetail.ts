@@ -31,3 +31,15 @@ export async function getUserImgById(userId: string) {
 	});
 	return userDetail?.img;
 }
+
+export async function updateUserImgById(userId: string, img: string) {
+	const userDetail = await prisma.userDetail.update({
+		where: {
+			userId: userId,
+		},
+		data: {
+			img: img,
+		},
+	});
+	return userDetail;
+}

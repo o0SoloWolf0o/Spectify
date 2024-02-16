@@ -5,13 +5,13 @@ import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { updateProfileSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useTransition } from "react";
+import { use, useEffect, useTransition } from "react";
 import Link from "next/link";
-import {Input} from "@nextui-org/react";
+import {Avatar, Input} from "@nextui-org/react";
 import {Textarea} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-
+import { getUserImg } from "@/action/updateProfile";
 
 export default function UpdateprofileComponent() {
 	const session = useSession();
@@ -19,6 +19,19 @@ export default function UpdateprofileComponent() {
 	const [error, setError] = useState("");
     const [isPending, startTransition] = useTransition();
 	const [imageBase64, setImageBase64] = useState("");
+	const [sessionUserImg, setSessionUserImg] = useState("");
+
+	
+	useEffect(() => {
+		if (sessionUser) {
+			getUserImg(sessionUser.id).then((res) => {
+				if (res) {
+					setSessionUserImg(res);
+				}
+			});
+		}
+	}, [sessionUser]);
+
 	const {
 		handleSubmit,
 		register,
@@ -27,7 +40,7 @@ export default function UpdateprofileComponent() {
 	} = useForm<zod.infer<typeof updateProfileSchema>>({
 		resolver: zodResolver(updateProfileSchema),
 		defaultValues: {
-			username: sessionUser?.username,
+			username: sessionUser?.username ?? "",
 			bio: sessionUser?.bio,
 		},
 	});
@@ -67,30 +80,24 @@ export default function UpdateprofileComponent() {
   return (
     
 	<form onSubmit={handleSubmit(updateProfileSubmit)} className="flex flex-col">
-		<div className="ml-16 mt-6">
+            <div className="mt-6 flex justify-center">
+				<Avatar src={imageBase64 ? imageBase64 : sessionUserImg} className="w-44 h-44"/>
+            </div>
+
+			<div className="mt-6 flex justify-center">
                 <input type="file" onChange={handleImageChange} />
             </div>
-            <div className="ml-16 mt-6">
-                {imageBase64 && (
-                    <>	
-                        <img src={imageBase64} alt="Selected" style={{ maxWidth: "80%" }} />
-                        <br />
-                        <div className="mt-2">Base64 Text:</div>
-                        <textarea rows={4} value={imageBase64} readOnly />
-                    </>
-                )}
-            </div>
 		
-		<div className="ml-16 mt-6">
-			<Input isDisabled type="email" label="Email" defaultValue= {sessionUser?.email}/>
+		<div className="mt-6 flex justify-center">
+			<Input isDisabled type="email" label="Email" defaultValue={sessionUser?.email ?? ""} />
 		</div>
-		<div className="ml-16 mt-6">
-			<Input {...register("username")} type="text" label="Username" defaultValue={sessionUser?.username} />
+		<div className="mt-6 flex justify-center">
+			<Input {...register("username")} type="text" label="Username" defaultValue={sessionUser?.username ?? ""} />
 			{errors.username && <p className="text-red-500">{errors.username.message}</p>}
 			{error &&<p className="text-red-500">{error}</p>}
 		</div>
 
-		<div className="ml-16 mt-6">
+		<div className="mt-6 flex justify-center">
 			<Textarea {...register("bio")} type="text" label="Bio" defaultValue={sessionUser?.bio}/>
 			{errors.bio && <p className="text-red-500">{errors.bio.message}</p>}
 		</div>
