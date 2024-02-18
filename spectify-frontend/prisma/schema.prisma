@@ -104,6 +104,7 @@ model build {
 
 model cpu {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     type    String
@@ -118,6 +119,7 @@ model cpu {
 
 model mobo {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     size    String
@@ -127,6 +129,7 @@ model mobo {
 
 model ram {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     size    String
@@ -136,6 +139,7 @@ model ram {
 
 model caseComputer {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     size    String
@@ -144,6 +148,7 @@ model caseComputer {
 
 model cpuCooler {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     socket  String
@@ -151,6 +156,7 @@ model cpuCooler {
 
 model gpu {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     type    String
@@ -160,11 +166,20 @@ model gpu {
     series  String
     vram    String
     price   String
-    power  String
+    tdp  String
+    motherboardBus String
+    coreClock String
+    boostClock String
+    effectiveClock String
+    length String
+    coolingFans String
+    caseSlots String
+    frameSync String
 }
 
 model hdd {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     size    String
@@ -172,6 +187,7 @@ model hdd {
 
 model ssd {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     size    String
@@ -180,6 +196,7 @@ model ssd {
 
 model monitor {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     panelType String
@@ -193,6 +210,7 @@ model monitor {
 
 model psu {
     id      String   @id @default(cuid())
+    typeProduct String
     name    String
     image   String
     wattage String
