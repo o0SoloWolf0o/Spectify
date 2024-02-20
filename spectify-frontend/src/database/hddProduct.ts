@@ -8,7 +8,9 @@ export async function createHddProduct(
     typeProduct: string,
     name: string,
     image: string,
-    size: string
+    size: string,
+    description: string,
+    price: string
 ) {
     try {
 
@@ -19,7 +21,9 @@ export async function createHddProduct(
                     typeProduct,
                     name,
                     image,
-                    size
+                    size,
+                    description,
+                    price
                 }
             }
         );
@@ -41,7 +45,9 @@ export async function updateHddProductById(id: string,
     typeProduct: string,
     name: string,
     image: string,
-    size: string) {
+    size: string,
+    description: string,
+    price: string) {
     try {
         const hdd = await prisma.hdd.update({
             where: { id },
@@ -49,7 +55,9 @@ export async function updateHddProductById(id: string,
                 typeProduct,
                 name,
                 image,
-                size
+                size,
+                description,
+                price
             }
         })
         return hdd

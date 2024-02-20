@@ -10,7 +10,9 @@ export async function createCpuCooler (
     typeProduct: string,
     name: string,
     image: string,
-    socket: string
+    socket: string,
+    description: string,
+    price: string
 ) {
     try {
         await prisma.cpuCooler.create({
@@ -18,7 +20,9 @@ export async function createCpuCooler (
                 typeProduct,
                 name,
                 image,
-                socket
+                socket,
+                description,
+                price
             }
         }
         );
@@ -40,7 +44,9 @@ export async function updateCpuCooler(id:string,
     typeProduct:string,
     name:string,
     image:string,
-    socket:string
+    socket:string,
+    description:string,
+    price: string
     ) {
         try {
             const cpuCooler = await prisma.cpuCooler.update({where:{id},
@@ -48,8 +54,9 @@ export async function updateCpuCooler(id:string,
                 typeProduct,
                 name,
                 image,
-                socket
-
+                socket,
+                description,
+                price
             }})
             return cpuCooler
         } catch (err) {

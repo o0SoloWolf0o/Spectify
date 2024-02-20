@@ -10,7 +10,9 @@ export async function createRamProduct(
     image: string,
     size: string,
     type: string,
-    kit: string) {
+    kit: string,
+    description: string,
+    price: string) {
     try {
         await prisma.ram.create(
             {
@@ -20,7 +22,9 @@ export async function createRamProduct(
                     image,
                     size,
                     type,
-                    kit
+                    kit,
+                    description,
+                    price
                 }
             }
         );
@@ -44,7 +48,9 @@ export async function updateRamProductById(id: string,
     image: string,
     size: string,
     type: string,
-    kit: string
+    kit: string,
+    description: string,
+    price: string
 ) {
     try {
         const ram = await prisma.ram.update({
@@ -55,7 +61,9 @@ export async function updateRamProductById(id: string,
                 image,
                 size,
                 type,
-                kit
+                kit,
+                description,
+                price
             }
         })
         return ram;

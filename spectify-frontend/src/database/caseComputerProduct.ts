@@ -10,7 +10,9 @@ export async function createCaseComputer(
     name: string,
     image: string,
     size: string,
-    isolation: string
+    isolation: string,
+    description: string,
+    price: string
 ) {
     try {
         await prisma.caseComputer.create(
@@ -20,7 +22,9 @@ export async function createCaseComputer(
                     name,
                     image,
                     size,
-                    isolation
+                    isolation,
+                    description,
+                    price
                 }
             }
         );
@@ -43,7 +47,9 @@ export async function updateCaseComputerById(id:string,
     name: string,
     image: string,
     size: string,
-    isolation: string
+    isolation: string,
+    description: string,
+    price: string
 ){
     try {
         const caseComputer = await prisma.caseComputer.update({where:{id},
@@ -52,7 +58,9 @@ export async function updateCaseComputerById(id:string,
             name,
             image,
             size,
-            isolation
+            isolation,
+            description,
+            price
         }})
         return caseComputer;
     } catch (err){

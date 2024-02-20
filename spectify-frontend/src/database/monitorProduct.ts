@@ -14,7 +14,8 @@ export async function createMonitorProduct(
     size:string,
     freesync:string,
     gsync:string,
-    price:string
+    price:string,
+    description: string
 ) {
     try{
         await prisma.monitor.create(
@@ -29,7 +30,8 @@ export async function createMonitorProduct(
                     size,
                     freesync,
                     gsync,
-                    price
+                    price,
+                    description
                 }
             }
         );
@@ -57,7 +59,8 @@ export async function updateMonitorProductById(id: string,
     size:string,
     freesync:string,
     gsync:string,
-    price:string) {
+    price:string,
+    description:string) {
     try {
         const monitor = await prisma.monitor.update({where:{id},
         data:{
@@ -70,7 +73,8 @@ export async function updateMonitorProductById(id: string,
             size,
             freesync,
             gsync,
-            price
+            price,
+            description
         }})
         return monitor
     } catch (err) {

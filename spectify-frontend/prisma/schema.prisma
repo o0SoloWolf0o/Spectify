@@ -115,6 +115,7 @@ model cpu {
     tdp    String
     clock String
     turbo String
+    description String
 }
 
 model mobo {
@@ -125,6 +126,8 @@ model mobo {
     size    String
     socket  String
     ramslot String
+    description String
+    price   String
 }
 
 model ram {
@@ -135,6 +138,8 @@ model ram {
     size    String
     type    String
     kit     String
+    description String
+    price   String
 }
 
 model caseComputer {
@@ -144,6 +149,8 @@ model caseComputer {
     image   String
     size    String
     isolation String
+    description String
+    price   String
 }
 
 model cpuCooler {
@@ -152,6 +159,8 @@ model cpuCooler {
     name    String
     image   String
     socket  String
+    description String
+    price   String
 }
 
 model gpu {
@@ -175,6 +184,7 @@ model gpu {
     coolingFans String
     caseSlots String
     frameSync String
+    description String
 }
 
 model hdd {
@@ -183,6 +193,8 @@ model hdd {
     name    String
     image   String
     size    String
+    description String
+    price   String
 }
 
 model ssd {
@@ -192,6 +204,8 @@ model ssd {
     image   String
     size    String
     type   String
+    description String
+    price   String
 }
 
 model monitor {
@@ -206,6 +220,7 @@ model monitor {
     freesync String
     gsync   String
     price   String
+    description String
 }
 
 model psu {
@@ -214,4 +229,6 @@ model psu {
     name    String
     image   String
     wattage String
+    description String
+    price   String
 }

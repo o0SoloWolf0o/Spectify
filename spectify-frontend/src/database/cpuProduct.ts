@@ -15,7 +15,8 @@ export async function createCpuProduct(
     price: string,
     tdp: string,
     clock: string,
-    turbo: string) {
+    turbo: string,
+    description: string) {
     try {
         await prisma.cpu.create(
             {
@@ -30,7 +31,8 @@ export async function createCpuProduct(
                     price,
                     tdp,
                     clock,
-                    turbo
+                    turbo,
+                    description
                 }
             }
         );
@@ -42,7 +44,7 @@ export async function createCpuProduct(
 export async function getCpuProduct() {
     try {
         const cpu = await prisma.cpu.findMany({take:10})
-        return  cpu
+        return cpu;
     } catch (err) {
         throw new Error(err as string)
     }
@@ -59,7 +61,8 @@ export async function updateCpuProductById(id: string,
     price: string,
     tdp: string,
     clock: string,
-    turbo: string) {
+    turbo: string,
+    description: string) {
     try {
         const cpu = await prisma.cpu.update({where: { id },
             data: {
@@ -73,7 +76,8 @@ export async function updateCpuProductById(id: string,
             price,
             tdp,
             clock,
-            turbo
+            turbo,
+            description
     }})
     return cpu;
     } catch (err) {

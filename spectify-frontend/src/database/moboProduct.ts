@@ -10,7 +10,9 @@ export async function createMoboProduct(
     image: string,
     size: string,
     socket: string,
-    ramslot: string
+    ramslot: string,
+    description: string,
+    price: string
 ) {
     try {
         await prisma.mobo.create(
@@ -21,7 +23,9 @@ export async function createMoboProduct(
                     image,
                     size,
                     socket,
-                    ramslot
+                    ramslot,
+                    description,
+                    price
                 }
             }
         )
@@ -45,7 +49,9 @@ export async function updateMoboProductById(id: string,
     image: string,
     size: string,
     socket: string,
-    ramslot: string
+    ramslot: string,
+    description: string,
+    price: string
 ) {
     try {
         const mobo = await prisma.mobo.update({
@@ -56,7 +62,9 @@ export async function updateMoboProductById(id: string,
                 image,
                 size,
                 socket,
-                ramslot
+                ramslot,
+                description,
+                price
             }
         })
         return mobo;

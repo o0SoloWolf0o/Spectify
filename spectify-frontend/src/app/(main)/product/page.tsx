@@ -1,87 +1,227 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import SearchBarComponent from "@/components/main/searchBar";
 import Image from "next/image";
 import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import { getCpuProducts } from "@/action/product";
+import { getRamProducts } from "@/action/product";
+import { getGpuProducts } from "@/action/product";
+import { getHddProducts } from "@/action/product";
+import { getSsdProducts } from "@/action/product";
+import { getCpuCoolerProducts } from "@/action/product";
+import { getMoboProducts } from "@/action/product";
+import { getMonitorProducts } from "@/action/product";
+import { getPsuProducts } from "@/action/product";
 
 
-type Product = {
-	type: string;
+type cpuProducts = {
+	id: string;
+	typeProduct: string;
 	name: string;
-	description: string;
-	Image: string;
+	image: string;
+	type: string;
+	socket: string;
+	coreThreads: string;
+	year: string;
 	price: string;
-};
+	tdp: string;
+	clock: string;
+	turbo: string;
+	description: string;
+}
+
+type ramProducts = {
+	typeProduct: string;
+	name: string;
+	image: string;
+	size: string;
+	type: string;
+	kit: string;
+	description: string;
+	price: string;
+}
+
+type gpuProducts ={
+	typeProduct:string;
+    name:string;
+    image:string;
+    type:string;
+    performance:string;
+    architecture:string;
+    year:string;
+    series:string;
+    vram:string;
+    price:string;
+    tdp:string;
+    motherboardBus:string;
+    coreClock:string;
+    boostClock:string;
+    effectiveClock:string;
+    length:string;
+    coolingFans:string;
+    caseSlots:string;
+    frameSync:string;
+    description:string;
+}
+
+type moboProducts = {
+	typeProduct: string;
+    name: string;
+    image: string;
+    size: string;
+    socket: string;
+    ramslot: string;
+    description: string;
+    price: string;
+}
+
+type hddProducts = {
+	typeProduct: string;
+    name: string;
+    image: string;
+    size: string;
+    description: string;
+    price: string;
+}
+
+type ssdProducts = {
+	typeProduct:string;
+    name:string;
+    image:string;
+    size:string;
+    type:string;
+    description:string;
+    price: string;
+}
+
+type cpuCoolerProducts = {
+	typeProduct: string;
+    name: string;
+    image: string;
+    socket: string;
+    description: string;
+    price: string;
+}
+
+type monitorProducts = {
+	typeProduct:string;
+    name:string;
+    image:string;
+    panelType:string;
+    resolution:string;
+    refreshRate:string;
+    size:string;
+    freesync:string;
+    gsync:string;
+    price:string;
+    description: string;
+}
+
+type psuProducts = {
+	typeProduct:string;
+    name:string;
+    image:string;
+    wattage:string;
+    description:string;
+    price: string;
+}
+
+type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
 
 export default function ProductPage() {
 
-	const products = [
-		{
-			type: "CPU", name: "Intel", description: "CPU (ซีพียู) INTEL CORE i5-10400F 2.9 GHz (SOCKET LGA 1200)"
-			, Image: "https://speedcom.co.th/uploads/cache/img_1280x1280/uploads/images/product_1688954988390.jpg",
-			price: "100,000.-"
-		},
-		{
-			type: "GPU", name: "MSI", description: "MSI GEFORCE RTX 4090 SUPRIM LIQUID X 24G GDDR6X "
-			, Image: "https://m.media-amazon.com/images/I/71mKnFnBj+L.jpg",
-			price: "100,000.-"
-		},
-		{
-			type: "RAM", name: "HyperX", description: "8GB (8GBx1) DDR4/3200 RAM PC (แรมพีซี) KINGSTON HyperX FURY RGB"
-			, Image: "https://www.jib.co.th/img_master/product/original/20210107151232_44581_66_1.png",
-			price: "100,000.-"
-		},
-		{
-			type: "SSD", name: "GIGABYTE", description: "1 TB SSD SATA GIGABYTE (GSTFS31100TNTD)",
-			Image: "https://img.advice.co.th/images_nas/pic_product4/A0135669/A0135669OK_BIG_1.jpg",
-			price: "100,000.-"
-		},
-		{
-			type: "Power Supply", name: "Corsair", description: "POWER SUPPLY  CORSAIR 1000W RM1000X"
-			, Image: "https://down-th.img.susercontent.com/file/1fb7579e0283c4cfd22f2a698ad11ff4",
-			price: "100,000.-"
-		},
-		{
-			type: "Mother Board", name: "Asus", description: "MAINBOARD ASUS PRIME Z790-P D4-CSM DDR4 (LGA 1700)"
-			, Image: "https://media-cdn.bnn.in.th/271998/asus-prime-z790-p-d4-csm-4-square_medium.jpg",
-			price: "100,000.-"
-		},
-		{
-			type: "HDD", name: "Seagate", description: "1 TB HDD Seagate"
-			, Image: "https://store.cyn.co.th/wp-content/uploads/2023/02/seagate-barracuda-1tb-7200rpm.jpg",
-			price: "100,000.-"
-		},
-		{
-			type: "M2", name: "Samsung", description: "SSD M.2 PCIe 1.TB Samsung 990 PRO (MZ-V9P1T0BW)"
-			, Image: "https://i.ebayimg.com/images/g/8oUAAOSweURjh3wu/s-l400.jpg",
-			price: "100,000.-"
-		}
-	];
+	const [cpuProducts, setCpuProducts] = useState<cpuProducts[]>([]);
+	const [ramProducts, setRamProducts] = useState<ramProducts[]>([]);
+	const [gpuProducts, setGpuProducts] = useState<gpuProducts[]>([]);
+	const [moboProducts, setMoboProducts] = useState<moboProducts[]>([]);
+	const [hddProducts, setHddProducts] = useState<Product[]>([]);
+	const [ssdProducts, setSsdProducts] = useState<ssdProducts[]>([]);
+	const [cpuCoolerProducts, setCpuCoolerProducts] = useState<cpuCoolerProducts[]>([]);
+	const [monitorProducts, setMonitorProducts] = useState<monitorProducts[]>([]);
+	const [psuProducts, setPsuProducts] = useState<psuProducts[]>([]);
+
+	const [allProducts, setAllProducts] = useState<Product[]>([]);
+
+
+	useEffect(() => {
+		getCpuProducts().then((res) => {
+			if (res) {
+				setCpuProducts(res);
+			}
+		});
+		getRamProducts().then((res) => {
+			if (res) {
+				setRamProducts(res);
+			}
+		});
+		getGpuProducts().then((res) => {
+			if (res) {
+				setGpuProducts(res);
+			}
+		})
+		getMoboProducts().then((res) =>{
+			if (res) {
+				setMoboProducts(res);
+			}
+		})
+		getHddProducts().then((res) => {
+			if (res) {
+				setHddProducts(res);
+			}
+		})
+		getSsdProducts().then((res) => {
+			if (res) {
+				setSsdProducts(res);
+			}
+		})
+		getCpuCoolerProducts().then((res) => {
+			if (res) {
+				setCpuCoolerProducts(res);
+			}
+		})
+		getMonitorProducts().then((res) =>  {
+			if (res) {
+				setMonitorProducts(res);
+			}
+		})
+		getPsuProducts().then((res) => {
+			if (res) {
+				setPsuProducts(res);
+			}
+		})
+
+	}, []);
 
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+	const filterNames = ["CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Mother Board", "CPU Cooler", "Monitor"];
+	const [filterStates, setFilterStates] = useState(Array(9).fill(false));
+	const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+	const [searchValue, setSearchValue] = useState("");
+
+	useEffect(() => {
+		const combinedProducts: Product[] = [...cpuProducts, ...ramProducts, ...gpuProducts, ...moboProducts, ...hddProducts, ...ssdProducts, ...cpuCoolerProducts, ...monitorProducts, ...psuProducts];
+		setAllProducts(combinedProducts);
+	}, [cpuProducts, ramProducts, gpuProducts, moboProducts, hddProducts, ssdProducts, cpuCoolerProducts, monitorProducts, psuProducts]);
 
 	function handleProductClick(product: Product) {
 		setSelectedProduct(product);
 		onOpen();
 	}
 
-	const filterNames = ["CPU", "GPU", "RAM", "SSD", "HDD", "M2", "Power Supply", "Mother Board"];
-	const [filterStates, setFilterStates] = useState(Array(8).fill(false));
-	const [filteredProducts, setFilteredProducts] = useState(products);
-	const [searchValue, setSearchValue] = useState("");
-
 	function handleSearch(value: string) {
 		console.log("Search value:", value);
 		setSearchValue(value);
 
-		const updatedProducts = products.filter((product) =>
+		const updatedProducts = allProducts.filter((product) =>
 			product.name.toLowerCase().includes(value.toLowerCase())
 		);
-		setFilteredProducts(updatedProducts.length > 0 ? updatedProducts : products);
+		setFilteredProducts(updatedProducts.length > 0 ? updatedProducts : allProducts);
 	}
 
 	function handleFilterChange(index: number) {
@@ -91,9 +231,13 @@ export default function ProductPage() {
 		setFilterStates(newFilterStates);
 
 		const selectedFilters = filterNames.filter((_, i) => newFilterStates[i]);
-		const updatedProducts = products.filter((product) => selectedFilters.includes(product.type));
-		setFilteredProducts(updatedProducts.length > 0 ? updatedProducts : products);
+		const updatedProducts = allProducts.filter((product) => selectedFilters.includes(product.typeProduct));
+		setFilteredProducts(updatedProducts.length > 0 ? updatedProducts : allProducts);
 	}
+
+	useEffect(() => {
+		setFilteredProducts(allProducts);
+	}, [allProducts]);
 
 
 	return (
@@ -112,7 +256,7 @@ export default function ProductPage() {
 						</label>
 					</div>
 				))}
-			</div>
+			</div> 
 
 			<div onClick={onOpen} style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
 				{filteredProducts.map((product, index) => (
@@ -129,11 +273,17 @@ export default function ProductPage() {
 					>
 						<p style={{ fontWeight: "bold" }}>{product.name}</p>
 						<p style={{ fontSize: "13px" }}>{product.description}</p>
-						<img src={product.Image} alt={product.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} />
+						<img src={product.image} alt={product.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} />
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
 							<div>
-								<p style={{ color: "#6B6B6B" }}>Estimate Price</p>
-								<p style={{ fontWeight: "bold" }}>{product.price}</p>
+								{product.price ? (
+									<div>
+										<p style={{ color: "#6B6B6B" }}>Estimate Price</p>
+										<p style={{ fontWeight: "bold" }}>{product.price}</p>
+									</div>
+								) : (
+									<p>No price available</p>
+								)}
 							</div>
 							<Image src="/images/switch_black.png" alt="Compare" width={30} height={30} className="mr-2" />
 						</div>
@@ -147,7 +297,7 @@ export default function ProductPage() {
 								<ModalHeader className="flex flex-col gap-1">{selectedProduct?.name}</ModalHeader>
 								<ModalBody>
 									<p style={{ fontSize: "13px" }}>{selectedProduct?.description}</p>
-									<img src={selectedProduct?.Image} alt={selectedProduct?.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} />
+									<img src={selectedProduct?.image} alt={selectedProduct?.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} />
 									<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
 										<div>
 											<p style={{ color: "#6B6B6B" }}>Estimate Price</p>
@@ -159,17 +309,18 @@ export default function ProductPage() {
 									<Button color="danger" variant="light" onPress={onClose}>
 										Close
 									</Button>
+
 									{/* 
 									<Button color="primary" onPress={onClose}>
 										Action
 									</Button>
-								*/}
+									*/}
 								</ModalFooter>
 							</>
 						)}
 					</ModalContent>
 				</Modal>
-			</div>
+			</div> 
 		</>
 	);
 }

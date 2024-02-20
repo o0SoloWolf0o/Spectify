@@ -9,7 +9,9 @@ export async function createSsdProduct(
     name:string,
     image:string,
     size:string,
-    type:string
+    type:string,
+    description:string,
+    price: string
 ) {
     try {
         await prisma.ssd.create(
@@ -19,7 +21,9 @@ export async function createSsdProduct(
                     name,
                     image,
                     size,
-                    type
+                    type,
+                    description,
+                    price
                 }
             }
         );
@@ -42,7 +46,9 @@ export async function updateSsdProductById(id: string,
     name:string,
     image:string,
     size:string,
-    type:string
+    type:string,
+    description:string,
+    price: string
     ) {
         try{
             const ssd = await prisma.ssd.update({where:{id},
@@ -51,7 +57,9 @@ export async function updateSsdProductById(id: string,
                 name,
                 image,
                 size,
-                type
+                type,
+                description,
+                price
             }})
         } catch (err) {
             throw new Error(err as string)

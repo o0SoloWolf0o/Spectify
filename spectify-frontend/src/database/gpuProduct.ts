@@ -23,7 +23,8 @@ export async function createGpuProduct(
     length:string,
     coolingFans:string,
     caseSlots:string,
-    frameSync:string
+    frameSync:string,
+    description:string
 ){
     try{
         await prisma.gpu.create(
@@ -47,7 +48,8 @@ export async function createGpuProduct(
                     length,
                     coolingFans,
                     caseSlots,
-                    frameSync
+                    frameSync,
+                    description
                 }
             }
         )
@@ -84,7 +86,8 @@ export async function updateGpuProductById(id:string,
     length:string,
     coolingFans:string,
     caseSlots:string,
-    frameSync:string
+    frameSync:string,
+    description:string
     ) {
         try {
             const gpu = await prisma.gpu.update({where:{id},
@@ -107,7 +110,8 @@ export async function updateGpuProductById(id:string,
                     length,
                     coolingFans,
                     caseSlots,
-                    frameSync
+                    frameSync,
+                    description
             }})
             return gpu;
         } catch (err) {

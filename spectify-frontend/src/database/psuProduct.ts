@@ -8,7 +8,9 @@ export async function createPsuProduct(
     typeProduct:string,
     name:string,
     image:string,
-    wattage:string
+    wattage:string,
+    description:string,
+    price: string
 ) {
     try {
         await prisma.psu.create(
@@ -17,7 +19,9 @@ export async function createPsuProduct(
                     typeProduct,
                     name,
                     image,
-                    wattage
+                    wattage,
+                    description,
+                    price
                 }
             }
         );
@@ -39,7 +43,9 @@ export async function updatePsuProduct(id:string,
     typeProduct:string,
     name:string,
     image:string,
-    wattage:string
+    wattage:string,
+    description:string,
+    price: string
 ) {
     try {
         const psu = await prisma.psu.update({where:{id},
@@ -47,7 +53,9 @@ export async function updatePsuProduct(id:string,
             typeProduct,
             name,
             image,
-            wattage
+            wattage,
+            description,
+            price
         }})
         return psu;
     } catch (err) {
