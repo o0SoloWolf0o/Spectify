@@ -5,12 +5,14 @@ import SignInComponent from "@/components/main/auth/signIn";
 import SignUpComponent from "./signUp";
 import ForgetPasswordComponent from "@/components/main/auth/forgetPassword";
 import { Modal, ModalContent, ModalBody, useDisclosure } from "@nextui-org/react";
+import { Button } from "@/components/ui/button";
 
 interface AuthPopupProps {
-	buttonText?: string | "modal";
+	className?: string;
+	children?: React.ReactNode;
 }
 
-export default function AuthPopup({ buttonText }: AuthPopupProps) {
+export default function AuthPopup({ className, children }: AuthPopupProps) {
 	const [panel, setPanel] = useState("signIn");
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const [isPending, setIsPending] = useState(false);
@@ -23,7 +25,11 @@ export default function AuthPopup({ buttonText }: AuthPopupProps) {
 
 	return (
 		<>
-			{buttonText && <button onClick={onOpen}>{buttonText}</button>}{" "}
+			{children && (
+				<Button onClick={onOpen} className={className}>
+					{children}
+				</Button>
+			)}
 			<Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={!isPending}>
 				<ModalContent>
 					{(onClose) => (
