@@ -24,7 +24,7 @@ export default function NavComponent() {
 	const session = useSession();
 	const isSession = session.status === "authenticated";
 	const pathname = usePathname();
-	const [toggleMenu, setToggleMenu] = useState(false);
+	const [toggleMenu, setToggleMenu] = useState(true);
 
 	function handleSignOut() {
 		if (pathname === "/profile" || pathname === "/following") {
@@ -53,8 +53,8 @@ export default function NavComponent() {
 			<aside
 				className={`
 				w-screen flex flex-col shadow py-2
-				md:w-64 md:fixed md:justify-between md:h-screen
-				${toggleMenu ? "" : "hidden"}
+				md:w-64 md:fixed md:justify-between md:h-screen md:flex
+				${toggleMenu && "hidden"}
 				`}
 			>
 				<div className="mx-2 my-1">
