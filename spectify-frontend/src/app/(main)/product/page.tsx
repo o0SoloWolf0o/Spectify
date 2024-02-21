@@ -44,89 +44,89 @@ type ramProducts = {
 	price: string;
 }
 
-type gpuProducts ={
-	typeProduct:string;
-    name:string;
-    image:string;
-    type:string;
-    performance:string;
-    architecture:string;
-    year:string;
-    series:string;
-    vram:string;
-    price:string;
-    tdp:string;
-    motherboardBus:string;
-    coreClock:string;
-    boostClock:string;
-    effectiveClock:string;
-    length:string;
-    coolingFans:string;
-    caseSlots:string;
-    frameSync:string;
-    description:string;
+type gpuProducts = {
+	typeProduct: string;
+	name: string;
+	image: string;
+	type: string;
+	performance: string;
+	architecture: string;
+	year: string;
+	series: string;
+	vram: string;
+	price: string;
+	tdp: string;
+	motherboardBus: string;
+	coreClock: string;
+	boostClock: string;
+	effectiveClock: string;
+	length: string;
+	coolingFans: string;
+	caseSlots: string;
+	frameSync: string;
+	description: string;
 }
 
 type moboProducts = {
 	typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    socket: string;
-    ramslot: string;
-    description: string;
-    price: string;
+	name: string;
+	image: string;
+	size: string;
+	socket: string;
+	ramslot: string;
+	description: string;
+	price: string;
 }
 
 type hddProducts = {
 	typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    description: string;
-    price: string;
+	name: string;
+	image: string;
+	size: string;
+	description: string;
+	price: string;
 }
 
 type ssdProducts = {
-	typeProduct:string;
-    name:string;
-    image:string;
-    size:string;
-    type:string;
-    description:string;
-    price: string;
+	typeProduct: string;
+	name: string;
+	image: string;
+	size: string;
+	type: string;
+	description: string;
+	price: string;
 }
 
 type cpuCoolerProducts = {
 	typeProduct: string;
-    name: string;
-    image: string;
-    socket: string;
-    description: string;
-    price: string;
+	name: string;
+	image: string;
+	socket: string;
+	description: string;
+	price: string;
 }
 
 type monitorProducts = {
-	typeProduct:string;
-    name:string;
-    image:string;
-    panelType:string;
-    resolution:string;
-    refreshRate:string;
-    size:string;
-    freesync:string;
-    gsync:string;
-    price:string;
-    description: string;
+	typeProduct: string;
+	name: string;
+	image: string;
+	panelType: string;
+	resolution: string;
+	refreshRate: string;
+	size: string;
+	freesync: string;
+	gsync: string;
+	price: string;
+	description: string;
 }
 
 type psuProducts = {
-	typeProduct:string;
-    name:string;
-    image:string;
-    wattage:string;
-    description:string;
-    price: string;
+	typeProduct: string;
+	name: string;
+	image: string;
+	wattage: string;
+	description: string;
+	price: string;
 }
 
 type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
@@ -162,7 +162,7 @@ export default function ProductPage() {
 				setGpuProducts(res);
 			}
 		})
-		getMoboProducts().then((res) =>{
+		getMoboProducts().then((res) => {
 			if (res) {
 				setMoboProducts(res);
 			}
@@ -182,7 +182,7 @@ export default function ProductPage() {
 				setCpuCoolerProducts(res);
 			}
 		})
-		getMonitorProducts().then((res) =>  {
+		getMonitorProducts().then((res) => {
 			if (res) {
 				setMonitorProducts(res);
 			}
@@ -197,12 +197,14 @@ export default function ProductPage() {
 
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+	
 
 	const filterNames = ["CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Mother Board", "CPU Cooler", "Monitor"];
 	const [filterStates, setFilterStates] = useState(Array(9).fill(false));
 	const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
 	const [searchValue, setSearchValue] = useState("");
+	
 
 	useEffect(() => {
 		const combinedProducts: Product[] = [...cpuProducts, ...ramProducts, ...gpuProducts, ...moboProducts, ...hddProducts, ...ssdProducts, ...cpuCoolerProducts, ...monitorProducts, ...psuProducts];
@@ -256,9 +258,9 @@ export default function ProductPage() {
 						</label>
 					</div>
 				))}
-			</div> 
+			</div>
 
-			<div onClick={onOpen} style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
+			<div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
 				{filteredProducts.map((product, index) => (
 					<div key={index} style={{
 						width: "200px",
@@ -269,17 +271,18 @@ export default function ProductPage() {
 						margin: "10px",
 						boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
 					}}
-						onClick={() => handleProductClick(product)}
 					>
-						<p style={{ fontWeight: "bold" }}>{product.name}</p>
-						<p style={{ fontSize: "13px" }}>{product.description}</p>
-						<img src={product.image} alt={product.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} />
+						<p style={{ fontWeight: "bold" }} onClick={() => handleProductClick(product)}>
+							{product.name}
+						</p>
+						<p style={{ fontSize: "13px" }} onClick={() => handleProductClick(product)}>{product.description}</p>
+						<img src={product.image} alt={product.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} onClick={() => handleProductClick(product)} />
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
 							<div>
 								{product.price ? (
 									<div>
-										<p style={{ color: "#6B6B6B" }}>Estimate Price</p>
-										<p style={{ fontWeight: "bold" }}>{product.price}</p>
+										<p style={{ color: "#6B6B6B" }} onClick={() => handleProductClick(product)}>Estimate Price</p>
+										<p style={{ fontWeight: "bold" }} onClick={() => handleProductClick(product)}>{product.price}</p>
 									</div>
 								) : (
 									<p>No price available</p>
@@ -320,7 +323,7 @@ export default function ProductPage() {
 						)}
 					</ModalContent>
 				</Modal>
-			</div> 
+			</div>
 		</>
 	);
 }
