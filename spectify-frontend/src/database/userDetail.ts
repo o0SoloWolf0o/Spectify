@@ -43,3 +43,5 @@ export async function updateUserImgById(userId: string, img: string) {
 	});
 	return userDetail;
 }
+
+

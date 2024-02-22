@@ -84,3 +84,8 @@ export async function getUserByUsername(username: string) {
 	const user = await prisma.user.findUnique({ where: { username } });
 	return user;
 }
+
+export async function getSeachUserByUsername(username: string) {
+	const users = await prisma.user.findMany({ where: { username: { contains: username } } });
+	return users;
+}

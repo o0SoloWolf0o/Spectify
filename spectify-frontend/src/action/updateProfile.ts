@@ -24,7 +24,7 @@ export async function updateProfile(values: zod.infer<typeof updateProfileSchema
 	
 
 	try {
-		await updateUserBioById(user.id, bio);
+		await updateUserBioById(user.id, bio ?? "");
 		if (image) {
 			await updateUserImgById(user.id, image);
         }

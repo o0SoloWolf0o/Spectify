@@ -52,7 +52,7 @@ export const newPasswordSchema = zod
 
 		bio: zod.string().max(100, {
 		  message: "Bio must be less than 100 characters",
-		}),
+		}).min(0).nullish(),
 		image: zod.string(),
 	  });
 	  

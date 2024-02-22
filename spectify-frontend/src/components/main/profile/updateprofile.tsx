@@ -12,6 +12,8 @@ import {Textarea} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { getUserImg } from "@/action/updateProfile";
+import { Input as Inputs } from "@/components/ui/input"
+
 
 export default function UpdateprofileComponent() {
 	const session = useSession();
@@ -20,7 +22,9 @@ export default function UpdateprofileComponent() {
     const [isPending, startTransition] = useTransition();
 	const [imageBase64, setImageBase64] = useState("");
 	const [sessionUserImg, setSessionUserImg] = useState("");
+	const [count, setCount] = useState(0);
 
+	const defaultCount = sessionUser?.bio?.length ?? 0;
 	
 	useEffect(() => {
 		if (sessionUser) {
@@ -85,7 +89,7 @@ export default function UpdateprofileComponent() {
             </div>
 
 			<div className="mt-6 flex justify-center">
-                <input type="file" onChange={handleImageChange} />
+					<Inputs type="file" onChange={handleImageChange} />
             </div>
 		
 		<div className="mt-6 flex justify-center">
@@ -93,14 +97,20 @@ export default function UpdateprofileComponent() {
 		</div>
 		<div className="mt-6 flex justify-center">
 			<Input {...register("username")} type="text" label="Username" defaultValue={sessionUser?.username ?? ""} />
+		</div>
+		<div className="flex justify-end">
 			{errors.username && <p className="text-red-500">{errors.username.message}</p>}
 			{error &&<p className="text-red-500">{error}</p>}
 		</div>
 
 		<div className="mt-6 flex justify-center">
-			<Textarea {...register("bio")} type="text" label="Bio" defaultValue={sessionUser?.bio}/>
-			{errors.bio && <p className="text-red-500">{errors.bio.message}</p>}
+			<Textarea {...register("bio")} type="text" label="Bio" defaultValue={sessionUser?.bio} onChange={e => setCount(e.target.value.length)}/>
 		</div>
+		<div className="flex justify-end">
+			{errors.bio && <p className="text-red-500">{errors.bio.message}</p>}
+			<p className="text-gray-500">{count ? count : defaultCount}/100</p>
+		</div>
+
 
 		<div className="flex justify-end mt-6">
 			<Link href="/profile" className="ml-16 mt-6"><button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full w-[5rem]"> Cancel </button></Link>
