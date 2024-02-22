@@ -133,135 +133,109 @@ type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProdu
 
 export default function ProductPage() {
 
-	const [cpuProducts, setCpuProducts] = useState<cpuProducts[]>([]);
-	const [ramProducts, setRamProducts] = useState<ramProducts[]>([]);
-	const [gpuProducts, setGpuProducts] = useState<gpuProducts[]>([]);
-	const [moboProducts, setMoboProducts] = useState<moboProducts[]>([]);
-	const [hddProducts, setHddProducts] = useState<Product[]>([]);
-	const [ssdProducts, setSsdProducts] = useState<ssdProducts[]>([]);
-	const [cpuCoolerProducts, setCpuCoolerProducts] = useState<cpuCoolerProducts[]>([]);
-	const [monitorProducts, setMonitorProducts] = useState<monitorProducts[]>([]);
-	const [psuProducts, setPsuProducts] = useState<psuProducts[]>([]);
 
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 
+	const [searchValue, setSearchValue] = useState("");
+	const [filteredSearchProducts, setFilteredSearchProducts] = useState<Product[]>([]);
+
 
 	useEffect(() => {
-		getCpuProducts().then((res) => {
-			if (res) {
-				setCpuProducts(res);
-			}
-		});
-		getRamProducts().then((res) => {
-			if (res) {
-				setRamProducts(res);
-			}
-		});
-		getGpuProducts().then((res) => {
-			if (res) {
-				setGpuProducts(res);
-			}
-		})
-		getMoboProducts().then((res) => {
-			if (res) {
-				setMoboProducts(res);
-			}
-		})
-		getHddProducts().then((res) => {
-			if (res) {
-				setHddProducts(res);
-			}
-		})
-		getSsdProducts().then((res) => {
-			if (res) {
-				setSsdProducts(res);
-			}
-		})
-		getCpuCoolerProducts().then((res) => {
-			if (res) {
-				setCpuCoolerProducts(res);
-			}
-		})
-		getMonitorProducts().then((res) => {
-			if (res) {
-				setMonitorProducts(res);
-			}
-		})
-		getPsuProducts().then((res) => {
-			if (res) {
-				setPsuProducts(res);
-			}
-		})
+		console.log("Fetching products...");
+		const fetchProducts = async () => {
+			try {
+				const [
+					cpuProducts,
+					ramProducts,
+					gpuProducts,
+					moboProducts,
+					hddProducts,
+					ssdProducts,
+					cpuCoolerProducts,
+					monitorProducts,
+					psuProducts,
+				] = await Promise.all([
+					getCpuProducts(),
+					getRamProducts(),
+					getGpuProducts(),
+					getMoboProducts(),
+					getHddProducts(),
+					getSsdProducts(),
+					getCpuCoolerProducts(),
+					getMonitorProducts(),
+					getPsuProducts(),
+				]);
 
-	}, []);
+				const combinedProducts: Product[] = [
+					...cpuProducts,
+					...ramProducts,
+					...gpuProducts,
+					...moboProducts,
+					...hddProducts,
+					...ssdProducts,
+					...cpuCoolerProducts,
+					...monitorProducts,
+					...psuProducts,
+				];
+
+				setFilteredSearchProducts(combinedProducts);
+				setAllProducts(combinedProducts);
+
+				console.log(combinedProducts);
+			} catch (error) {
+				// Handle errors here
+				console.error('Error fetching products:', error);
+			}
+		};
+
+		// Call the fetchProducts function when the component mounts
+		fetchProducts();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []); // The empty dependency array ensures this useEffect runs only once, equivalent to componentDidMount
+
 
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-	
-
-	const filterNames = ["CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Mother Board", "CPU Cooler", "Monitor"];
-	const [filterStates, setFilterStates] = useState(Array(9).fill(false));
-	const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-
-	const [searchValue, setSearchValue] = useState("");
-	
-
-	useEffect(() => {
-		const combinedProducts: Product[] = [...cpuProducts, ...ramProducts, ...gpuProducts, ...moboProducts, ...hddProducts, ...ssdProducts, ...cpuCoolerProducts, ...monitorProducts, ...psuProducts];
-		setAllProducts(combinedProducts);
-	}, [cpuProducts, ramProducts, gpuProducts, moboProducts, hddProducts, ssdProducts, cpuCoolerProducts, monitorProducts, psuProducts]);
 
 	function handleProductClick(product: Product) {
 		setSelectedProduct(product);
 		onOpen();
 	}
 
+	
 	function handleSearch(value: string) {
 		console.log("Search value:", value);
 		setSearchValue(value);
-
+		
 		const updatedProducts = allProducts.filter((product) =>
 			product.name.toLowerCase().includes(value.toLowerCase())
-		);
-		setFilteredProducts(updatedProducts.length > 0 ? updatedProducts : allProducts);
+			
+			);
+		setFilteredSearchProducts(updatedProducts.length > 0 ? updatedProducts : allProducts);
+	}
+		
+	const [selectedTypeProduct, setSelectedTypeProduct] = useState<string | null>(null);
+
+	function handleTypeProduct(){
+		const filterNames = ["CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Mother Board", "CPU Cooler", "Monitor"];
+		
 	}
 
-	function handleFilterChange(index: number) {
-		const newFilterStates = [...filterStates];
-		newFilterStates[index] = !newFilterStates[index];
-		console.log(`${filterNames[index]} state:`, newFilterStates[index]);
-		setFilterStates(newFilterStates);
-
-		const selectedFilters = filterNames.filter((_, i) => newFilterStates[i]);
-		const updatedProducts = allProducts.filter((product) => selectedFilters.includes(product.typeProduct));
-		setFilteredProducts(updatedProducts.length > 0 ? updatedProducts : allProducts);
-	}
-
-	useEffect(() => {
-		setFilteredProducts(allProducts);
-	}, [allProducts]);
 
 
 	return (
 		<>
+
 			<SearchBarComponent onSeach={handleSearch} placeholder={"Product"} />
+
 			<div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-				{filterStates.map((isChecked, index) => (
-					<div key={index} style={{ marginRight: "90px" }}>
-						<label>
-							<input
-								type="checkbox"
-								checked={isChecked}
-								onChange={() => handleFilterChange(index)}
-							/>
-							{" "}{filterNames[index]}
-						</label>
-					</div>
-				))}
+				{/* 
+				radio
+				*/}
 			</div>
 
 			<div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
-				{filteredProducts.map((product, index) => (
+				{filteredSearchProducts.map((product, index) => (
 					<div key={index} style={{
 						width: "200px",
 						height: "350px",
