@@ -1,12 +1,15 @@
 import React from "react";
+import { Switch } from "@mui/material";
 
 const Generator = () => {
 
     return (
             
-            <div>
+            <div className="">
             
             <div className='grid grid-cols-1 grid-rows-1 gap-0 m-5 h-12 shadow-xl rounded-lg'>
+                
+                <Switch />
                 
                 <h2 className='flex justify-end mt-2 mx-5 text-2xl font-semibold'>
                     Auto
@@ -21,7 +24,7 @@ const Generator = () => {
                 </label>
 
                 <div className='flex justify-center'>
-                    <input type="text" 
+                    <input type="number" 
                             //value=''
                             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                         focus:border-blue-500 w-full p-2.5 mb-5 mx-5'></input> 
@@ -29,7 +32,7 @@ const Generator = () => {
             
             </div>
             
-            <div>
+            <div> 
                 
                 <label className='mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                     <h3 className='text-xl font-semibold ml-5 mb-2'>Priority</h3>
@@ -37,7 +40,7 @@ const Generator = () => {
                 
                 <div className='flex justify-center'>
 
-                    <select className='bg-gray-50 border border-[#D9D9D9]
+                    <select className='flex bg-gray-50 border border-[#D9D9D9]
                                     focus:ring-[#00A9FF] focus:border-[#00A9FF]
                                     text-black text-md hover:cursor-pointer
                                     rounded-lg w-full mx-5 mb-5 p-2.5'>

@@ -9,7 +9,7 @@ export default function BuildPage() {
     
     return (
         
-        <div className='grid h-screen grid-cols-3 grid-rows-4 gap-4 m-10 p-10'>
+        <div className='grid grid-cols-3 grid-rows-4 gap-4 m-10 p-10'>
             
 
             <div className='bg-white shadow-xl box-content row-span-2'>
@@ -44,7 +44,7 @@ export default function BuildPage() {
             <div className='grid grid-cols-1 grid-rows-1 gap-0 mx-5'>
                 <SaveButt />
             </div>
-        
+                
         </div>
 
     );
