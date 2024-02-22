@@ -15,6 +15,7 @@ import { getCpuCoolerProducts } from "@/action/product";
 import { getMoboProducts } from "@/action/product";
 import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
+import { set } from "zod";
 
 
 type cpuProducts = {
@@ -202,23 +203,39 @@ export default function ProductPage() {
 		onOpen();
 	}
 
-	
+
 	function handleSearch(value: string) {
 		console.log("Search value:", value);
 		setSearchValue(value);
-		
+
 		const updatedProducts = allProducts.filter((product) =>
 			product.name.toLowerCase().includes(value.toLowerCase())
-			
-			);
+
+		);
 		setFilteredSearchProducts(updatedProducts.length > 0 ? updatedProducts : allProducts);
 	}
-		
+
 	const [selectedTypeProduct, setSelectedTypeProduct] = useState<string | null>(null);
 
-	function handleTypeProduct(){
-		const filterNames = ["CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Mother Board", "CPU Cooler", "Monitor"];
-		
+	const filterNames = ["CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Mother Board", "CPU Cooler", "Monitor"];
+
+	function handleTypeProduct(typeName: string | null) {
+
+
+		if (typeName === null) {
+			setSelectedTypeProduct(null);
+			setFilteredSearchProducts(allProducts);
+		} else {
+			setSelectedTypeProduct(typeName);
+			const updatedProducts = allProducts.filter((product) => product.typeProduct === typeName);
+			setFilteredSearchProducts(updatedProducts);
+			console.log("Updated products:", updatedProducts);
+		}
+	}
+
+	function handleResetFilter() {
+		setSelectedTypeProduct(null);
+		setFilteredSearchProducts(allProducts);
 	}
 
 
@@ -232,6 +249,23 @@ export default function ProductPage() {
 				{/* 
 				radio
 				*/}
+				{filterNames.map((name, index) => (
+					<div key={index} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: "0 10px 0 10px" }}>
+						<input
+							type="radio"
+							id={name}
+							name="typeProduct"
+							value={name}
+							checked={selectedTypeProduct === name}
+							onChange={(e) => handleTypeProduct(e.target.value)}
+						/>
+						<label htmlFor={name} style={{ fontWeight: selectedTypeProduct === name ? "bold" : "normal" }}>
+							{name}
+						</label>
+					</div>
+				))}
+
+				<button onClick={handleResetFilter}>Reset Filter</button>
 			</div>
 
 			<div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
