@@ -15,8 +15,6 @@ import { getCpuCoolerProducts } from "@/action/product";
 import { getMoboProducts } from "@/action/product";
 import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
-import { set } from "zod";
-
 
 type cpuProducts = {
 	id: string;
@@ -238,7 +236,32 @@ export default function ProductPage() {
 		setFilteredSearchProducts(allProducts);
 	}
 
+	// Function to save JSON data to local storage
+	const saveToLocalStorage = (data: Product[]) => {
+		try {
+			const jsonData = JSON.stringify(data);
+			localStorage.setItem('compareData', jsonData);
+			console.log('Data saved to local storage:', jsonData);
+		} catch (error) {
+			console.error('Error saving data to local storage:', error);
+		}
+	};
 
+	const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+
+	function handleCompareClick(product: Product) {
+		// Additional logic if needed before adding to the array
+		const updatedSelectedProducts = [...selectedProducts, product];
+
+		// Limit the array to 2 products if needed
+		const limitedSelectedProducts = updatedSelectedProducts.slice(0, 2);
+
+		// Update the state
+		setSelectedProducts(limitedSelectedProducts);
+
+		// Save to local storage
+		saveToLocalStorage(limitedSelectedProducts);
+	}
 
 	return (
 		<>
@@ -246,9 +269,6 @@ export default function ProductPage() {
 			<SearchBarComponent onSeach={handleSearch} placeholder={"Product"} />
 
 			<div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-				{/* 
-				radio
-				*/}
 				{filterNames.map((name, index) => (
 					<div key={index} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: "0 10px 0 10px" }}>
 						<input
@@ -264,7 +284,6 @@ export default function ProductPage() {
 						</label>
 					</div>
 				))}
-
 				<button onClick={handleResetFilter}>Reset Filter</button>
 			</div>
 
@@ -296,7 +315,14 @@ export default function ProductPage() {
 									<p>No price available</p>
 								)}
 							</div>
-							<Image src="/images/switch_black.png" alt="Compare" width={30} height={30} className="mr-2" />
+							<Image
+								src="/images/switch_black.png"
+								alt="Compare"
+								width={30}
+								height={30}
+								className="mr-2"
+								onClick={() => handleCompareClick(product)}
+							/>
 						</div>
 					</div>
 				))}
