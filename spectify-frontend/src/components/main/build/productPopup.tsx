@@ -132,8 +132,13 @@ type psuProducts = {
 
 type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
 
+interface ProductPopUpProps {
+	typeProduct: string;
+	onSelectProduct: (selectedProduct: Product) => void;
+}
 
-export default function ProductPopUp({ typeProduct }: { typeProduct: string }) {
+
+export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductPopUpProps ) {
 
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	const [searchValue, setSearchValue] = useState("");
@@ -232,6 +237,7 @@ export default function ProductPopUp({ typeProduct }: { typeProduct: string }) {
 		setSelectedProduct(product);
 		console.log("Selected product:", product);
 		// return here the selected
+		onSelectProduct(product);
 	}
 
 	useEffect(() => {
