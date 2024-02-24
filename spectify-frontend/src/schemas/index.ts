@@ -55,4 +55,16 @@ export const newPasswordSchema = zod
 		}).min(0).nullish(),
 		image: zod.string(),
 	  });
-	  
+
+export const changePasswordSchema = zod.object({
+	oldPassword: zod.string().min(1, {
+		message: "Old password is required",
+	}),
+	newPassword: zod.string().min(6, {
+		message: "New password must be at least 6 characters",
+	}),
+	confirmPassword: zod.string(),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+	message: "Passwords do not match",
+	path: ["confirmPassword"],
+});
