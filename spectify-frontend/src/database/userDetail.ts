@@ -44,4 +44,13 @@ export async function updateUserImgById(userId: string, img: string) {
 	return userDetail;
 }
 
-
+export async function getManyUserImgById(userId: string[]) {
+	const userDetail = await prisma.userDetail.findMany({
+		where: {
+			userId: {
+				in: userId,
+			},
+		},
+	});
+	return userDetail;
+}

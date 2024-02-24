@@ -98,16 +98,16 @@ export default function NavComponent() {
 						)}
 					</div>
 
-					<div className={pathname === `/${sessionUser?.username}` ? 'active flex items-center' : 'flex items-center'} style={pathname === `/${sessionUser?.username}` ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '123px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
+					<div className={pathname === `/profile/${sessionUser?.username}` ? 'active flex items-center' : 'flex items-center'} style={pathname === `/profile/${sessionUser?.username}` ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '123px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
 						<Image
-							src={pathname === `/${sessionUser?.username}` ? '/images/User_light.png' : '/images/User_black.png'}
+							src={pathname === `/profile/${sessionUser?.username}` ? '/images/User_light.png' : '/images/User_black.png'}
 							alt="User"
 							width={20}
 							height={10}
 							className="mr-2"
 						/>
 						{isSession ? (
-							<Link href={`/${sessionUser?.username}`}>
+							<Link href={`/profile/${sessionUser?.username}`}>
 								<div className="flex items-center">
 									<span className="mt-1">Profile</span>
 								</div>

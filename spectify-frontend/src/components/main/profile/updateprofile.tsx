@@ -113,7 +113,7 @@ export default function UpdateprofileComponent() {
 
 
 		<div className="flex justify-end mt-6">
-			<Link href="/profile" className="ml-16 mt-6"><button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full w-[5rem]"> Cancel </button></Link>
+			<Link href={`/profile/${sessionUser?.username}`} className="ml-16 mt-6"><button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full w-[5rem]"> Cancel </button></Link>
 			<div className="ml-3 mt-6"><button type="submit" className="bg-[#00A9FF] hover:bg-[#0087CC] text-white font-bold py-2 px-4 rounded-full w-[5rem]">Save</button></div>
 		</div>
 	</form>
