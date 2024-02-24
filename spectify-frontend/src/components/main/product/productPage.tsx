@@ -175,7 +175,7 @@ export default function ProductPage() {
 					...cpuCoolerProducts,
 					...monitorProducts,
 					...psuProducts,
-				];
+				] as Product[];;
 
 				setFilteredSearchProducts(combinedProducts);
 				setAllProducts(combinedProducts);
@@ -266,7 +266,7 @@ export default function ProductPage() {
 	return (
 		<>
 
-			<SearchBarComponent onSeach={handleSearch} placeholder={"Product"} />
+			<SearchBarComponent onSearch={handleSearch} placeholder={"Product"} />
 
 			<div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
 				{filterNames.map((name, index) => (
