@@ -1,7 +1,13 @@
-export default function ProductPage() {
-    return (
-        <>
-            <h1>Product</h1>
-        </>
-    );
+"use client";
+
+import ProductPage from '@/components/main/product/productPage';
+
+
+export default function App() {
+
+	return (
+		<>
+			<ProductPage />
+		</>
+	);
 }
