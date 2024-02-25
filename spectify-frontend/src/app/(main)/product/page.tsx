@@ -1,15 +1,13 @@
 "use client";
 
-import SearchBarComponent from "@/components/main/searchBar";
+import ProductPage from '@/components/main/product/productPage';
 
-export default function ProductPage() {
-	function handleSearch(value: string) {
-		console.log(value);
-	}
+
+export default function App() {
 
 	return (
 		<>
-			<SearchBarComponent onSeach={handleSearch} placeholder={"Product"} />
+			<ProductPage />
 		</>
 	);
 }
