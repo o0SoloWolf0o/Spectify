@@ -1,5 +1,5 @@
 import { getUserByUsername } from "@/database/user";
-import {Avatar} from "@nextui-org/react";
+import {Avatar, Button} from "@nextui-org/react";
 import Link from "next/link";
 import TabComponent from "@/components/main/profile/tab";
 import { userDetail } from "@/hooks/userDetail";
@@ -34,7 +34,7 @@ export default async function userProfilePage({
                     <p className="text-base">{user?.bio}</p>
                     </div>
                     {isOwner &&(
-                    <Link href="/profile/edit" className="ml-16 mt-6"><button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full"> Edit Profile </button></Link>
+                    <Link href="/profile/edit" className="ml-16 mt-6"><Button color="default" className="text-black font-bold py-2 px-4 rounded-full"> Edit Profile </Button></Link>
                     )}
             </div>
                 {/* <div className="ml-16">

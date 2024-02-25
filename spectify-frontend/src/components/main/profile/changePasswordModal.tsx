@@ -10,7 +10,7 @@ export default function ChangePasswordModal() {
   return (
     <>
     <div className="flex justify-center mt-16">
-      <Button className="w-full font-bold" onPress={onOpen}>Do you want to change password ?</Button>
+      <Button className="w-full font-bold" color="default" onPress={onOpen}>Do you want to change password ?</Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
         <ModalContent>
           

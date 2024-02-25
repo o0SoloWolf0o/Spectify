@@ -7,7 +7,7 @@ import { updateProfileSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { use, useEffect, useTransition } from "react";
 import Link from "next/link";
-import {Avatar, Input} from "@nextui-org/react";
+import {Avatar, Input, Button} from "@nextui-org/react";
 import {Textarea} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -113,8 +113,8 @@ export default function UpdateprofileComponent() {
 
 
 		<div className="flex justify-end mt-6">
-			<Link href={`/profile/${sessionUser?.username}`} className="ml-16 mt-6"><button className="bg-gray-300 hover:bg-gray-500 text-black font-bold py-2 px-4 rounded-full w-[5rem]"> Cancel </button></Link>
-			<div className="ml-3 mt-6"><button type="submit" className="bg-[#00A9FF] hover:bg-[#0087CC] text-white font-bold py-2 px-4 rounded-full w-[5rem]">Save</button></div>
+			<Link href={`/profile/${sessionUser?.username}`} className="ml-16 mt-6"><Button color="default" className="font-bold py-2 px-4 rounded-full w-[5rem]"> Cancel </Button></Link>
+			<div className="ml-3 mt-6"><Button type="submit" className="bg-[#00A9FF] hover:bg-[#0087CC] text-white font-bold py-2 px-4 rounded-full w-[5rem]">Save</Button></div>
 		</div>
 	</form>
 	
