@@ -6,7 +6,7 @@ import SearchBarComponent from "@/components/main/searchBar";
 import Image from "next/image";
 import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import { getCpuProducts } from "@/action/product";
+import { getCaseComputersProducts, getCpuProducts } from "@/action/product";
 import { getRamProducts } from "@/action/product";
 import { getGpuProducts } from "@/action/product";
 import { getHddProducts } from "@/action/product";
@@ -130,13 +130,37 @@ type psuProducts = {
 	price: string;
 }
 
-type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
+type caseComputerProducts = {
+	typeProduct: string;
+	name: string;
+    image: string;
+    size: string;
+    isolation: string;
+    description: string;
+    price: string;
+}
+
+type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
 
 interface ProductPopUpProps {
 	typeProduct: string;
 	onSelectProduct: (selectedProduct: Product) => void;
 }
 
+{/* 
+const defaultProductImage = {
+	CPU: '',
+	GPU: '',
+	RAM: '',
+	SSD: '',
+	HDD: '',
+	MB: 'https://p7.hiclipart.com/preview/929/870/439/graphics-cards-video-adapters-computer-icons-motherboard-computer-hardware-motherboard.jpg',
+	PSU: '',
+	Monitor: '',
+	Cooler: '',
+	Case: ''
+};
+*/}
 
 export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductPopUpProps ) {
 
@@ -148,6 +172,10 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 	const[displayText, setDisplayText] = useState<string>('');
+	
+	const defaultProductImage = 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png'
+	const[displayImage, setDisplayImage] = useState(defaultProductImage);
+
 
 	const fetchData = async (typeProduct: string) => {
 		switch (typeProduct) {
@@ -176,7 +204,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 				getSsdProducts().then((data) => {
 					setAllProducts(data);
 					console.log("SSD products:", allProducts);
-					setDisplayText('SSD')
+					setDisplayText('Storage')
 				});
 				break;
 			case "HDD":
@@ -186,14 +214,14 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 					setDisplayText('HDD')
 				});
 				break;
-			case "Mother Board":
+			case "MB":
 				getMoboProducts().then((data) => {
 					setAllProducts(data);
 					console.log("Motherboard products:", allProducts);
 					setDisplayText('Motherboard')
 				});
 				break;
-			case "Power Supply":
+			case "PSU":
 				getPsuProducts().then((data) => {
 					setAllProducts(data);
 					console.log("PSU products:", allProducts);
@@ -206,12 +234,19 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 					console.log("Monitor products:", allProducts);
 				});
 				break;
-			case "CPU Cooler":
+			case "Cooler":
 				getCpuCoolerProducts().then((data) => {
 					setAllProducts(data);
 					console.log("CPU Cooler products:", allProducts);
 					setDisplayText('CPU cooler')
 				});
+				break;
+			case "Case":
+				getCaseComputersProducts().then((data) => {
+					setAllProducts(data);
+					console.log("Case products:", allProducts);
+					setDisplayText('Case')
+				})
 				break;
 			default:
 				setAllProducts([]);
@@ -247,7 +282,9 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 		setSelectedProduct(product);
 		console.log("Selected product:", product);
 		// return here the selected
+		setDisplayText(product.name)
 		onSelectProduct(product);
+		setDisplayImage(product.image || defaultProductImage);
 	}
 
 	useEffect(() => {
@@ -260,20 +297,14 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 
 	return (
 		<>
-			{/* 
-			<Button onPress={() => {
-				handleSearch("");
-				outerModalOpenHandler();
-			}} className="flex shadow-xl rounded-xl h-16 w-full bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
-				{displayText}
-			</Button>
-			*/}
 
 			<div onClick={() => {
 				handleSearch("");
 				outerModalOpenHandler();
-			}} className="flex shadow-xl rounded-xl h-16 w-full bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
-				{displayText}
+			}} className="flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
+					
+					<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
+					<span className="flex items-center">{displayText}</span>
 			</div>
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>

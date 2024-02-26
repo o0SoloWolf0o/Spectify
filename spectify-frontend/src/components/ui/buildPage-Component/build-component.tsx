@@ -163,73 +163,29 @@ const BuildComponent = () => {
                     
                     <ProductPopUp typeProduct="CPU" onSelectProduct={handleSelectProduct} />
 
-                    {selectedProductFromChild && (
-                    <div>
-                        <p>Selected Product in Parent Component:</p>
-                        <pre>{JSON.stringify(selectedProductFromChild, null, 2)}</pre>
-                    </div>
-                    )}
-                    
-                    <ProductPopUp typeProduct="Mother Board" onSelectProduct={handleSelectProduct} />
-
-                    {selectedProductFromChild && (
-                    <div>
-                        <p>Selected Product in Parent Component:</p>
-                        <pre>{JSON.stringify(selectedProductFromChild, null, 2)}</pre>
-                    </div>
-                    )}
+                    <ProductPopUp typeProduct="MB" onSelectProduct={handleSelectProduct} />
                     
                     <ProductPopUp typeProduct="RAM" onSelectProduct={handleSelectProduct} />
 
-                    {selectedProductFromChild && (
-                    <div>
-                        <p>Selected Product in Parent Component:</p>
-                        <pre>{JSON.stringify(selectedProductFromChild, null, 2)}</pre>
-                    </div>
-                    )}
-
                     <ProductPopUp typeProduct="GPU" onSelectProduct={handleSelectProduct} />
-
-                    {selectedProductFromChild && (
-                    <div>
-                        <p>Selected Product in Parent Component:</p>
-                        <pre>{JSON.stringify(selectedProductFromChild, null, 2)}</pre>
-                    </div>
-                    )}
                    
+                    <ProductPopUp typeProduct="SSD" onSelectProduct={handleSelectProduct} />
+                    {/* 
                     <div onClick={handleStorage}
                          className='flex shadow-xl rounded-xl h-16 w-full
                                 hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200'>
                         storage
                     </div>
-                    
-                    <ProductPopUp typeProduct="Power Supply" onSelectProduct={handleSelectProduct} />
+                    */}
+                    <ProductPopUp typeProduct="PSU" onSelectProduct={handleSelectProduct} />
 
-                    {selectedProductFromChild && (
-                    <div>
-                        <p>Selected Product in Parent Component:</p>
-                        <pre>{JSON.stringify(selectedProductFromChild, null, 2)}</pre>
-                    </div>
-                    )}
+                    <ProductPopUp typeProduct="Case" onSelectProduct={handleSelectProduct} />
 
-                    <div onClick={handleCase}
-                         className='flex shadow-xl rounded-xl h-16 w-full
-                                hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200'>
-                        case
-                    </div>
-                    
-                    <ProductPopUp typeProduct="CPU Cooler" onSelectProduct={handleSelectProduct} />
-
-                    {selectedProductFromChild && (
-                    <div>
-                        <p>Selected Product in Parent Component:</p>
-                        <pre>{JSON.stringify(selectedProductFromChild, null, 2)}</pre>
-                    </div>
-                    )}                    
-
+                    <ProductPopUp typeProduct="Cooler" onSelectProduct={handleSelectProduct} />
+                 
                     <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
                         
-                        <h2 className='text-xl font-semibold flex justify-center my-2'>
+                        <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
                             Total price:
                         </h2>
                     
