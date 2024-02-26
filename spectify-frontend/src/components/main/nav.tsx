@@ -22,6 +22,7 @@ import { CiSquareMore } from "react-icons/ci";
 
 export default function NavComponent() {
 	const session = useSession();
+	const sessionUser = session?.data?.user;
 	const isSession = session.status === "authenticated";
 	const pathname = usePathname();
 	const [toggleMenu, setToggleMenu] = useState(true);
@@ -82,7 +83,7 @@ export default function NavComponent() {
 							}`}
 						>
 							<GoSearch />
-							Search
+							Search Users
 						</Button>
 					</Link>
 
@@ -102,10 +103,10 @@ export default function NavComponent() {
 					)}
 
 					{isSession ? (
-						<Link href="/profile">
+						<Link href={`/profile/${sessionUser?.username}`}>
 							<Button
 								className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
-									pathname === "/profile" ? "bg-primary1-5 text-white" : ""
+									pathname === `/profile/${sessionUser?.username}` ? "bg-primary1-5 text-white" : ""
 								}`}
 							>
 								<FaRegUserCircle />
