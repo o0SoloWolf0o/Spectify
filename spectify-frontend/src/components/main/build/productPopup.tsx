@@ -147,48 +147,57 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-	const fetchData = async () => {
+	const[displayText, setDisplayText] = useState<string>('');
+
+	const fetchData = async (typeProduct: string) => {
 		switch (typeProduct) {
 			case "CPU":
 				getCpuProducts().then((data) => {
 					setAllProducts(data);
 					console.log("CPU products:", data);
+					setDisplayText('CPU');
 				});
 				break;
 			case "GPU":
 				getGpuProducts().then((data) => {
 					setAllProducts(data);
 					console.log("GPU products:", allProducts);
+					setDisplayText('VGA')
 				});
 				break;
 			case "RAM":
 				getRamProducts().then((data) => {
 					setAllProducts(data);
 					console.log("RAM products:", allProducts);
+					setDisplayText('Memory');
 				});
 				break;
 			case "SSD":
 				getSsdProducts().then((data) => {
 					setAllProducts(data);
 					console.log("SSD products:", allProducts);
+					setDisplayText('SSD')
 				});
 				break;
 			case "HDD":
 				getHddProducts().then((data) => {
 					setAllProducts(data);
 					console.log("HDD products:", allProducts);
+					setDisplayText('HDD')
 				});
 				break;
 			case "Mother Board":
 				getMoboProducts().then((data) => {
 					setAllProducts(data);
 					console.log("Motherboard products:", allProducts);
+					setDisplayText('Motherboard')
 				});
 				break;
 			case "Power Supply":
 				getPsuProducts().then((data) => {
 					setAllProducts(data);
 					console.log("PSU products:", allProducts);
+					setDisplayText('Power Supply')
 				});
 				break;
 			case "Monitor":
@@ -201,6 +210,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 				getCpuCoolerProducts().then((data) => {
 					setAllProducts(data);
 					console.log("CPU Cooler products:", allProducts);
+					setDisplayText('CPU cooler')
 				});
 				break;
 			default:
@@ -241,22 +251,30 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 	}
 
 	useEffect(() => {
-		fetchData();
+		fetchData(typeProduct); // Call fetchData with the typeProduct parameter
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [typeProduct]);
-
+	  }, [typeProduct]);
+	  
 	const { isOpen: outerModalOpen, onOpen: outerModalOpenHandler, onOpenChange: outerModalOpenChangeHandler } = useDisclosure();
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
 
-
 	return (
 		<>
+			{/* 
 			<Button onPress={() => {
 				handleSearch("");
 				outerModalOpenHandler();
-			}}>
-				Open Modal
+			}} className="flex shadow-xl rounded-xl h-16 w-full bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
+				{displayText}
 			</Button>
+			*/}
+
+			<div onClick={() => {
+				handleSearch("");
+				outerModalOpenHandler();
+			}} className="flex shadow-xl rounded-xl h-16 w-full bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
+				{displayText}
+			</div>
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
 				<ModalContent>
