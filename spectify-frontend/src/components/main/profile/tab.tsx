@@ -20,7 +20,7 @@ export default function TabComponent() {
   return (
     <Tabs defaultValue="build" className="w-[64rem]">
       <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="build">Build</TabsTrigger>
+        <TabsTrigger className="disable" value="build">Build</TabsTrigger>
         <TabsTrigger value="like">Like</TabsTrigger>
       </TabsList>
       <TabsContent value="build">

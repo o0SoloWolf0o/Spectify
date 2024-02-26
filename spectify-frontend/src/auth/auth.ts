@@ -23,7 +23,7 @@ export const {
 				session.user.id = token.sub;
 				session.user.username = token.username as string | null;
 				session.user.bio = token.bio as string;
-				session.user.image = token.image as string;
+				// session.user.image = token.image as string;
 				session.user.role = token.role as Role;
 			}
 			return session;
@@ -34,7 +34,7 @@ export const {
 			if (!existingUser) return token;
 			token.username = existingUser.username;
 			token.bio = existingUser.bio;
-			token.image = existingUser.image;
+			// token.image = existingUser.image;
 			token.role = existingUser.role;
 			return token;
 		},
