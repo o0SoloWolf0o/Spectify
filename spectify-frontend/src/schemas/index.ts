@@ -68,3 +68,9 @@ export const changePasswordSchema = zod.object({
 	message: "Passwords do not match",
 	path: ["confirmPassword"],
 });
+
+export const newUsernameSchema = zod.object({
+	username: zod.string().min(6, {
+		message: "Username must be at least 6 characters",
+	}),
+});

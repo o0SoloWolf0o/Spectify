@@ -1,25 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import ThemeToggle from "@/components/theme/theme-toggle";
+import Image from "next/image";
 import AuthPopup from "@/components/main/auth/authPopup";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import Image from "next/image";
-import React from 'react';
-import { useRouter } from 'next/navigation'
-import path from "path";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { LuHome } from "react-icons/lu";
+import { GoSearch } from "react-icons/go";
+import { PiUsersThreeBold } from "react-icons/pi";
+import { FaRegUserCircle } from "react-icons/fa";
+import { LuPlusCircle } from "react-icons/lu";
+import { BiStore } from "react-icons/bi";
+import { GoArrowSwitch } from "react-icons/go";
+import { FiMoreHorizontal } from "react-icons/fi";
+import { VscSignOut } from "react-icons/vsc";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { CiSquareMore } from "react-icons/ci";
 
 export default function NavComponent() {
 	const session = useSession();
-	const sessionUser = session?.data?.user;
 	const isSession = session.status === "authenticated";
 	const pathname = usePathname();
-
-	const router = useRouter()
-
-	// console.log(pathname)
+	const [toggleMenu, setToggleMenu] = useState(true);
 
 	function handleSignOut() {
 		if (pathname === "/profile" || pathname === "/following") {
@@ -29,157 +34,173 @@ export default function NavComponent() {
 		}
 	}
 
-
-
 	return (
 		<>
-			<div className="h-screen w-60 fixed flex flex-col items-start justify-start shadow">
+			<div
+				className="
+				pl-2 pr-6 h-1/6 flex flex-row w-screen justify-between items-center shadow
+				md:hidden
+				"
+			>
+				<button onClick={() => setToggleMenu(!toggleMenu)}>
+					<CiSquareMore className="text-xl font-bold" />
+				</button>
 				<Link href="/">
-					<div style={{ marginLeft: '40px' }}>
-						<Image
-							src="/images/Logo.png"
-							alt="Logo"
-							width={150}
-							height={150}
-							className="mx-auto"
-						></Image>
-					</div>
+					<Image src="/images/Logo.png" alt="Logo" width="150" height="150" priority={true} className="w-16 h-16 mx-auto"></Image>
 				</Link>
+				<div />
+			</div>
+			<aside
+				className={`
+				w-screen flex flex-col shadow py-2
+				md:w-64 md:fixed md:justify-between md:h-screen md:flex
+				${toggleMenu && "hidden"}
+				`}
+			>
+				<div className="mx-2 my-1">
+					<div className="py-3 md:hidden" />
 
-
-
-				<aside className="ml-4">
+					<Link href="/" className="hidden md:block">
+						<Image src="/images/Logo.png" alt="Logo" width="150" height="150" priority={true} className="w-32 h-32 mx-auto"></Image>
+					</Link>
 
 					<Link href="/">
-						<div className={pathname === '/' ? 'active flex items-center ' : 'flex items-center'} style={pathname === '/' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '128px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
-							<Image
-								src={pathname === '/' ? '/images/Home_light.png' : '/images/Home_black.png'}
-								alt="Home"
-								width={20}
-								height={20}
-								className="mr-2"
-							/>
-							<span className="mt-1">Home</span>
-						</div>
+						<Button
+							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
+								pathname === "/" ? "bg-primary1-5 text-white" : ""
+							}`}
+						>
+							<LuHome />
+							Home
+						</Button>
 					</Link>
-				</aside>
-
-				<aside className="ml-4">
 
 					<Link href="/search">
-						<div className={pathname === '/search' ? 'active flex items-center ' : 'flex items-center'} style={pathname === '/search' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '86px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
-							<Image
-								src={pathname === '/search' ? '/images/Search_light.png' : '/images/Search_black.png'}
-								alt="Search"
-								width={20}
-								height={5}
-								className="mr-2"
-							/>
-							<span className="mt-1">Search User</span>
-						</div>
+						<Button
+							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
+								pathname === "/search" ? "bg-primary1-5 text-white" : ""
+							}`}
+						>
+							<GoSearch />
+							Search
+						</Button>
 					</Link>
 
-					<div className={pathname === '/following' ? 'active flex items-center' : 'flex items-center'} style={pathname === '/following' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '103px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
-						<Image
-							src={pathname === '/following' ? '/images/Following_light.png' : '/images/Following_black.png'}
-							alt="Following"
-							width={20}
-							height={10}
-							className="mr-2"
-						/>
-						{isSession ? (
-							<Link href="/following">
-								<div className="flex items-center">
-									<span className="mt-1">Following</span>
-								</div>
-							</Link>
-						) : (
-							<AuthPopup buttonText="Following" />
-						)}
-					</div>
+					{isSession ? (
+						<Link href="/following">
+							<Button
+								className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
+									pathname === "/following" ? "bg-primary1-5 text-white" : ""
+								}`}
+							>
+								<PiUsersThreeBold />
+								Following
+							</Button>
+						</Link>
+					) : (
+						<></>
+					)}
 
-					<div className={pathname === `/profile/${sessionUser?.username}` ? 'active flex items-center' : 'flex items-center'} style={pathname === `/profile/${sessionUser?.username}` ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '123px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }} >
-						<Image
-							src={pathname === `/profile/${sessionUser?.username}` ? '/images/User_light.png' : '/images/User_black.png'}
-							alt="User"
-							width={20}
-							height={10}
-							className="mr-2"
-						/>
-						{isSession ? (
-							<Link href={`/profile/${sessionUser?.username}`}>
-								<div className="flex items-center">
-									<span className="mt-1">Profile</span>
-								</div>
-							</Link>
-						) : (
-							<AuthPopup buttonText="Profile" />
-						)
-						}
-					</div>
-					<br />
+					{isSession ? (
+						<Link href="/profile">
+							<Button
+								className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
+									pathname === "/profile" ? "bg-primary1-5 text-white" : ""
+								}`}
+							>
+								<FaRegUserCircle />
+								Profile
+							</Button>
+						</Link>
+					) : (
+						<></>
+					)}
 
+					<div className="py-6" />
 
 					<Link href="/build">
-						<div className={pathname === '/build' ? 'active flex items-center' : 'flex items-center'} style={pathname === '/build' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '134px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }}>
-							<Image
-								src={pathname === '/build' ? '/images/Build_light.png' : '/images/Build_black.png'}
-								alt="Build"
-								width={20}
-								height={20}
-								className="mr-2"
-							/>
-							<span className="mt-1">Build</span>
-						</div>
+						<Button
+							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
+								pathname === "/build" ? "bg-primary1-5 text-white" : ""
+							}`}
+						>
+							<LuPlusCircle />
+							Build
+						</Button>
 					</Link>
 
-
-
 					<Link href="/product">
-						<div className={pathname === '/product' ? 'active flex items-center' : 'flex item-center'} style={pathname === '/product' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '114px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px', height: '20px' }}>
-							<Image
-								src={pathname === '/product' ? '/images/Shop_light.png' : '/images/Shop_black.png'}
-								alt="Product"
-								width={20}
-								height={20}
-								className="mr-2"
-							/>
-							<span>Product</span>
-						</div>
+						<Button
+							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
+								pathname === "/product" ? "bg-primary1-5 text-white" : ""
+							}`}
+						>
+							<BiStore />
+							Product
+						</Button>
 					</Link>
 
 					<Link href="/compare">
-						<div className={pathname === 'compare' ? 'active flex items-center' : 'flex item-center'} style={pathname === '/compare' ? { backgroundColor: '#00A9FF', paddingLeft: '10px', paddingRight: '107px', paddingTop: '5px', paddingBottom: '5px', borderRadius: '5px', color: 'white' } : { marginLeft: '10px' }}>
-							<Image
-								src={pathname === '/compare' ? '/images/Switch_light.png' : '/images/Switch_black.png'}
-								alt="Compare"
-								width={20}
-								height={20}
-								className="mr-2"
-							/>
-							<span className="mt-1">Compare</span>
-						</div>
+						<Button
+							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
+								pathname === "/compare" ? "bg-primary1-5 text-white" : ""
+							}`}
+						>
+							<GoArrowSwitch />
+							Compare
+						</Button>
 					</Link>
+				</div>
 
-					<br />
-					<br />
+				<div
+					className="
+					py-6
+					md:hidden
+					"
+				/>
 
-					<div style={{ marginLeft: '10px' }}>
-						<ThemeToggle />
+				<div className="mx-2 my-1">
+					<div>
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button className="w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white">
+									<FiMoreHorizontal />
+									More
+								</Button>
+							</DropdownMenuTrigger>
+
+							<DropdownMenuContent
+								className="
+								w-screen
+								md:w-56
+								"
+							>
+								<DropdownMenuItem>Link1</DropdownMenuItem>
+								<DropdownMenuItem>Link2</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
 					</div>
-					<br />
 
-					<div className="flex items-center fixed bottom-5 end" style={{ marginLeft: '10px' }}>
-						<Image src="/images/Sign_in_black.png" alt="Sign in" width={20} height={20} className="mr-2" />
-						{isSession ? (
-							<button onClick={handleSignOut}>Sign out</button>
-						) : (
-							<AuthPopup buttonText="Sign in" />
-						)}
-					</div>
-
-				</aside>
-			</div>
+					{isSession ? (
+						<div>
+							<Button
+								onClick={handleSignOut}
+								className="w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white"
+							>
+								<VscSignOut />
+								Sign Out
+							</Button>
+						</div>
+					) : (
+						<div>
+							<AuthPopup className="w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white">
+								<VscSignOut />
+								Sign In
+							</AuthPopup>
+						</div>
+					)}
+				</div>
+			</aside>
 		</>
 	);
 }
