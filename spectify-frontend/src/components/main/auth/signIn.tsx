@@ -70,9 +70,9 @@ export default function SignInComponent({ setPanel }: SignInProps) {
 	return (
 		<>
 			<Form {...signInForm}>
-				<h1>Sign in</h1>
-				<FormDescription>Please sign in to continue to your account.</FormDescription>
-				<form onSubmit={signInForm.handleSubmit(signInSubmit)} className="space-y-8">
+				<form onSubmit={signInForm.handleSubmit(signInSubmit)} className="space-y-4">
+					<h1>Sign in</h1>
+					<FormDescription>Please sign in to continue to your account.</FormDescription>
 					<div className="flex flex-col gap-3">
 						<FormField
 							control={signInForm.control}
@@ -121,34 +121,42 @@ export default function SignInComponent({ setPanel }: SignInProps) {
 						/>
 					</div>
 					<AuthErrorComponent message={authError} />
-					<Button type="submit" className="w-full" disabled={isPending}>
+					<Button type="submit" className="w-full bg-primary1-5 hover:bg-primary1-6" disabled={isPending}>
 						Sign in
 					</Button>
+					<div className="flex items-center">
+						<hr className="flex-1 border-t border-gray-300" />
+						<p className="mx-4 text-gray-500">or</p>
+						<hr className="flex-1 border-t border-gray-300" />
+					</div>
+					<Button type="button" onClick={signInWithGoogle} disabled={isPending} className="w-full bg-primary1-5 hover:bg-primary1-6">
+						<FcGoogle className="mr-2" /> Sign in with Google
+					</Button>
+					<div className="flex flex-col items-center">
+						<div className="flex gap-2">
+							<p>Can't remember password?</p>
+							<button
+								type="button"
+								onClick={redirectForgotPassword}
+								disabled={isPending}
+								className="text-primary1-5 hover:text-primary1-6 disabled:text-primary1-2"
+							>
+								Reset Password
+							</button>
+						</div>
+						<div className="flex gap-2">
+							<p>Need an account?</p>
+							<button
+								type="button"
+								onClick={redirectSignUp}
+								disabled={isPending}
+								className="text-primary1-5 hover:text-primary1-6 disabled:text-primary1-2"
+							>
+								Sign up
+							</button>
+						</div>
+					</div>
 				</form>
-				<div className="flex items-center">
-					<hr className="flex-1 border-t border-gray-300" />
-					<p className="mx-4 text-gray-500">or</p>
-					<hr className="flex-1 border-t border-gray-300" />
-				</div>
-
-				<Button onClick={signInWithGoogle} disabled={isPending} className="w-full">
-					<FcGoogle className="mr-2" /> Sign in with Google
-				</Button>
-
-				<div className="flex flex-col items-center">
-					<div className="flex gap-2">
-						<p>Can't remember password?</p>
-						<button onClick={redirectForgotPassword} disabled={isPending}>
-							Reset Password
-						</button>
-					</div>
-					<div className="flex gap-2">
-						<p>Need an account?</p>
-						<button onClick={redirectSignUp} disabled={isPending}>
-							Sign up
-						</button>
-					</div>
-				</div>
 			</Form>
 		</>
 	);

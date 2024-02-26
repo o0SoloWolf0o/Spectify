@@ -30,9 +30,9 @@ export default function ForgetPasswordComponent({ setPanel }: ForgetPasswordProp
 	});
 
 	function forgetPasswordSubmit(values: { email: string }) {
-		setAuthError("");
-		setAuthSuccess("");
 		startTransition(() => {
+			setAuthError("");
+			setAuthSuccess("");
 			ResetPassword(values).then((res) => {
 				if (res.success) {
 					setAuthSuccess("Reset password email has been sent.");
@@ -54,9 +54,9 @@ export default function ForgetPasswordComponent({ setPanel }: ForgetPasswordProp
 	return (
 		<>
 			<Form {...forgetPasswordForm}>
-				<h1>Forget Password</h1>
-				<FormDescription>Enter your account email, and we'll send a secure password reset message.</FormDescription>
-				<form onSubmit={forgetPasswordForm.handleSubmit(forgetPasswordSubmit)} className="space-y-8">
+				<form onSubmit={forgetPasswordForm.handleSubmit(forgetPasswordSubmit)} className="space-y-4">
+					<h1>Forget Password</h1>
+					<FormDescription>Enter your account email, and we'll send a secure password reset message.</FormDescription>
 					<FormField
 						control={forgetPasswordForm.control}
 						name="email"
@@ -72,18 +72,23 @@ export default function ForgetPasswordComponent({ setPanel }: ForgetPasswordProp
 					/>
 					<AuthErrorComponent message={authError} />
 					<AuthSuccessComponent message={authSuccess} />
-					<Button type="submit" className="w-full" disabled={isPending}>
+					<Button type="submit" disabled={isPending} className="w-full bg-primary1-5 hover:bg-primary1-6">
 						Send mail
 					</Button>
-				</form>
-				<div className="flex flex-col items-center">
-					<div className="flex gap-2">
-						<p>Remember your password?</p>
-						<button onClick={redirectSignIn} disabled={isPending}>
-							Sign in
-						</button>
+					<div className="flex flex-col items-center">
+						<div className="flex gap-2">
+							<p>Remember your password?</p>
+							<button
+								type="button"
+								onClick={redirectSignIn}
+								disabled={isPending}
+								className="text-primary1-5 hover:text-primary1-6 disabled:text-primary1-2"
+							>
+								Sign in
+							</button>
+						</div>
 					</div>
-				</div>
+				</form>
 			</Form>
 		</>
 	);
