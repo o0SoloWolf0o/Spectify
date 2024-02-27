@@ -116,10 +116,20 @@ type psuProducts = {
     price: string;
 }
 
-type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
+type caseComputerProducts = {
+	typeProduct: string;
+	name: string;
+    image: string;
+    size: string;
+    isolation: string;
+    description: string;
+    price: string;
+}
+
+type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
 
 const BuildComponent = () => {
-    
+
     const handleCPU = () => {
         console.log("Choose a Processor.");
     };
