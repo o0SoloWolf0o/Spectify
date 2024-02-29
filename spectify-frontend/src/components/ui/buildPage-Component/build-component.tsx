@@ -129,38 +129,6 @@ type caseComputerProducts = {
 type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
 
 const BuildComponent = () => {
-
-    const handleCPU = () => {
-        console.log("Choose a Processor.");
-    };
-
-    const handleMB = () => {
-        console.log("Choose a M/B.");
-    };
-
-    const handleRAM = () => {
-        console.log("Choose Memory modules.");
-    };
-
-    const handleVGA = () => {
-        console.log("Choose a VGA.");
-    };
-
-    const handleStorage = () => {
-        console.log("Choose Storages.");
-    };
-
-    const handlePSU = () => {
-        console.log("Choose a PSU.");
-    };
-
-    const handleCase = () => {
-        console.log("Choose a Case.");
-    };
-
-    const handleCooler = () => {
-        console.log("Choose a Cooler.");
-    };
     
     const [selectedProductFromChild, setSelectedProductFromChild] = useState<Product | null>(null);
 
@@ -180,13 +148,7 @@ const BuildComponent = () => {
                     <ProductPopUp typeProduct="GPU" onSelectProduct={handleSelectProduct} />
                    
                     <ProductPopUp typeProduct="SSD" onSelectProduct={handleSelectProduct} />
-                    {/* 
-                    <div onClick={handleStorage}
-                         className='flex shadow-xl rounded-xl h-16 w-full
-                                hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200'>
-                        storage
-                    </div>
-                    */}
+                   
                     <ProductPopUp typeProduct="PSU" onSelectProduct={handleSelectProduct} />
 
                     <ProductPopUp typeProduct="Case" onSelectProduct={handleSelectProduct} />

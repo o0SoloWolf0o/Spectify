@@ -282,8 +282,8 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 		setSelectedProduct(product);
 		console.log("Selected product:", product);
 		// return here the selected
-		setDisplayText(product.name)
 		onSelectProduct(product);
+		setDisplayText(product.name)
 		setDisplayImage(product.image || defaultProductImage);
 	}
 
