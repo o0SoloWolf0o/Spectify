@@ -31,7 +31,7 @@ export default async function userProfilePage({
                 <Avatar src={userImg ?? ""} className="w-44 h-44"/>
                     <div className="ml-16 mt-6">
                     <p className="text-xl">{user?.username}</p>
-                    <p className="text-base">{user?.bio}</p>
+                    <textarea readOnly rows={5} className="text-base overflow-hidden resize-none w-64 focus:outline-none">{user?.bio}</textarea>
                     </div>
                     {isOwner &&(
                     <Link href="/profile/edit" className="ml-16 mt-6"><Button color="default" className="text-black font-bold py-2 px-4 rounded-full"> Edit Profile </Button></Link>
