@@ -1,10 +1,10 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBarComponent from "@/components/main/searchBar";
 import Image from "next/image";
-import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { getCaseComputersProducts, getCpuProducts } from "@/action/product";
 import { getRamProducts } from "@/action/product";
@@ -15,8 +15,6 @@ import { getCpuCoolerProducts } from "@/action/product";
 import { getMoboProducts } from "@/action/product";
 import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
-import { on } from "events";
-import { color } from "framer-motion";
 
 type cpuProducts = {
 	id: string;
@@ -133,11 +131,11 @@ type psuProducts = {
 type caseComputerProducts = {
 	typeProduct: string;
 	name: string;
-    image: string;
-    size: string;
-    isolation: string;
-    description: string;
-    price: string;
+	image: string;
+	size: string;
+	isolation: string;
+	description: string;
+	price: string;
 }
 
 type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
@@ -162,7 +160,7 @@ const defaultProductImage = {
 };
 */}
 
-export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductPopUpProps ) {
+export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPopUpProps) {
 
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	const [searchValue, setSearchValue] = useState("");
@@ -171,10 +169,10 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-	const[displayText, setDisplayText] = useState<string>('');
-	
+	const [displayText, setDisplayText] = useState<string>('');
+
 	const defaultProductImage = 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png'
-	const[displayImage, setDisplayImage] = useState(defaultProductImage);
+	const [displayImage, setDisplayImage] = useState(defaultProductImage);
 
 
 	const fetchData = async (typeProduct: string) => {
@@ -287,13 +285,20 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 		setDisplayImage(product.image || defaultProductImage);
 	}
 
-	useEffect(() => {
-		fetchData(typeProduct); // Call fetchData with the typeProduct parameter
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	  }, [typeProduct]);
-	  
+	const [isDataFetched, setIsDataFetched] = useState(false);
+
 	const { isOpen: outerModalOpen, onOpen: outerModalOpenHandler, onOpenChange: outerModalOpenChangeHandler } = useDisclosure();
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
+
+	useEffect(() => {
+		if (outerModalOpen && typeProduct && !isDataFetched) {
+			fetchData(typeProduct);
+			setIsDataFetched(true);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [outerModalOpen, typeProduct, isDataFetched]);
+
+
 
 	return (
 		<>
@@ -302,9 +307,9 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 				handleSearch("");
 				outerModalOpenHandler();
 			}} className="flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
-					
-					<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
-					<span className="flex items-center">{displayText}</span>
+
+				<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
+				<span className="flex items-center">{displayText}</span>
 			</div>
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
@@ -313,11 +318,12 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 						<>
 							<ModalHeader className="flex flex-col gap-1">
 								<div className="w-full pr-8">
-									<SearchBarComponent onSeach={handleSearch} placeholder={"Product"} />
+									<SearchBarComponent onSearch={handleSearch} placeholder={"Product"} />
 								</div>
 							</ModalHeader>
 
 							<ModalBody>
+
 								{filteredSearchProducts.map((product, index) => (
 									<div key={index} style={{
 										width: "200px",
@@ -353,6 +359,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 											}}>
 												Info
 											</Button>
+
 											<Modal isOpen={innerModalOpen} onOpenChange={innerModalOpenChangeHandler}>
 												<ModalContent>
 													{(innerModalOnClose) => (
