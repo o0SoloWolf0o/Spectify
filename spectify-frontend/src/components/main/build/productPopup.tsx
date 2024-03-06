@@ -166,9 +166,6 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 	const [searchValue, setSearchValue] = useState("");
 	const [filteredSearchProducts, setFilteredSearchProducts] = useState<Product[]>([]);
 
-
-	const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
 	const [displayText, setDisplayText] = useState<string>('');
 
 	const defaultProductImage = 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png'
@@ -182,13 +179,15 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 					setAllProducts(data);
 					console.log("CPU products:", data);
 					setDisplayText('CPU');
+					handleSearch("");
 				});
 				break;
 			case "GPU":
 				getGpuProducts().then((data) => {
 					setAllProducts(data);
 					console.log("GPU products:", allProducts);
-					setDisplayText('VGA')
+					setDisplayText('VGA');
+					handleSearch("");
 				});
 				break;
 			case "RAM":
@@ -196,74 +195,83 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 					setAllProducts(data);
 					console.log("RAM products:", allProducts);
 					setDisplayText('Memory');
+					handleSearch("");
 				});
 				break;
 			case "SSD":
 				getSsdProducts().then((data) => {
 					setAllProducts(data);
 					console.log("SSD products:", allProducts);
-					setDisplayText('Storage')
+					setDisplayText('Storage');
+					handleSearch("");
 				});
 				break;
 			case "HDD":
 				getHddProducts().then((data) => {
 					setAllProducts(data);
 					console.log("HDD products:", allProducts);
-					setDisplayText('HDD')
+					setDisplayText('HDD');
+					handleSearch("");
 				});
 				break;
 			case "MB":
 				getMoboProducts().then((data) => {
 					setAllProducts(data);
 					console.log("Motherboard products:", allProducts);
-					setDisplayText('Motherboard')
+					setDisplayText('Motherboard');
+					handleSearch("");
 				});
 				break;
 			case "PSU":
 				getPsuProducts().then((data) => {
 					setAllProducts(data);
 					console.log("PSU products:", allProducts);
-					setDisplayText('Power Supply')
+					setDisplayText('Power Supply');
+					handleSearch("");
 				});
 				break;
 			case "Monitor":
 				getMonitorProducts().then((data) => {
 					setAllProducts(data);
 					console.log("Monitor products:", allProducts);
+					setDisplayText('Monitor');
+					handleSearch("");
 				});
 				break;
 			case "Cooler":
 				getCpuCoolerProducts().then((data) => {
 					setAllProducts(data);
 					console.log("CPU Cooler products:", allProducts);
-					setDisplayText('CPU cooler')
+					setDisplayText('CPU cooler');
+					handleSearch("");
 				});
 				break;
 			case "Case":
 				getCaseComputersProducts().then((data) => {
 					setAllProducts(data);
 					console.log("Case products:", allProducts);
-					setDisplayText('Case')
+					setDisplayText('Case');
+					handleSearch("");
 				})
 				break;
 			default:
 				setAllProducts([]);
 				setFilteredSearchProducts(allProducts);
+				handleSearch(""); // Clear the search input
 				break;
 		}
 	}
 
 
 	function handleSearch(value: string) {
-		console.log("Search value:", value);
+		// console.log("Search value:", value);
 		setSearchValue(value);
 
 
 		const filteredProducts = allProducts.filter((product) =>
 			product.name.toLowerCase().includes(value.toLowerCase())
 		);
-
-		setFilteredSearchProducts(filteredProducts);
+		setFilteredSearchProducts(filteredProducts.length > 0 ? filteredProducts : allProducts);
 
 	}
 
@@ -278,25 +286,25 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 
 	function handleProductClick(product: Product) {
 		setSelectedProduct(product);
-		console.log("Selected product:", product);
+		// console.log("Selected product:", product);
 		// return here the selected
 		onSelectProduct(product);
 		setDisplayText(product.name)
 		setDisplayImage(product.image || defaultProductImage);
 	}
 
-	const [isDataFetched, setIsDataFetched] = useState(false);
-
 	const { isOpen: outerModalOpen, onOpen: outerModalOpenHandler, onOpenChange: outerModalOpenChangeHandler } = useDisclosure();
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
 
 	useEffect(() => {
-		if (outerModalOpen && typeProduct && !isDataFetched) {
-			fetchData(typeProduct);
-			setIsDataFetched(true);
-		}
+		fetchData(typeProduct);
+		
+		// TODO: Fix fetch data onClick Modal
+		// if (outerModalOpen && typeProduct) {
+		// 	fetchData(typeProduct);
+		// }
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [outerModalOpen, typeProduct, isDataFetched]);
+	}, [outerModalOpen, typeProduct]);
 
 
 
