@@ -255,7 +255,6 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 		}
 	}
 
-
 	function handleSearch(value: string) {
 		console.log("Search value:", value);
 		setSearchValue(value);
@@ -285,6 +284,12 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 		onSelectProduct(product);
 		setDisplayText(product.name)
 		setDisplayImage(product.image || defaultProductImage);
+		
+		const jsonArray = JSON.stringify(product.typeProduct);
+		localStorage.setItem('selectedProduct', jsonArray);
+		//const stri = localStorage.getItem('selectedProduct');
+		//const parsedArray = JSON.parse(stri);
+		//console.log(parsedArray);
 	}
 
 	useEffect(() => {
