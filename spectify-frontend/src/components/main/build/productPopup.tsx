@@ -180,78 +180,88 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 					console.log("CPU products:", data);
 					setDisplayText('CPU');
 					handleSearch("");
+					setFilteredSearchProducts(data);
 				});
 				break;
 			case "GPU":
 				getGpuProducts().then((data) => {
 					setAllProducts(data);
-					console.log("GPU products:", allProducts);
+					console.log("GPU products:", data);
 					setDisplayText('VGA');
 					handleSearch("");
+					setFilteredSearchProducts(data);
 				});
 				break;
 			case "RAM":
 				getRamProducts().then((data) => {
 					setAllProducts(data);
-					console.log("RAM products:", allProducts);
+					console.log("RAM products:", data);
 					setDisplayText('Memory');
 					handleSearch("");
+					setFilteredSearchProducts(data);
 				});
 				break;
 			case "SSD":
 				getSsdProducts().then((data) => {
 					setAllProducts(data);
-					console.log("SSD products:", allProducts);
+					console.log("SSD products:", data);
 					setDisplayText('Storage');
 					handleSearch("");
+					setFilteredSearchProducts(data);
 				});
 				break;
 			case "HDD":
 				getHddProducts().then((data) => {
 					setAllProducts(data);
-					console.log("HDD products:", allProducts);
+					console.log("HDD products:", data);
 					setDisplayText('HDD');
 					handleSearch("");
+					setFilteredSearchProducts(data);
 				});
 				break;
 			case "MB":
 				getMoboProducts().then((data) => {
 					setAllProducts(data);
-					console.log("Motherboard products:", allProducts);
+					console.log("Motherboard products:", data);
 					setDisplayText('Motherboard');
-					handleSearch("");
+					handleSearch("");	
+					setFilteredSearchProducts(data);
 				});
 				break;
 			case "PSU":
 				getPsuProducts().then((data) => {
 					setAllProducts(data);
-					console.log("PSU products:", allProducts);
+					console.log("PSU products:", data);
 					setDisplayText('Power Supply');
 					handleSearch("");
+					setFilteredSearchProducts(data);
 				});
 				break;
 			case "Monitor":
 				getMonitorProducts().then((data) => {
 					setAllProducts(data);
-					console.log("Monitor products:", allProducts);
+					console.log("Monitor products:", data);
 					setDisplayText('Monitor');
 					handleSearch("");
+					setFilteredSearchProducts(data);
 				});
 				break;
 			case "Cooler":
 				getCpuCoolerProducts().then((data) => {
 					setAllProducts(data);
-					console.log("CPU Cooler products:", allProducts);
+					console.log("CPU Cooler products:", data);
 					setDisplayText('CPU cooler');
 					handleSearch("");
+					setFilteredSearchProducts(data);
 				});
 				break;
 			case "Case":
 				getCaseComputersProducts().then((data) => {
 					setAllProducts(data);
-					console.log("Case products:", allProducts);
+					console.log("Case products:", data);
 					setDisplayText('Case');
 					handleSearch("");
+					setFilteredSearchProducts(data);
 				})
 				break;
 			default:
@@ -297,12 +307,13 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
 
 	useEffect(() => {
-		fetchData(typeProduct);
-		
+		// fetchData(typeProduct);
+
 		// TODO: Fix fetch data onClick Modal
-		// if (outerModalOpen && typeProduct) {
-		// 	fetchData(typeProduct);
-		// }
+		if (outerModalOpen && typeProduct) {
+			fetchData(typeProduct);
+			
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [outerModalOpen, typeProduct]);
 
@@ -396,15 +407,15 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 												</ModalContent>
 											</Modal>
 
-											<Button 
-											size="sm" 
-											onPress={() => {
-												handleProductClick(product);
-												outerModalOnClose();
-											}}
-											style={{ background: "#00A9FF", color: "#FFFFFF" }}>
+											<Button
+												size="sm"
+												onPress={() => {
+													handleProductClick(product);
+													outerModalOnClose();
+												}}
+												style={{ background: "#00A9FF", color: "#FFFFFF" }}>
 												Add Component
-												</Button>
+											</Button>
 										</div>
 									</div>
 								))}
