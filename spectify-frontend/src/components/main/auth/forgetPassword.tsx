@@ -56,7 +56,7 @@ export default function ForgetPasswordComponent({ setPanel }: ForgetPasswordProp
 			<Form {...forgetPasswordForm}>
 				<form onSubmit={forgetPasswordForm.handleSubmit(forgetPasswordSubmit)} className="space-y-4">
 					<h1>Forget Password</h1>
-					<FormDescription>Enter your account email, and we'll send a secure password reset message.</FormDescription>
+					<FormDescription>Enter your account email, and we&apos;ll send a secure password reset message.</FormDescription>
 					<FormField
 						control={forgetPasswordForm.control}
 						name="email"

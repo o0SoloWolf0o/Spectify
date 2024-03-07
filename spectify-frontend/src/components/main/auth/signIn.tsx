@@ -134,7 +134,7 @@ export default function SignInComponent({ setPanel }: SignInProps) {
 					</Button>
 					<div className="flex flex-col items-center">
 						<div className="flex gap-2">
-							<p>Can't remember password?</p>
+							<p>Can&apos;t remember password?</p>
 							<button
 								type="button"
 								onClick={redirectForgotPassword}
