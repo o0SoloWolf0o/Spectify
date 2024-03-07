@@ -395,7 +395,16 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 													)}
 												</ModalContent>
 											</Modal>
-											<Button size="sm" onPress={() => handleProductClick(product)} style={{ background: "#00A9FF", color: "#FFFFFF" }}>Add Component</Button>
+
+											<Button 
+											size="sm" 
+											onPress={() => {
+												handleProductClick(product);
+												outerModalOnClose();
+											}}
+											style={{ background: "#00A9FF", color: "#FFFFFF" }}>
+												Add Component
+												</Button>
 										</div>
 									</div>
 								))}
