@@ -267,7 +267,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 			default:
 				setAllProducts([]);
 				setFilteredSearchProducts(allProducts);
-				handleSearch(""); // Clear the search input
+				handleSearch("");
 				break;
 		}
 	}
@@ -297,7 +297,6 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 	function handleProductClick(product: Product) {
 		setSelectedProduct(product);
 		// console.log("Selected product:", product);
-		// return here the selected
 		onSelectProduct(product);
 		setDisplayText(product.name)
 		setDisplayImage(product.image || defaultProductImage);
@@ -307,9 +306,6 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
 
 	useEffect(() => {
-		// fetchData(typeProduct);
-
-		// TODO: Fix fetch data onClick Modal
 		if (outerModalOpen && typeProduct) {
 			fetchData(typeProduct);
 			
