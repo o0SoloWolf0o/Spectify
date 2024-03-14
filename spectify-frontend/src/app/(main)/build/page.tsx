@@ -4,6 +4,7 @@ import React from 'react';
 import SaveButt from '@/components/ui/buildPage-Component/build-saveButton';
 import BuildComponent from '@/components/ui/buildPage-Component/build-component';
 import Generator from '@/components/ui/buildPage-Component/build-generator';
+import Vitualization from '@/components/ui/buildPage-Component/build-vit';
 
 export default function BuildPage() {
     
@@ -14,6 +15,8 @@ export default function BuildPage() {
 
             <div className='bg-white shadow-xl box-content row-span-2'>
                 
+                <Vitualization />
+
             </div>
             
             <div className='bg-white shadow-xl box-content row-span-2 col-start-1 row-start-3 justify-center flex-row'>
