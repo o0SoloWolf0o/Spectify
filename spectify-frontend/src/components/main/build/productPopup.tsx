@@ -140,7 +140,8 @@ type caseComputerProducts = {
     price: string;
 }
 
-type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
+export type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
+
 
 interface ProductPopUpProps {
 	typeProduct: string;
@@ -162,8 +163,8 @@ const defaultProductImage = {
 };
 */}
 
-export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductPopUpProps ) {
-
+export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductPopUpProps ) { 
+	
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	const [searchValue, setSearchValue] = useState("");
 	const [filteredSearchProducts, setFilteredSearchProducts] = useState<Product[]>([]);
@@ -246,7 +247,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 					setAllProducts(data);
 					console.log("Case products:", allProducts);
 					setDisplayText('Case')
-				})
+				});
 				break;
 			default:
 				setAllProducts([]);
@@ -318,7 +319,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 						<>
 							<ModalHeader className="flex flex-col gap-1">
 								<div className="w-full pr-8">
-									<SearchBarComponent onSeach={handleSearch} placeholder={"Product"} />
+									<SearchBarComponent onSearch={handleSearch} placeholder={"Product"} />
 								</div>
 							</ModalHeader>
 

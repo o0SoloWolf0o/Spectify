@@ -3,7 +3,9 @@
 import React from "react";
 import { useState } from "react";
 import ProductPopUp from '@/components/main/build/productPopup';
+import { Product } from "@/components/main/build/productPopup";
 
+{/**
 type cpuProducts = {
     id: string;
     typeProduct: string;
@@ -127,11 +129,17 @@ type caseComputerProducts = {
 }
 
 type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
+ */}
 
-const BuildComponent = () => {
+ interface BuildComponentProps {
+    onSelectProduct: (selectedProduct: Product) => void;
+}
+
+const BuildComponent: React.FC<BuildComponentProps> = ({ onSelectProduct }) => {
     
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-
+    //const [selectedProducts, setSelectedProducts] = useState<Product | null>(null);
+    
     const handleSelectProduct = (selectedProduct: Product) => {
         setSelectedProducts(prevSelected => [...prevSelected, selectedProduct]);
     };
@@ -170,7 +178,7 @@ const BuildComponent = () => {
                     <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
                         
                         <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
-                            Total price: ${calculateTotalPrice()}
+                            Total price: $ {calculateTotalPrice()}
                         </h2>
                     
                     </div>
