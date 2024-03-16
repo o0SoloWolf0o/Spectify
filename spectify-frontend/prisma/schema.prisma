@@ -32,6 +32,8 @@ model User {
     bio           String?
     role          Role      @default(USER)
     userDetail    UserDetail?
+    following     follow[]  @relation("userFollowing")
+    followers     follow[]  @relation("userFollower")
 }
 
 model UserDetail {
@@ -71,10 +73,13 @@ model resetPasswordToken {
 }
 
 model follow {
-    id       String   @id @default(cuid())
-    user_id  String
-    follow_id String
-    followData DateTime
+    id          String   @id @default(cuid())
+    follower    User @relation("userFollower",fields: [followerId], references: [id])
+    followerId  String
+    following   User @relation("userFollowing",fields: [followingId], references: [id])
+    followingId String
+
+    @@unique([followerId, followingId])
 }
 
 model news {
