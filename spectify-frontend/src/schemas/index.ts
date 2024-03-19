@@ -74,3 +74,21 @@ export const newUsernameSchema = zod.object({
 		message: "Username must be at least 6 characters",
 	}),
 });
+
+export const buildSchema = zod.object({
+	image: zod.string(),
+	buildName: zod.string().min(1, {
+		message: "Name is required",
+	}),
+	buildBio: zod.string().max(100, {
+		message: "Bio must be less than 100 characters",
+	}),
+	cpu: zod.string().min(1),
+	mb: zod.string().min(1),
+	ram: zod.string().min(1),
+	gpu: zod.string().min(1),
+	ssd: zod.string().min(1),
+	psu: zod.string().min(1),
+	cases: zod.string().min(1),
+	cooler: zod.string().min(1),
+});

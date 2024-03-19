@@ -8,11 +8,6 @@ generator client {
 	provider = "prisma-client-js"
 }
 
-model Example {
-	id Int @id @default(autoincrement())
-	text String
-}
-
 enum Role {
     USER
     ADMIN
@@ -32,6 +27,7 @@ model User {
     bio           String?
     role          Role      @default(USER)
     userDetail    UserDetail?
+    build         build[]
 }
 
 model UserDetail {
@@ -88,18 +84,33 @@ model news {
 
 model build {
     id      String   @id @default(cuid())
-    mobo_id String
+    buildName String
+    buildBio  String
+    image   String?
     cpu_id  String
-    gpu_id  String
+    mobo_id String
     ram_id  String
+    gpu_id  String
     cpuCooler_id String
-    ssd_id String
-    hdd_id String
+    ssd_id String?
+    hdd_id String?
     psu_id  String
     case_id String
-    monitor_id String
+    monitor_id String?
     date    DateTime
     user_id String
+
+    cpu cpu @relation(fields: [cpu_id], references: [id])
+    mobo mobo @relation(fields: [mobo_id], references: [id])
+    ram ram @relation(fields: [ram_id], references: [id])
+    gpu gpu @relation(fields: [gpu_id], references: [id])
+    cpuCooler cpuCooler @relation(fields: [cpuCooler_id], references: [id])
+    ssd ssd? @relation(fields: [ssd_id], references: [id])
+    hdd hdd? @relation(fields: [hdd_id], references: [id])
+    psu psu @relation(fields: [psu_id], references: [id])
+    caseComputer caseComputer @relation(fields: [case_id], references: [id])
+    monitor monitor? @relation(fields: [monitor_id], references: [id])
+    user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model cpu {
@@ -116,6 +127,8 @@ model cpu {
     clock String
     turbo String
     description String
+
+    build build[]
 }
 
 model mobo {
@@ -128,6 +141,8 @@ model mobo {
     ramslot String
     description String
     price   String
+
+    build build[]
 }
 
 model ram {
@@ -140,6 +155,8 @@ model ram {
     kit     String
     description String
     price   String
+
+    build build[]
 }
 
 model caseComputer {
@@ -151,6 +168,8 @@ model caseComputer {
     isolation String
     description String
     price   String
+
+    build build[]
 }
 
 model cpuCooler {
@@ -161,6 +180,8 @@ model cpuCooler {
     socket  String
     description String
     price   String
+
+    build build[]
 }
 
 model gpu {
@@ -185,6 +206,8 @@ model gpu {
     caseSlots String
     frameSync String
     description String
+
+    build build[]
 }
 
 model hdd {
@@ -195,6 +218,8 @@ model hdd {
     size    String
     description String
     price   String
+
+    build build[]
 }
 
 model ssd {
@@ -206,6 +231,8 @@ model ssd {
     type   String
     description String
     price   String
+
+    build build[]
 }
 
 model monitor {
@@ -221,6 +248,8 @@ model monitor {
     gsync   String
     price   String
     description String
+
+    build build[]
 }
 
 model psu {
@@ -231,4 +260,6 @@ model psu {
     wattage String
     description String
     price   String
+
+    build build[]
 }
