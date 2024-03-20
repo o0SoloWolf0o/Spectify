@@ -27,6 +27,8 @@ model User {
     bio           String?
     role          Role      @default(USER)
     userDetail    UserDetail?
+    following     follow[]  @relation("userFollowing")
+    followers     follow[]  @relation("userFollower")
     build         build[]
 }
 
