@@ -17,7 +17,7 @@ export default function FollowingCount({ userId }: { userId: string }) {
         , [userId]);
     return (
         <>
-            <span>{followingCount} Follwing</span>
+            <span>{followingCount} Following</span>
         </>
     );
 }
