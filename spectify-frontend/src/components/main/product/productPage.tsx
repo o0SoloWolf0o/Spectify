@@ -254,13 +254,18 @@ export default function ProductPage() {
 		const updatedSelectedProducts = [...selectedProducts, product];
 
 		// Limit the array to 2 products if needed
-		const limitedSelectedProducts = updatedSelectedProducts.slice(0, 2);
+		// const limitedSelectedProducts = updatedSelectedProducts.slice(0, 2);
+
+		// Remove the limit on the array size
+		const unlimitedSelectedProducts = updatedSelectedProducts;
 
 		// Update the state
-		setSelectedProducts(limitedSelectedProducts);
+		// setSelectedProducts(limitedSelectedProducts);
+		setSelectedProducts(unlimitedSelectedProducts);
 
 		// Save to local storage
-		saveToLocalStorage(limitedSelectedProducts);
+		// saveToLocalStorage(limitedSelectedProducts);
+		saveToLocalStorage(unlimitedSelectedProducts);
 	}
 
 	return (
