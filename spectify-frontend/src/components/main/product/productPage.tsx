@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SearchBarComponent from "@/components/main/searchBar";
 import Image from "next/image";
 import React from "react";
@@ -15,6 +15,7 @@ import { getCpuCoolerProducts } from "@/action/product";
 import { getMoboProducts } from "@/action/product";
 import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
+import { CompareCountContext } from "@/app/(main)/layout";
 
 type cpuProducts = {
 	id: string;
@@ -30,7 +31,7 @@ type cpuProducts = {
 	clock: string;
 	turbo: string;
 	description: string;
-}
+};
 
 type ramProducts = {
 	typeProduct: string;
@@ -41,7 +42,7 @@ type ramProducts = {
 	kit: string;
 	description: string;
 	price: string;
-}
+};
 
 type gpuProducts = {
 	typeProduct: string;
@@ -64,7 +65,7 @@ type gpuProducts = {
 	caseSlots: string;
 	frameSync: string;
 	description: string;
-}
+};
 
 type moboProducts = {
 	typeProduct: string;
@@ -75,7 +76,7 @@ type moboProducts = {
 	ramslot: string;
 	description: string;
 	price: string;
-}
+};
 
 type hddProducts = {
 	typeProduct: string;
@@ -84,7 +85,7 @@ type hddProducts = {
 	size: string;
 	description: string;
 	price: string;
-}
+};
 
 type ssdProducts = {
 	typeProduct: string;
@@ -94,7 +95,7 @@ type ssdProducts = {
 	type: string;
 	description: string;
 	price: string;
-}
+};
 
 type cpuCoolerProducts = {
 	typeProduct: string;
@@ -103,7 +104,7 @@ type cpuCoolerProducts = {
 	socket: string;
 	description: string;
 	price: string;
-}
+};
 
 type monitorProducts = {
 	typeProduct: string;
@@ -117,7 +118,7 @@ type monitorProducts = {
 	gsync: string;
 	price: string;
 	description: string;
-}
+};
 
 type psuProducts = {
 	typeProduct: string;
@@ -126,18 +127,15 @@ type psuProducts = {
 	wattage: string;
 	description: string;
 	price: string;
-}
+};
 
 type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
 
 export default function ProductPage() {
-
-
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
-
 	const [searchValue, setSearchValue] = useState("");
 	const [filteredSearchProducts, setFilteredSearchProducts] = useState<Product[]>([]);
-
+	const { compareCounts, setCompareCounts } = useContext(CompareCountContext);
 
 	useEffect(() => {
 		console.log("Fetching products...");
@@ -175,7 +173,7 @@ export default function ProductPage() {
 					...cpuCoolerProducts,
 					...monitorProducts,
 					...psuProducts,
-				] as Product[];;
+				] as Product[];
 
 				setFilteredSearchProducts(combinedProducts);
 				setAllProducts(combinedProducts);
@@ -183,7 +181,7 @@ export default function ProductPage() {
 				console.log(combinedProducts);
 			} catch (error) {
 				// Handle errors here
-				console.error('Error fetching products:', error);
+				console.error("Error fetching products:", error);
 			}
 		};
 
@@ -191,7 +189,6 @@ export default function ProductPage() {
 		fetchProducts();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []); // The empty dependency array ensures this useEffect runs only once, equivalent to componentDidMount
-
 
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -201,15 +198,11 @@ export default function ProductPage() {
 		onOpen();
 	}
 
-
 	function handleSearch(value: string) {
 		console.log("Search value:", value);
 		setSearchValue(value);
 
-		const updatedProducts = allProducts.filter((product) =>
-			product.name.toLowerCase().includes(value.toLowerCase())
-
-		);
+		const updatedProducts = allProducts.filter((product) => product.name.toLowerCase().includes(value.toLowerCase()));
 		setFilteredSearchProducts(updatedProducts.length > 0 ? updatedProducts : allProducts);
 	}
 
@@ -218,8 +211,6 @@ export default function ProductPage() {
 	const filterNames = ["CPU", "GPU", "RAM", "SSD", "HDD", "Power Supply", "Mother Board", "CPU Cooler", "Monitor"];
 
 	function handleTypeProduct(typeName: string | null) {
-
-
 		if (typeName === null) {
 			setSelectedTypeProduct(null);
 			setFilteredSearchProducts(allProducts);
@@ -240,10 +231,10 @@ export default function ProductPage() {
 	const saveToLocalStorage = (data: Product[]) => {
 		try {
 			const jsonData = JSON.stringify(data);
-			localStorage.setItem('compareData', jsonData);
-			console.log('Data saved to local storage:', jsonData);
+			localStorage.setItem("compareData", jsonData);
+			console.log("Data saved to local storage:", jsonData);
 		} catch (error) {
-			console.error('Error saving data to local storage:', error);
+			console.error("Error saving data to local storage:", error);
 		}
 	};
 
@@ -266,11 +257,14 @@ export default function ProductPage() {
 		// Save to local storage
 		// saveToLocalStorage(limitedSelectedProducts);
 		saveToLocalStorage(unlimitedSelectedProducts);
+
+		const compareItem = localStorage.getItem("compareData");
+		const totalCompare = Object.keys(JSON.parse(compareItem || "{}")).length;
+		setCompareCounts(totalCompare);
 	}
 
 	return (
 		<>
-
 			<SearchBarComponent onSearch={handleSearch} placeholder={"Product"} />
 
 			<div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
@@ -294,27 +288,40 @@ export default function ProductPage() {
 
 			<div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
 				{filteredSearchProducts.map((product, index) => (
-					<div key={index} style={{
-						width: "200px",
-						height: "350px",
-						flex: "0 0 auto",
-						boxSizing: "border-box",
-						padding: "10px",
-						margin: "10px",
-						boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
-					}}
+					<div
+						key={index}
+						style={{
+							width: "200px",
+							height: "350px",
+							flex: "0 0 auto",
+							boxSizing: "border-box",
+							padding: "10px",
+							margin: "10px",
+							boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+						}}
 					>
 						<p style={{ fontWeight: "bold" }} onClick={() => handleProductClick(product)}>
 							{product.name}
 						</p>
-						<p style={{ fontSize: "13px" }} onClick={() => handleProductClick(product)}>{product.description}</p>
-						<img src={product.image} alt={product.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} onClick={() => handleProductClick(product)} />
+						<p style={{ fontSize: "13px" }} onClick={() => handleProductClick(product)}>
+							{product.description}
+						</p>
+						<img
+							src={product.image}
+							alt={product.name}
+							style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }}
+							onClick={() => handleProductClick(product)}
+						/>
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
 							<div>
 								{product.price ? (
 									<div>
-										<p style={{ color: "#6B6B6B" }} onClick={() => handleProductClick(product)}>Estimate Price</p>
-										<p style={{ fontWeight: "bold" }} onClick={() => handleProductClick(product)}>{product.price}</p>
+										<p style={{ color: "#6B6B6B" }} onClick={() => handleProductClick(product)}>
+											Estimate Price
+										</p>
+										<p style={{ fontWeight: "bold" }} onClick={() => handleProductClick(product)}>
+											{product.price}
+										</p>
 									</div>
 								) : (
 									<p>No price available</p>
@@ -339,7 +346,11 @@ export default function ProductPage() {
 								<ModalHeader className="flex flex-col gap-1">{selectedProduct?.name}</ModalHeader>
 								<ModalBody>
 									<p style={{ fontSize: "13px" }}>{selectedProduct?.description}</p>
-									<img src={selectedProduct?.image} alt={selectedProduct?.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} />
+									<img
+										src={selectedProduct?.image}
+										alt={selectedProduct?.name}
+										style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }}
+									/>
 									<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
 										<div>
 											<p style={{ color: "#6B6B6B" }}>Estimate Price</p>

@@ -6,7 +6,7 @@ import AuthPopup from "@/components/main/auth/authPopup";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { LuHome } from "react-icons/lu";
 import { GoSearch } from "react-icons/go";
@@ -19,6 +19,7 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { VscSignOut } from "react-icons/vsc";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { CiSquareMore } from "react-icons/ci";
+import { CompareCountContext } from "@/app/(main)/layout";
 
 export default function NavComponent() {
 	const session = useSession();
@@ -26,6 +27,7 @@ export default function NavComponent() {
 	const isSession = session.status === "authenticated";
 	const pathname = usePathname();
 	const [toggleMenu, setToggleMenu] = useState(true);
+	const { compareCounts } = useContext(CompareCountContext);
 
 	function handleSignOut() {
 		if (pathname === "/profile" || pathname === "/following") {
@@ -143,12 +145,25 @@ export default function NavComponent() {
 
 					<Link href="/compare">
 						<Button
-							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
+							className={`w-full gap-4 text-xl font-bold justify-between bg-white text-black hover:bg-primary1-3 hover:text-white ${
 								pathname === "/compare" ? "bg-primary1-5 text-white" : ""
 							}`}
 						>
-							<GoArrowSwitch />
-							Compare
+							<div className="flex flex-row items-center gap-4 ">
+								<GoArrowSwitch />
+								Compare
+							</div>
+							{compareCounts > 0 ? (
+								<div
+									className={`bg-primary1-5 rounded-full h-full aspect-square flex items-center justify-center text-small ${
+										pathname === "/compare" ? "outline outline-1" : ""
+									}`}
+								>
+									{compareCounts}
+								</div>
+							) : (
+								<></>
+							)}{" "}
 						</Button>
 					</Link>
 				</div>
