@@ -16,7 +16,7 @@ const SaveButt: React.FC<SaveButtProps> = ({ selectedProduct}: {selectedProduct:
         } else {
             console.log('No product selected');
         };
-        //console.log('Saved!');
+        console.log('Saved!');
     };
 
     const saveSelectedProduct = (product: Product) => {

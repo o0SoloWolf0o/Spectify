@@ -286,7 +286,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 		setDisplayText(product.name)
 		setDisplayImage(product.image || defaultProductImage);
 		
-		const jsonArray = JSON.stringify(product);
+		const jsonArray = JSON.stringify(product.typeProduct);
 		localStorage.setItem('selectedProduct', jsonArray);
 		//const stri = localStorage.getItem('selectedProduct');
 		//const parsedArray = JSON.parse(stri);
