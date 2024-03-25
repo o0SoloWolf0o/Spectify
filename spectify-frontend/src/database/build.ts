@@ -29,3 +29,12 @@ export async function createBuild(userId: string, build: zod.infer<typeof buildS
 		throw e;
 	}
 }
+
+export async function getBuildById(buildId: string) {
+	const build = await prisma.build.findUnique({
+		where: {
+			id: buildId,
+		},
+	});
+	return build;
+}
