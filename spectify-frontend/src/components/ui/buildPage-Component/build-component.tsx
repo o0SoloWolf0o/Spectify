@@ -1,19 +1,12 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
-import ProductPopUp from '@/components/main/build/productPopup';
-import { Product } from "@/components/main/build/productPopup";
+import React, { useState, useEffect } from "react";
+import ProductPopUp, { Product } from "@/components/main/build/productPopup";
 
- interface BuildComponentProps {
-    onSelectProduct: (selectedProduct: Product) => void;
-}
-
-const BuildComponent: React.FC<BuildComponentProps> = ({ onSelectProduct }) => {
+const BuildComponent = () => {
     
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-    //const [selectedProducts, setSelectedProducts] = useState<Product | null>(null);
-    
+
     const handleSelectProduct = (selectedProduct: Product) => {
         setSelectedProducts(prevSelected => [...prevSelected, selectedProduct]);
     };

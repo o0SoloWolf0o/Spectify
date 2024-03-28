@@ -169,7 +169,6 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 	const [searchValue, setSearchValue] = useState("");
 	const [filteredSearchProducts, setFilteredSearchProducts] = useState<Product[]>([]);
 
-
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 	const[displayText, setDisplayText] = useState<string>('');
@@ -183,7 +182,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 			case "CPU":
 				getCpuProducts().then((data) => {
 					setAllProducts(data);
-					console.log("CPU products:", data);
+					console.log("CPU products:", allProducts);
 					setDisplayText('CPU');
 				});
 				break;
@@ -273,6 +272,8 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 
 	const [selectedProductInfo, setSelectedProductInfo] = useState<Product | null>(null);
 
+	//const [previousDisplayText, setPreviousDisplayText] = useState<string>("");
+
 	function handleProductClickInfo(product: Product) {
 		setSelectedProductInfo(product);
 		innerModalOpenHandler();
@@ -283,8 +284,9 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 		console.log("Selected product:", product);
 		// return here the selected
 		onSelectProduct(product);
-		setDisplayText(product.name)
+		setDisplayText(product.name);
 		setDisplayImage(product.image || defaultProductImage);
+		//setPreviousDisplayText(displayText);
 		
 		const jsonArray = JSON.stringify(product.typeProduct);
 		localStorage.setItem('selectedProduct', jsonArray);
@@ -307,10 +309,16 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }:  ProductP
 			<div onClick={() => {
 				handleSearch("");
 				outerModalOpenHandler();
-			}} className="flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
+			}} className="flex shadow-xl rounded-xl h-16 w-full bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
 					
-					<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
+					<img src={displayImage || defaultProductImage} style={{ marginRight: '1rem', height: '3.5rem', width: '3.5rem', }} />
 					<span className="flex items-center">{displayText}</span>
+					
+					{/* 
+					{selectedProduct && ( // Render the button only if selectedProduct is not null
+                		<div className='bg-black text-white' onClick={() => handleClearSelection()}>Clear Selection</div>
+					)}
+					*/}
 			</div>
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
