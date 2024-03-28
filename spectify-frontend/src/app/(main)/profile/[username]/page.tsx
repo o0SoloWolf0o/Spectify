@@ -35,15 +35,12 @@ export default function userProfilePage({
                 const user = await getUserByUsername(params.username);
                 setUser(user);
                 if (user) {
-                    getUserImg(user.id).then((res) => {
-                        setUserImg(res ?? "");
-                    });
-                    getFollowersCountById(user.id).then((res) => {
-                        setFollowersCount(res);
-                    });
-                    getFollowingCountById(user.id).then((res) => {
-                        setFollowingCount(res);
-                    });
+                    const img = await getUserImg(user.id);
+                    setUserImg(img ?? "");
+                    const followersCount = await getFollowersCountById(user.id);
+                    setFollowersCount(followersCount);
+                    const followingCount = await getFollowingCountById(user.id);
+                    setFollowingCount(followingCount);
                     setFetdata(false);
                 }
             } catch (error) {
