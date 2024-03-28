@@ -4,7 +4,7 @@ import { FaHeart } from "react-icons/fa";
 export default function BuildLikeComponent() {
 	return (
 		<>
-			<FaRegHeart />
+			<FaRegHeart className="hover:cursor-pointer" />
 		</>
 	);
 }
