@@ -61,3 +61,13 @@ export const getFollowersCount = async (userId: string) => {
         },
     });
 };
+
+export const getManyFollowing = async (userIds: string[]) => {
+    return await prisma.follow.findMany({
+        where: {
+            followerId: {
+                in: userIds,
+            },
+        },
+    });
+};
