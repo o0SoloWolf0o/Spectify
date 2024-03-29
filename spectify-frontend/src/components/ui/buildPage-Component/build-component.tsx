@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import ProductPopUp, { Product } from '@/components/main/build/productPopup';
 
 // Define a type for the selected products state
@@ -47,6 +47,18 @@ const BuildComponent = () => {
         });
     };
 
+    const calculateTotalPrice = () => {
+        return Object.values(selectedProducts).reduce((total, product) => {
+          // Ensure the product is not null and price is a number
+          if (product && !isNaN(Number(product.price))) {
+            return total + Number(product.price);
+          }
+          return total;
+        }, 0);
+    };
+
+    const totalPrice = useMemo(calculateTotalPrice, [selectedProducts]);
+
   // Render ProductPopUp components with the ability to select and deselect products
     return (
         <div className='grid grid-cols-1 grid-rows-8 gap-4 place-items-center m-5'>
@@ -64,7 +76,7 @@ const BuildComponent = () => {
         {/* ...other parts of the component */}
         <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
             <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
-                Total price:
+                Total price: ${totalPrice}
             </h2>
         </div>
         
