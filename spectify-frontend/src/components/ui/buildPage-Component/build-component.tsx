@@ -1,171 +1,75 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
-import ProductPopUp from '@/components/main/build/productPopup';
+import React, { useEffect, useState } from "react";
+import ProductPopUp, { Product } from '@/components/main/build/productPopup';
 
-type cpuProducts = {
-    id: string;
-    typeProduct: string;
-    name: string;
-    image: string;
-    type: string;
-    socket: string;
-    coreThreads: string;
-    year: string;
-    price: string;
-    tdp: string;
-    clock: string;
-    turbo: string;
-    description: string;
-}
-
-type ramProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    type: string;
-    kit: string;
-    description: string;
-    price: string;
-}
-
-type gpuProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    type: string;
-    performance: string;
-    architecture: string;
-    year: string;
-    series: string;
-    vram: string;
-    price: string;
-    tdp: string;
-    motherboardBus: string;
-    coreClock: string;
-    boostClock: string;
-    effectiveClock: string;
-    length: string;
-    coolingFans: string;
-    caseSlots: string;
-    frameSync: string;
-    description: string;
-}
-
-type moboProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    socket: string;
-    ramslot: string;
-    description: string;
-    price: string;
-}
-
-type hddProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    description: string;
-    price: string;
-}
-
-type ssdProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    type: string;
-    description: string;
-    price: string;
-}
-
-type cpuCoolerProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    socket: string;
-    description: string;
-    price: string;
-}
-
-type monitorProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    panelType: string;
-    resolution: string;
-    refreshRate: string;
-    size: string;
-    freesync: string;
-    gsync: string;
-    price: string;
-    description: string;
-}
-
-type psuProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    wattage: string;
-    description: string;
-    price: string;
-}
-
-type caseComputerProducts = {
-	typeProduct: string;
-	name: string;
-    image: string;
-    size: string;
-    isolation: string;
-    description: string;
-    price: string;
-}
-
-type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
+// Define a type for the selected products state
+type SelectedProducts = {
+  [key: string]: Product | null;
+};
 
 const BuildComponent = () => {
-    
-    const [selectedProductFromChild, setSelectedProductFromChild] = useState<Product | null>(null);
+  // Initialize state to store selected products by type
+    const [selectedProducts, setSelectedProducts] = useState<SelectedProducts>({
+    CPU: null,
+    MB: null,
+    RAM: null,
+    GPU: null,
+    SSD: null,
+    PSU: null,
+    Case: null,
+    Cooler: null,
+  });
 
-    const handleSelectProduct = (selectedProduct: Product) => {
-        setSelectedProductFromChild(selectedProduct);
+    useEffect(() => {
+        // Load the selected products from local storage on component mount
+        const loadedProducts = JSON.parse(localStorage.getItem('selectedProducts') || '{}');
+        setSelectedProducts(prev => ({ ...prev, ...loadedProducts }));
+    }, []);
+
+    // Store the selected product in local storage
+    const handleSelectProduct = (typeProduct: string, product: Product) => {
+        setSelectedProducts(prevProducts => {
+        
+            const newProducts = { ...prevProducts, [typeProduct]: product };
+            localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
+            return newProducts;
+        });
     };
 
+    // Remove a selected product from local storage
+    const handleDeselectProduct = (typeProduct: string) => {
+        setSelectedProducts(prevProducts => {
+        
+            const newProducts = { ...prevProducts, [typeProduct]: null };
+            localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
+            return newProducts;
+        });
+    };
+
+  // Render ProductPopUp components with the ability to select and deselect products
     return (
         <div className='grid grid-cols-1 grid-rows-8 gap-4 place-items-center m-5'>
-                    
-                    <ProductPopUp typeProduct="CPU" onSelectProduct={handleSelectProduct} />
+        
+        {Object.entries(selectedProducts).map(([type, product]) => (
+            <ProductPopUp
+            key={type}
+            typeProduct={type}
+            onSelectProduct={(product) => handleSelectProduct(type, product)}
+            onDeselectProduct={() => handleDeselectProduct(type)}
+            selectedProduct={product}
+            />
+        ))}
 
-                    <ProductPopUp typeProduct="MB" onSelectProduct={handleSelectProduct} />
-                    
-                    <ProductPopUp typeProduct="RAM" onSelectProduct={handleSelectProduct} />
-
-                    <ProductPopUp typeProduct="GPU" onSelectProduct={handleSelectProduct} />
-                   
-                    <ProductPopUp typeProduct="SSD" onSelectProduct={handleSelectProduct} />
-                   
-                    <ProductPopUp typeProduct="PSU" onSelectProduct={handleSelectProduct} />
-
-                    <ProductPopUp typeProduct="Case" onSelectProduct={handleSelectProduct} />
-
-                    <ProductPopUp typeProduct="Cooler" onSelectProduct={handleSelectProduct} />
-                 
-                    <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
-                        
-                        <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
-                            Total price:
-                        </h2>
-                    
-                    </div>
-                
-                </div>
+        {/* ...other parts of the component */}
+        <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
+            <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
+                Total price:
+            </h2>
+        </div>
+        
+        </div>
     );
-
 };
 
 export default BuildComponent;

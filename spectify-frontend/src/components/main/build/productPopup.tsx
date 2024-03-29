@@ -15,6 +15,7 @@ import { getCpuCoolerProducts } from "@/action/product";
 import { getMoboProducts } from "@/action/product";
 import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
+import BuildComponent from "@/components/ui/buildPage-Component/build-component";
 
 type cpuProducts = {
 	id: string;
@@ -138,29 +139,17 @@ type caseComputerProducts = {
 	price: string;
 }
 
-type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
+export type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
+
 
 interface ProductPopUpProps {
 	typeProduct: string;
-	onSelectProduct: (selectedProduct: Product) => void;
+	onSelectProduct: (product: Product) => void;
+	onDeselectProduct: () => void; // Add this line
+	selectedProduct: Product | null; 
 }
 
-{/* 
-const defaultProductImage = {
-	CPU: '',
-	GPU: '',
-	RAM: '',
-	SSD: '',
-	HDD: '',
-	MB: 'https://p7.hiclipart.com/preview/929/870/439/graphics-cards-video-adapters-computer-icons-motherboard-computer-hardware-motherboard.jpg',
-	PSU: '',
-	Monitor: '',
-	Cooler: '',
-	Case: ''
-};
-*/}
-
-export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPopUpProps) {
+export default function ProductPopUp({ typeProduct, onSelectProduct, onDeselectProduct, selectedProduct}: ProductPopUpProps) {
 
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	const [searchValue, setSearchValue] = useState("");
@@ -272,7 +261,6 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 		}
 	}
 
-
 	function handleSearch(value: string) {
 		// console.log("Search value:", value);
 		setSearchValue(value);
@@ -285,7 +273,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 
 	}
 
-	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+	//const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
 	const [selectedProductInfo, setSelectedProductInfo] = useState<Product | null>(null);
 
@@ -295,12 +283,29 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 	}
 
 	function handleProductClick(product: Product) {
-		setSelectedProduct(product);
+		//setSelectedProduct(product);
 		// console.log("Selected product:", product);
 		onSelectProduct(product);
 		setDisplayText(product.name)
 		setDisplayImage(product.image || defaultProductImage);
 	}
+
+	const handleDeselectClick = () => {
+		onDeselectProduct();
+		//setDisplayImage(defaultProductImage);
+		//setDisplayText(typeProduct)
+		// Reset any other internal state if necessary
+	};
+
+	useEffect(() => {
+		if (selectedProduct) {
+		  setDisplayImage(selectedProduct.image || defaultProductImage);
+		  setDisplayText(selectedProduct.name);
+		} else {
+		  setDisplayImage(defaultProductImage);
+		  setDisplayText(typeProduct);
+		}
+	}, [selectedProduct]);
 
 	const { isOpen: outerModalOpen, onOpen: outerModalOpenHandler, onOpenChange: outerModalOpenChangeHandler } = useDisclosure();
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
@@ -325,6 +330,10 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 
 				<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
 				<span className="flex items-center">{displayText}</span>
+				{selectedProduct && (
+        		<div onClick={handleDeselectClick} className="font-bold">
+          			Deselect
+        		</div>)}
 			</div>
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
@@ -422,4 +431,4 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 			</Modal>
 		</>
 	);
-}
+} 
