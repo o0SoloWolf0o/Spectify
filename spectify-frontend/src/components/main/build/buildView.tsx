@@ -152,10 +152,10 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 					)}
 				</div>
 				<div className="flex flex-col p-4 gap-4 shadow-md rounded-lg w-1/3 justify-between">
-					<p className="text-xl font-bold">Components</p>
 					{dataIsLoaded ? (
 						<>
 							<div className="flex flex-col w-full gap-4">
+								<p className="text-xl font-bold">Components</p>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
 									<img src={cpu?.image || ""} className="h-full aspect-square" />
 									<p>{cpu?.name}</p>
@@ -199,6 +199,7 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 					) : (
 						<>
 							<div className="flex flex-col w-full gap-4">
+								<p className="text-xl font-bold">Components</p>
 								<Button disabled className="bg-white shadow-lg p-0">
 									<Skeleton isLoaded={dataIsLoaded} disableAnimation className="h-full w-full rounded-lg" />
 								</Button>
