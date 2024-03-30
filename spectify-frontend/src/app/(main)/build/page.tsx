@@ -4,11 +4,13 @@ import React from 'react';
 import SaveButt from '@/components/ui/buildPage-Component/build-saveButton';
 import BuildComponent from '@/components/ui/buildPage-Component/build-component';
 import Generator from '@/components/ui/buildPage-Component/build-generator';
+import Performance from '@/components/ui/buildPage-Component/build-performance';
+
 
 export default function BuildPage() {
     
     return (
-        
+        <>
         <div className='grid grid-cols-3 grid-rows-4 gap-4 m-10 p-10'>
             
 
@@ -32,6 +34,7 @@ export default function BuildPage() {
             <div className='bg-white shadow-xl box-content row-span-2 col-start-3 row-start-1'>
                 
                 <h1 className='text-center mt-2 text-2xl font-semibold'>Performance</h1>
+                <Performance />
 
             </div>
             
@@ -46,6 +49,6 @@ export default function BuildPage() {
             </div>
                 
         </div>
-
+        </>
     );
 };

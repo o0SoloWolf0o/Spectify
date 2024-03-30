@@ -15,7 +15,6 @@ import { getCpuCoolerProducts } from "@/action/product";
 import { getMoboProducts } from "@/action/product";
 import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
-import BuildComponent from "@/components/ui/buildPage-Component/build-component";
 
 type cpuProducts = {
 	id: string;
@@ -34,6 +33,7 @@ type cpuProducts = {
 }
 
 type ramProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -45,6 +45,7 @@ type ramProducts = {
 }
 
 type gpuProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -68,6 +69,7 @@ type gpuProducts = {
 }
 
 type moboProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -79,6 +81,7 @@ type moboProducts = {
 }
 
 type hddProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -88,6 +91,7 @@ type hddProducts = {
 }
 
 type ssdProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -98,6 +102,7 @@ type ssdProducts = {
 }
 
 type cpuCoolerProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -107,6 +112,7 @@ type cpuCoolerProducts = {
 }
 
 type monitorProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -121,6 +127,7 @@ type monitorProducts = {
 }
 
 type psuProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -130,6 +137,7 @@ type psuProducts = {
 }
 
 type caseComputerProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -141,6 +149,15 @@ type caseComputerProducts = {
 
 export type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
 
+export type SelectedProductIDs = {
+	[key: string]: string | null;
+};
+
+export interface ProductContextType {
+	selectedProductIDs: SelectedProductIDs;
+	handleSelectProduct: (type: string, id: string) => void;
+	handleDeselectProduct: (type: string) => void;
+}
 
 interface ProductPopUpProps {
 	typeProduct: string;
@@ -149,7 +166,11 @@ interface ProductPopUpProps {
 	selectedProduct: Product | null; 
 }
 
-export default function ProductPopUp({ typeProduct, onSelectProduct, onDeselectProduct, selectedProduct}: ProductPopUpProps) {
+export default function ProductPopUp({ 
+	typeProduct, 
+	onSelectProduct, 
+	onDeselectProduct, 
+	selectedProduct}: ProductPopUpProps) {
 
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	const [searchValue, setSearchValue] = useState("");
@@ -277,35 +298,49 @@ export default function ProductPopUp({ typeProduct, onSelectProduct, onDeselectP
 
 	const [selectedProductInfo, setSelectedProductInfo] = useState<Product | null>(null);
 
+	const [selectedProductIDs, setSelectedProductIDs] = useState<{
+		[key: string]: string | null;
+	  }>({});
+
 	function handleProductClickInfo(product: Product) {
+		
 		setSelectedProductInfo(product);
 		innerModalOpenHandler();
 	}
 
 	function handleProductClick(product: Product) {
-		//setSelectedProduct(product);
-		// console.log("Selected product:", product);
+
 		onSelectProduct(product);
 		setDisplayText(product.name)
 		setDisplayImage(product.image || defaultProductImage);
 	}
 
 	const handleDeselectClick = () => {
+		
 		onDeselectProduct();
-		//setDisplayImage(defaultProductImage);
-		//setDisplayText(typeProduct)
-		// Reset any other internal state if necessary
 	};
 
 	useEffect(() => {
 		if (selectedProduct) {
 		  setDisplayImage(selectedProduct.image || defaultProductImage);
 		  setDisplayText(selectedProduct.name);
+		  //console.log("Gay af: {}", selectedProduct.id);
+		  setSelectedProductIDs(prevIDs => ({
+			...prevIDs,
+			[typeProduct]: selectedProduct.id
+		  }));
 		} else {
 		  setDisplayImage(defaultProductImage);
-		  setDisplayText(typeProduct);
+		  setSelectedProductIDs(prevIDs => ({
+			...prevIDs,
+			[typeProduct]: null
+		  }));
 		}
-	}, [selectedProduct]);
+	}, [selectedProduct, typeProduct]);
+
+	useEffect(() => {
+		console.log("Selected Product IDs:", selectedProductIDs);
+	}, [selectedProductIDs]);
 
 	const { isOpen: outerModalOpen, onOpen: outerModalOpenHandler, onOpenChange: outerModalOpenChangeHandler } = useDisclosure();
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
@@ -317,8 +352,6 @@ export default function ProductPopUp({ typeProduct, onSelectProduct, onDeselectP
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [outerModalOpen, typeProduct]);
-
-
 
 	return (
 		<>

@@ -2,15 +2,15 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import ProductPopUp, { Product } from '@/components/main/build/productPopup';
+//import { useProductContext } from "./ProductContext";
 
-// Define a type for the selected products state
-type SelectedProducts = {
+export type SelectedProducts = {
   [key: string]: Product | null;
 };
 
 const BuildComponent = () => {
-  // Initialize state to store selected products by type
-    const [selectedProducts, setSelectedProducts] = useState<SelectedProducts>({
+
+  const [selectedProducts, setSelectedProducts] = useState<SelectedProducts>({
     CPU: null,
     MB: null,
     RAM: null,
@@ -22,12 +22,10 @@ const BuildComponent = () => {
   });
 
     useEffect(() => {
-        // Load the selected products from local storage on component mount
         const loadedProducts = JSON.parse(localStorage.getItem('selectedProducts') || '{}');
         setSelectedProducts(prev => ({ ...prev, ...loadedProducts }));
     }, []);
 
-    // Store the selected product in local storage
     const handleSelectProduct = (typeProduct: string, product: Product) => {
         setSelectedProducts(prevProducts => {
         
@@ -37,10 +35,9 @@ const BuildComponent = () => {
         });
     };
 
-    // Remove a selected product from local storage
     const handleDeselectProduct = (typeProduct: string) => {
-        setSelectedProducts(prevProducts => {
         
+      setSelectedProducts(prevProducts => {
             const newProducts = { ...prevProducts, [typeProduct]: null };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             return newProducts;
