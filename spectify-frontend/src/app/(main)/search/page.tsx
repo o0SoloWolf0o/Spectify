@@ -51,10 +51,12 @@ export default function SearchUserPage() {
 	return (
 		<>
 			<SearchBarComponent onSearch={handleSearch} placeholder={"Username"} />
-				<div className="flex justify-start mt-6">
+				<div className="grid justify-start mt-6 grid-cols-3 md:grid-cols-6 gap-4">
 					{user?.map((user) => (
-						<div key={user.id} className="ml-6">
+						<div key={user.id}>
+							<div className="flex justify-center">
 							<Link href={`/profile/${user?.username}`}><Avatar src={user.image} alt="user img" className="w-44 h-44"/></Link>
+							</div>
 							<p className="flex justify-center">{user.username}</p>
 							<div className="flex justify-center">
 							{sessionUser && sessionUser.id !== user.id && (
