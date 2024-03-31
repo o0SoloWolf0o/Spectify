@@ -1,31 +1,66 @@
+"use client";
 import { getUserByUsername } from "@/database/user";
 import {Avatar, Button} from "@nextui-org/react";
 import Link from "next/link";
 import TabComponent from "@/components/main/profile/tab";
-import { userDetail } from "@/hooks/userDetail";
-import { getUserImgById} from "@/database/userDetail";
+import { getUserImg } from "@/action/updateProfile";
 import FollowButton from "@/components/main/profile/followButton";
-import FollowersCount from "@/components/main/profile/followerCount";
-import FollowingCount from "@/components/main/profile/followingCount";
+import { getFollowersCountById, getFollowingCountById } from "@/action/follow";
+import { useState, useEffect} from "react";
+import { useSession } from "next-auth/react";
 
 
-export default async function userProfilePage({
+
+
+export default function userProfilePage({
     params, 
 }:{
     params: {
         username: string;
     };
 }) {
-    const user = await getUserByUsername(params.username);
-    const userImg = await getUserImgById(user?.id ?? "");
-    const sessionUser = await userDetail();
-    const isOwner = user?.id === sessionUser?.id;
 
-    if (!user) {
-        return <p>User not found.</p>;
+    const session = useSession();
+    const sessionUser = session?.data?.user;
+    const [user, setUser] = useState<any>();
+    const isOwner = user?.id === sessionUser?.id;
+    const [userImg, setUserImg] = useState<string>();
+    const [followersCount, setFollowersCount] = useState(0);
+    const [followingCount, setFollowingCount] = useState(0);
+    const [isFetching, setFetdata] = useState(true);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const user = await getUserByUsername(params.username);
+                setUser(user);
+                if (user) {
+                    const img = await getUserImg(user.id);
+                    setUserImg(img ?? "");
+                    const followersCount = await getFollowersCountById(user.id);
+                    setFollowersCount(followersCount);
+                    const followingCount = await getFollowingCountById(user.id);
+                    setFollowingCount(followingCount);
+                    setFetdata(false);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchUser();
+    }
+    , [params.username]);
+
+
+    if (isFetching) {
+        return <div>Loading...</div>;
     }
 
+    if (!user) {
+        return <div>User not found</div>;
+    }
 
+   
   return (
     <>
     <div className="flex justify-center">
@@ -44,7 +79,9 @@ export default async function userProfilePage({
                 )}
                 {!isOwner && (
                     <div className="ml-16 mt-6">
-                        <FollowButton userId={user.id} />
+                        <FollowButton userId={user.id} onUpdateFollowCount={(increment)=>
+                            increment ? setFollowersCount(followersCount + 1) : setFollowersCount(followersCount - 1)
+                        }  />
                     </div>
                 )}
             </div>
@@ -60,8 +97,8 @@ export default async function userProfilePage({
             <div className="flex justify-between mt-10 text-lg font-bold">
                 <div className="flex items-start">
                     <p className="mr-12">0 Build</p>
-                    <p className="mr-12"> <FollowersCount userId={user.id} /></p>                
-                    <p className="mr-12"> <FollowingCount userId={user.id}/></p>
+                    <p className="mr-12">{followersCount} Followers</p>                
+                    <p className="mr-12">{followingCount} Following</p>
                 </div>
                 {/* <div className="flex items-end">
                     <p className="mr-12">Current spec</p>

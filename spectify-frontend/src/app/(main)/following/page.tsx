@@ -1,7 +1,14 @@
+"use client";
+import FollowingComponent from "@/components/following/following";
+import { useState } from "react";
+import Link from "next/link";
 export default function FollowingPage() {
+    const [limit] = useState(5);
     return (
-        <>
-            <h1>Following</h1>
-        </>
+       <>
+       <div className="">
+            <FollowingComponent limit={limit} />
+        </div>
+       </>  
     );
 }
