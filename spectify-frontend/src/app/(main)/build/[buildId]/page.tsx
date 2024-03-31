@@ -15,7 +15,7 @@ export default function BuildPage({
 		<>
 			<div className="flex items-center justify-center h-screen">
 				<div className="w-full h-full">
-					<BuildViewComponent buildId="cltu22cwt000e4kfpb6k1gbwa" />
+					<BuildViewComponent buildId={buildId} />
 				</div>
 			</div>
 		</>
