@@ -24,7 +24,8 @@ type cpuProducts = {
 	image: string;
 	type: string;
 	socket: string;
-	coreThreads: string;
+	core: string;
+	thread: string;
 	year: string;
 	price: string;
 	tdp: string;
@@ -339,7 +340,7 @@ export default function ProductPage() {
 					</div>
 				))}
 
-				<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+				<Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"xl"} >
 					<ModalContent>
 						{(onClose) => (
 							<>
@@ -358,17 +359,6 @@ export default function ProductPage() {
 										</div>
 									</div>
 								</ModalBody>
-								<ModalFooter>
-									{/* 
-									<Button color="danger" variant="light" onPress={onClose}>
-										Close
-									</Button>
-
-									<Button color="primary" onPress={onClose}>
-										Action
-									</Button>
-									*/}
-								</ModalFooter>
 							</>
 						)}
 					</ModalContent>

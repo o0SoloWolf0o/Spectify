@@ -11,7 +11,8 @@ type cpuProducts = {
     image: string;
     type: string;
     socket: string;
-    coreThreads: string;
+    core: string;
+    thread: string;
     year: string;
     price: string;
     tdp: string;

@@ -1,7 +1,10 @@
 "use client";
 
+import React from "react";
 import { useState } from "react";
-import ProductPopUp from '@/components/main/build/productPopup';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import Image from 'next/image';
+import { color } from "framer-motion";
 
 type cpuProducts = {
     id: string;
@@ -119,32 +122,65 @@ type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProdu
 
 
 export default function App() {
-    const [selectedProductFromChild, setSelectedProductFromChild] = useState<Product | null>(null);
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const handleSelectProduct = (selectedProduct: Product) => {
-        setSelectedProductFromChild(selectedProduct);
-    };
+
 
     return (
         <>
-            <ProductPopUp typeProduct="CPU" onSelectProduct={handleSelectProduct} />
-
-            {selectedProductFromChild && (
-                <div>
-                    <p>Selected Product in Parent Component:</p>
-                    <pre>{JSON.stringify(selectedProductFromChild, null, 2)}</pre>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                    <h1>title</h1>
+                    <p style={{ fontSize: '13px' }}>brand</p>
+                    <Image
+                        src="/spectify-frontend/public/images/Logo.png"
+                        alt="Product"
+                        width={200}
+                        height={200}
+                        style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
+                    />
+                    <div style={{ marginTop: '7px' }}>
+                        <p style={{ color: '#6B6B6B' }}>Estimate Price</p>
+                        <p style={{ fontWeight: 'bold' }}>price THB</p>
+                    </div>
                 </div>
-            )}
-
-
-            <ProductPopUp typeProduct="RAM" onSelectProduct={handleSelectProduct} />
-
-            {selectedProductFromChild && (
-                <div>
-                    <p>Selected Product in Parent Component:</p>
-                    <pre>{JSON.stringify(selectedProductFromChild, null, 2)}</pre>
+                <div style={{ background: "#DCF1FB", flex: 1, padding: '20px' }}>
+                    <h1>description</h1>
                 </div>
-            )}
+            </div>
+
+            <Button onPress={onOpen}>Open Modal</Button>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                            <ModalBody>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                        <h1>title</h1>
+                                        <p style={{ fontSize: '13px' }}>brand</p>
+                                        <Image
+                                            src="/spectify-frontend/public/images/Logo.png"
+                                            alt="Product"
+                                            width={200}
+                                            height={200}
+                                            style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
+                                        />
+                                        <div style={{ marginTop: '7px' }}>
+                                            <p style={{ color: '#6B6B6B' }}>Estimate Price</p>
+                                            <p style={{ fontWeight: 'bold' }}>price THB</p>
+                                        </div>
+                                    </div>
+                                    <div style={{ background: "#DCF1FB", flex: 1, marginLeft: '20px', padding: '20px' }}>
+                                        <h1>description</h1>
+                                    </div>
+                                </div>
+                            </ModalBody>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
 
 
         </>
