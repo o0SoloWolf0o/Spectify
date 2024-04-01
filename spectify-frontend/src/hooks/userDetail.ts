@@ -1,3 +1,5 @@
+"use server";
+
 import { auth } from "@/auth/auth";
 import { ExtendedUser } from "@/auth/auth.module";
 
