@@ -52,6 +52,10 @@ export async function getCpuProduct() {
     }
 }
 
+export async function getCpuProductById(id: string) {
+	return await prisma.cpu.findUnique({ where: { id } });
+}
+
 export async function updateCpuProductById(id: string,
     typeProduct: string,
     name: string,
