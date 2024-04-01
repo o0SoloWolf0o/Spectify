@@ -440,7 +440,6 @@ export default function ProductPage() {
 									<p>Size: {(selectedProduct as monitorProducts).size}</p>
 									<p>FreeSync: {(selectedProduct as monitorProducts).freesync}</p>
 									<p>G-Sync: {(selectedProduct as monitorProducts).gsync}</p>
-
 								</div>
 							)}
 							
