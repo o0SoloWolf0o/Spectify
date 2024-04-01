@@ -124,7 +124,8 @@ model cpu {
     image   String
     type    String
     socket  String
-    coreThreads String
+    core    String
+    thread  String
     year    String
     price   String
     tdp    String
