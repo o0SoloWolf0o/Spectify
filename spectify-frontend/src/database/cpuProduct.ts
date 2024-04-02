@@ -49,6 +49,15 @@ export async function getCpuProduct() {
 	}
 }
 
+export async function getCpuProducts() {
+	try {
+		const cpu = await prisma.cpu.findMany();
+		return cpu;
+	} catch (err) {
+		throw new Error(err as string);
+	}
+}
+
 export async function getCpuProductById(id: string) {
 	try {
 		const cpu = await prisma.cpu.findUnique({ where: { id } });

@@ -30,6 +30,15 @@ export async function getPsuProduct() {
 	}
 }
 
+export async function getPsuProducts() {
+	try {
+		const psu = await prisma.psu.findMany();
+		return psu;
+	} catch (err) {
+		throw new Error(err as string);
+	}
+}
+
 export async function getPsuProductById(id: string) {
 	try {
 		const psu = await prisma.psu.findUnique({ where: { id } });

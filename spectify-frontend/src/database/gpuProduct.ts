@@ -65,6 +65,15 @@ export async function getGpuProduct() {
 	}
 }
 
+export async function getGpuProducts() {
+	try {
+		const gpu = await prisma.gpu.findMany();
+		return gpu;
+	} catch (err) {
+		throw new Error(err as string);
+	}
+}
+
 export async function getGpuProductById(id: string) {
 	try {
 		const gpu = await prisma.gpu.findUnique({ where: { id } });

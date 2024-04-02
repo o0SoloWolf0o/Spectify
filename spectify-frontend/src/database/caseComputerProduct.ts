@@ -39,6 +39,15 @@ export async function getCaseComputer() {
 	}
 }
 
+export async function getCaseComputers() {
+	try {
+		const caseComputer = await prisma.caseComputer.findMany();
+		return caseComputer;
+	} catch (err) {
+		throw new Error(err as string);
+	}
+}
+
 export async function getCaseComputerById(id: string) {
 	try {
 		const caseComputer = await prisma.caseComputer.findUnique({ where: { id } });

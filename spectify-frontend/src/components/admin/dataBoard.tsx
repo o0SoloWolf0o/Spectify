@@ -1,15 +1,15 @@
 "use client";
 
-import { getCpuProduct, getCpuProductById } from "@/database/cpuProduct";
-import { getMoboProduct, getMoboProductById } from "@/database/moboProduct";
+import { getCpuProductById, getCpuProducts } from "@/database/cpuProduct";
+import { getMoboProductById, getMoboProducts } from "@/database/moboProduct";
 import { useEffect, useState } from "react";
 import SearchBarComponentAdmin from "./searchBar";
-import { getRamProduct, getRamProductById } from "@/database/ramProduct";
-import { getGpuProduct, getGpuProductById } from "@/database/gpuProduct";
-import { getSsdProduct, getSsdProductById } from "@/database/ssdProduct";
-import { getPsuProduct, getPsuProductById } from "@/database/psuProduct";
-import { getCaseComputer, getCaseComputerById } from "@/database/caseComputerProduct";
-import { getCpuCooler, getCpuCoolerById } from "@/database/cpuCoolerProduct";
+import { getRamProductById, getRamProducts } from "@/database/ramProduct";
+import { getGpuProductById, getGpuProducts } from "@/database/gpuProduct";
+import { getSsdProductById, getSsdProducts } from "@/database/ssdProduct";
+import { getPsuProductById, getPsuProducts } from "@/database/psuProduct";
+import { getCaseComputerById, getCaseComputers } from "@/database/caseComputerProduct";
+import { getCpuCoolerById, getCpuCoolers } from "@/database/cpuCoolerProduct";
 
 type TProps = {
 	model: "cpu" | "mobo" | "ram" | "gpu" | "ssd" | "psu" | "case" | "cooler";
@@ -28,28 +28,28 @@ export default function DataBoard({ model }: TProps) {
 		setIsLoaded(false);
 		switch (model) {
 			case "cpu":
-				newData = id ? [await getCpuProductById(id)] : await getCpuProduct();
+				newData = id ? [await getCpuProductById(id)] : await getCpuProducts();
 				break;
 			case "mobo":
-				newData = id ? [await getMoboProductById(id)] : await getMoboProduct();
+				newData = id ? [await getMoboProductById(id)] : await getMoboProducts();
 				break;
 			case "ram":
-				newData = id ? [await getRamProductById(id)] : await getRamProduct();
+				newData = id ? [await getRamProductById(id)] : await getRamProducts();
 				break;
 			case "gpu":
-				newData = id ? [await getGpuProductById(id)] : await getGpuProduct();
+				newData = id ? [await getGpuProductById(id)] : await getGpuProducts();
 				break;
 			case "ssd":
-				newData = id ? [await getSsdProductById(id)] : await getSsdProduct();
+				newData = id ? [await getSsdProductById(id)] : await getSsdProducts();
 				break;
 			case "psu":
-				newData = id ? [await getPsuProductById(id)] : await getPsuProduct();
+				newData = id ? [await getPsuProductById(id)] : await getPsuProducts();
 				break;
 			case "case":
-				newData = id ? [await getCaseComputerById(id)] : await getCaseComputer();
+				newData = id ? [await getCaseComputerById(id)] : await getCaseComputers();
 				break;
 			case "cooler":
-				newData = id ? [await getCpuCoolerById(id)] : await getCpuCooler();
+				newData = id ? [await getCpuCoolerById(id)] : await getCpuCoolers();
 				break;
 			default:
 				newData = [];
@@ -68,40 +68,46 @@ export default function DataBoard({ model }: TProps) {
 			<div className="w-full">
 				<SearchBarComponentAdmin onSearch={handleSearch} placeholder="Search ID" className="w-1/4" />
 			</div>
-			<div className="w-full h-full overflow-x-scroll">
+			<div className="w-full h-full overflow-y-scroll">
 				{isLoaded ? (
 					<>
 						<div className="pt-14">
-							{data && data.length > 0 && (
-								<table className="min-w-full divide-y divide-gray-200">
-									<thead className="bg-gray-50">
-										<tr>
-											{Object.keys(data[0]).map((key) => (
-												<th
-													key={key}
-													scope="col"
-													className="px-6 py-3 text-left text-xs font-medium border-r text-gray-500 uppercase tracking-wider"
-												>
-													{key}
-												</th>
-											))}
-										</tr>
-									</thead>
-									<tbody className="bg-white divide-y divide-gray-200">
-										{data.map((item: any, index: number) => (
-											<tr key={index}>
-												{Object.keys(item).map((key) => (
-													<td
+							{data && data.length > 0 ? (
+								<div className="overflow-x-auto">
+									<table className="min-w-full divide-y divide-gray-200">
+										<thead className="bg-gray-100">
+											<tr className="text-left">
+												{Object.keys(data[0]).map((key) => (
+													<th
 														key={key}
-														className="px-6 py-4 whitespace-nowrap max-w-xs overflow-hidden overflow-ellipsis border-r border-gray-200"
+														scope="col"
+														className="px-6 py-3 text-xs font-semibold border-r border-gray-200 text-gray-800 uppercase tracking-wider"
 													>
-														<div className="text-sm text-gray-900">{item[key]}</div>
-													</td>
+														{key}
+													</th>
 												))}
 											</tr>
-										))}
-									</tbody>
-								</table>
+										</thead>
+										<tbody className="bg-white divide-y divide-gray-200">
+											{data.map((item: any, index: any) => (
+												<tr key={index} className="transition-all hover:bg-gray-50">
+													{Object.keys(item).map((key) => (
+														<td
+															key={key}
+															className="px-6 py-4 whitespace-nowrap max-w-xs overflow-hidden overflow-ellipsis border-r border-gray-200 text-gray-800"
+														>
+															<div className="text-sm">{item[key]}</div>
+														</td>
+													))}
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							) : (
+								<div className="flex items-center justify-center h-64">
+									<p className="text-gray-500 text-lg">No data available</p>
+								</div>
 							)}
 						</div>
 					</>
