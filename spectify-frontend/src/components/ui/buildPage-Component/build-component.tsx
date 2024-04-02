@@ -1,172 +1,103 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
-import ProductPopUp from '@/components/main/build/productPopup';
+import React, { useEffect, useState, useMemo, FC } from "react";
+import ProductPopUp, { Product } from '@/components/main/build/productPopup';
 
-type cpuProducts = {
-    id: string;
-    typeProduct: string;
-    name: string;
-    image: string;
-    type: string;
-    socket: string;
-    core: string;
-    thread: string;
-    year: string;
-    price: string;
-    tdp: string;
-    clock: string;
-    turbo: string;
-    description: string;
-}
+export type SelectedProducts = {
+  [key: string]: Product | null;
+};
 
-type ramProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    type: string;
-    kit: string;
-    description: string;
-    price: string;
-}
+// const getProductImageSrc: (typeProduct: keyof SelectedProducts) => string = (typeProduct) => {
+//   const images: { [key in keyof SelectedProducts]: string } = {
+//     CPU: 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png',
+//     GPU: 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png',
+//     // Define paths for other product types...
+//     MB: 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png',
+//     RAM: 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png',
+//     SSD: 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png',
+//     PSU: 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png',
+//     Case: 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png',
+//     Cooler: 'https://cdn4.iconfinder.com/data/icons/computer-hardware-and-devices-1/512/cpu-512.png',
+//   };
+//   return images[typeProduct] || '';
+// };
 
-type gpuProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    type: string;
-    performance: string;
-    architecture: string;
-    year: string;
-    series: string;
-    vram: string;
-    price: string;
-    tdp: string;
-    motherboardBus: string;
-    coreClock: string;
-    boostClock: string;
-    effectiveClock: string;
-    length: string;
-    coolingFans: string;
-    caseSlots: string;
-    frameSync: string;
-    description: string;
-}
+const BuildComponent: FC = () => {
 
-type moboProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    socket: string;
-    ramslot: string;
-    description: string;
-    price: string;
-}
+  const [selectedProducts, setSelectedProducts] = useState<SelectedProducts>({
+    CPU: null,
+    MB: null,
+    RAM: null,
+    GPU: null,
+    SSD: null,
+    PSU: null,
+    Case: null,
+    Cooler: null,
+  });
 
-type hddProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    description: string;
-    price: string;
-}
+  useEffect(() => {
+      const loadedProducts = JSON.parse(localStorage.getItem('selectedProducts') || '{}');
+      setSelectedProducts(prev => ({ ...prev, ...loadedProducts }));
+  }, []);
 
-type ssdProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    size: string;
-    type: string;
-    description: string;
-    price: string;
-}
-
-type cpuCoolerProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    socket: string;
-    description: string;
-    price: string;
-}
-
-type monitorProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    panelType: string;
-    resolution: string;
-    refreshRate: string;
-    size: string;
-    freesync: string;
-    gsync: string;
-    price: string;
-    description: string;
-}
-
-type psuProducts = {
-    typeProduct: string;
-    name: string;
-    image: string;
-    wattage: string;
-    description: string;
-    price: string;
-}
-
-type caseComputerProducts = {
-	typeProduct: string;
-	name: string;
-    image: string;
-    size: string;
-    isolation: string;
-    description: string;
-    price: string;
-}
-
-type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
-
-const BuildComponent = () => {
+  const handleSelectProduct = (typeProduct: string, product: Product) => {
     
-    const [selectedProductFromChild, setSelectedProductFromChild] = useState<Product | null>(null);
+    setSelectedProducts(prevProducts => {
+      const newProducts = { ...prevProducts, [typeProduct]: product };
+        localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
+        localStorage.setItem(typeProduct, product.id);
+        return newProducts;
+      });
+  };
 
-    const handleSelectProduct = (selectedProduct: Product) => {
-        setSelectedProductFromChild(selectedProduct);
-    };
+  const handleDeselectProduct = (typeProduct: string) => {
+        
+    setSelectedProducts(prevProducts => {
+      const newProducts = { ...prevProducts, [typeProduct]: null };
+        localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
+        localStorage.removeItem(typeProduct);
+        return newProducts;
+      });
+  };
 
-    return (
-        <div className='grid grid-cols-1 grid-rows-8 gap-4 place-items-center m-5'>
-                    
-                    <ProductPopUp typeProduct="CPU" onSelectProduct={handleSelectProduct} />
+  const calculateTotalPrice = () => {
+    return Object.values(selectedProducts).reduce((total, product) => {
+          // Ensure the product is not null and price is a number
+    if (product && !isNaN(Number(product.price))) {
+      return total + Number(product.price);
+    }
+      return total;
+      }, 0);
+  };
 
-                    <ProductPopUp typeProduct="MB" onSelectProduct={handleSelectProduct} />
-                    
-                    <ProductPopUp typeProduct="RAM" onSelectProduct={handleSelectProduct} />
+  const totalPrice = useMemo(calculateTotalPrice, [selectedProducts]);
 
-                    <ProductPopUp typeProduct="GPU" onSelectProduct={handleSelectProduct} />
-                   
-                    <ProductPopUp typeProduct="SSD" onSelectProduct={handleSelectProduct} />
-                   
-                    <ProductPopUp typeProduct="PSU" onSelectProduct={handleSelectProduct} />
+  // Render ProductPopUp components with the ability to select and deselect products
+  return (
+    <>
+      <div className='grid grid-cols-1 grid-rows-8 gap-4 place-items-center m-5'>
+        {Object.entries(selectedProducts).map(([type, product]) => (
+          <ProductPopUp
+            key={type}
+            typeProduct={type}
+            onSelectProduct={(product) => handleSelectProduct(type, product)}
+            onDeselectProduct={() => handleDeselectProduct(type)}
+            selectedProduct={product}
+          />
+        ))}
 
-                    <ProductPopUp typeProduct="Case" onSelectProduct={handleSelectProduct} />
 
-                    <ProductPopUp typeProduct="Cooler" onSelectProduct={handleSelectProduct} />
-                 
-                    <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
-                        
-                        <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
-                            Total price:
-                        </h2>
-                    
-                    </div>
-                
-                </div>
-    );
-
+          {/* ...other parts of the component */}
+        <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
+          <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
+            Total price: ${totalPrice}
+          </h2>
+        </div>
+        
+      </div>
+    </>
+  );
 };
 
 export default BuildComponent;
+
