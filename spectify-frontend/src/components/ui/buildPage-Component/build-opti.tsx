@@ -8,7 +8,7 @@ const Optimization = () => {
     
     return (
         <>
-            wwwww
+            
         </>
     );
 };

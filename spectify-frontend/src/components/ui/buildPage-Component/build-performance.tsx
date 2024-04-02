@@ -6,7 +6,7 @@ const Performance = () => {
     
     return (
         <>
-        wwwwwww
+        
         </>
     );
 };
