@@ -38,3 +38,12 @@ export async function getBuildById(buildId: string) {
 	});
 	return build;
 }
+
+export const getBuildByUserId = async (user_id: string) => {
+	return await prisma.build.findMany({
+		where: {
+			user_id: user_id,
+		},
+	});
+}
+	
