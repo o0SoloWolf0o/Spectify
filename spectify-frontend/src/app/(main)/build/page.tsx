@@ -28,9 +28,9 @@ export default function BuildPage() {
             
 
             <div className='bg-white shadow-xl box-content row-span-2'>
-                
-            <Visualization selectedProducts={selectedProducts} />
-     
+
+                <Visualization selectedProducts={selectedProducts} />
+
             </div>
             
             <div className='bg-white shadow-xl box-content row-span-2 col-start-1 row-start-3 justify-center flex-row'>
@@ -42,6 +42,7 @@ export default function BuildPage() {
             <div className='bg-white shadow-xl box-content row-span-4 col-start-2 row-start-1'>
                 
                 <h1 className='text-center mt-2 text-2xl font-semibold'>Components</h1>
+                
                 <BuildComponent 
                   selectedProducts={selectedProducts} 
                   setSelectedProducts={setSelectedProducts} 
@@ -64,7 +65,9 @@ export default function BuildPage() {
             </div>
             
             <div className='grid grid-cols-1 grid-rows-1 gap-0 mx-5'>
-                 <SaveBuildComponent className='rounded-xl bg-[#00A9FF] text-white text-2xl font-semibold'/> 
+                
+                <SaveBuildComponent className='rounded-xl bg-[#00A9FF] text-white text-2xl font-semibold'/>
+                
             </div>
                 
         </div>
