@@ -1,33 +1,52 @@
 "use client";
 
-import React from 'react';
-import { useSelectedProducts } from './selectedProductsContext';
+import React, {useState} from 'react';
+import { SelectedProducts } from './build-component';
 
-const productTypeToImageUrl: { [type: string]: string } = {
-    CPU: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
-    GPU: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
-    MB: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
-    RAM: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
-    SSD: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
-    PSU: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
-    Case: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
-    Cooler: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
+type ProductImageMap = { [key in keyof SelectedProducts]: string };
+
+const productTypeToImageUrl: ProductImageMap = {  
+
+  CPU: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
+  GPU: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
+  MB: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
+  RAM: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
+  SSD: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
+  PSU: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
+  Case: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
+  Cooler: 'https://www.nextstepreborn.co.th/wp-content/uploads/2022/01/cover-i5-6500-png-resize.png',
 
 };
 
-const Visualization = () => {
-  const { selectedProducts } = useSelectedProducts();
+interface VisualizationProps {
+  selectedProducts: SelectedProducts;
+}
+
+const Visualization: React.FC<VisualizationProps> = ({ selectedProducts }) => {
+  
+  const safeSelectedProducts = selectedProducts || {};
 
   return (
-    <div>
-      {Object.entries(selectedProducts).map(([type, product]) => {
-        if (!product) return null; // If no product is selected for this type, don't render anything.
-        const imageUrl: string = productTypeToImageUrl[type];
+    
+    <div className="flex flex-nowrap justify-center items-center">
+      
+      {Object.entries(safeSelectedProducts).map(([type, product]) => {
+        
+        if (!product) return null;
+        const imageUrl = productTypeToImageUrl[type as keyof SelectedProducts];
         return (
-          <img key={type} src={imageUrl} alt={type} style={{ width: 100, height: 100 }} />
+          
+          <img 
+            key={type} 
+            src={imageUrl} 
+            alt={type} 
+            style={{ width: '50px', height: '50px' }} 
+          />
+        
         );
       })}
     </div>
+  
   );
 };
 

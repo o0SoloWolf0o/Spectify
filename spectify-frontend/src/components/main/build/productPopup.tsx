@@ -1,10 +1,8 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useEffect, useState } from "react";
 import SearchBarComponent from "@/components/main/searchBar";
-import Image from "next/image";
+//import Image from "next/image";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { getCaseComputersProducts, getCpuProducts } from "@/action/product";
 import { getRamProducts } from "@/action/product";
@@ -295,13 +293,9 @@ export default function ProductPopUp({
 
 	}
 
-	//const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
 	const [selectedProductInfo, setSelectedProductInfo] = useState<Product | null>(null);
 
-	const [selectedProductIDs, setSelectedProductIDs] = useState<{
-		[key: string]: string | null;
-	  }>({});
+	const [selectedProductIDs, setSelectedProductIDs] = useState<{ [key: string]: string | null; }>({});
 
 	function handleProductClickInfo(product: Product) {
 		
@@ -351,7 +345,6 @@ export default function ProductPopUp({
 			fetchData(typeProduct);
 
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [outerModalOpen, typeProduct]);
 
 	return (

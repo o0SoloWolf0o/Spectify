@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import AuthPopup from "@/components/main/auth/authPopup";
 import AuthErrorComponent from "@/components/main/auth/authError";
-import ProductPopUp, { Product } from "./productPopup";
 
 interface IsaveBuildComponent {
 	className?: string | "";
