@@ -67,6 +67,7 @@ export default function FollowingComponent({limit}: {limit: number}) {
                     {isLimit === Infinity || following.length <= limit ? null :<Link href={"/following/more"}> <button onClick={() => setIsLimit((limit))} className="font-bold text-xl">More</button></Link>}
                 </div>
             </div>
+            {isLimit === Infinity ? null : (
             <div className="mt-10 pt-12 border-t border-gray-300">
                 {(following as { followingId: string, image: string, username: string }[]).map((user) => (
                     <div key={user.followingId}>
@@ -74,6 +75,7 @@ export default function FollowingComponent({limit}: {limit: number}) {
                     </div>
                 ))}
                 </div>
+            )}
         </>
     );
 }   
