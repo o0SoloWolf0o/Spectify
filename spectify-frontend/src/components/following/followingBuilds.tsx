@@ -18,7 +18,6 @@ export default function FollowingBuilds({followingId, followingImg, followingUse
 
   return (
     <>
-
       {(builds as {id: string}[]).map((build) => (
         <div key={build.id} className="flex justify-center mb-10 space-y-4">
             <div className="flex justify-center flex-col pb-12 border-b border-gray-300">
@@ -30,8 +29,6 @@ export default function FollowingBuilds({followingId, followingImg, followingUse
                 </div>
         </div>
       ))}
-
     </>
-
   )
 }
