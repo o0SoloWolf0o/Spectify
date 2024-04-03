@@ -41,8 +41,22 @@ export async function getMoboProduct() {
 	}
 }
 
+export async function getMoboProducts() {
+	try {
+		const mobo = await prisma.mobo.findMany();
+		return mobo;
+	} catch (err) {
+		throw new Error(err as string);
+	}
+}
+
 export async function getMoboProductById(id: string) {
-	return await prisma.mobo.findUnique({ where: { id } });
+	try {
+		const mobo = await prisma.mobo.findUnique({ where: { id } });
+		return mobo;
+	} catch (err) {
+		throw new Error(err as string);
+	}
 }
 
 export async function updateMoboProductById(

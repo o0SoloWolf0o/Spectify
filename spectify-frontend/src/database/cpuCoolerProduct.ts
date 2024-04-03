@@ -31,8 +31,22 @@ export async function getCpuCooler() {
 	}
 }
 
+export async function getCpuCoolers() {
+	try {
+		const cpuCooler = await prisma.cpuCooler.findMany();
+		return cpuCooler;
+	} catch (err) {
+		throw new Error(err as string);
+	}
+}
+
 export async function getCpuCoolerById(id: string) {
-	return await prisma.cpuCooler.findUnique({ where: { id } });
+	try {
+		const cpuCooler = await prisma.cpuCooler.findUnique({ where: { id } });
+		return cpuCooler;
+	} catch (err) {
+		throw new Error(err as string);
+	}
 }
 
 export async function updateCpuCooler(

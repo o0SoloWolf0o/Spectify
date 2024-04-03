@@ -39,8 +39,22 @@ export async function getSsdProduct() {
 	}
 }
 
+export async function getSsdProducts() {
+	try {
+		const ssd = await prisma.ssd.findMany();
+		return ssd;
+	} catch (err) {
+		throw new Error(err as string);
+	}
+}
+
 export async function getSsdProductById(id: string) {
-	return await prisma.ssd.findUnique({ where: { id } });
+	try {
+		const ssd = await prisma.ssd.findUnique({ where: { id } });
+		return ssd;
+	} catch (err) {
+		throw new Error(err as string);
+	}
 }
 
 export async function updateSsdProductById(

@@ -41,8 +41,22 @@ export async function getRamProduct() {
 	}
 }
 
+export async function getRamProducts() {
+	try {
+		const ram = await prisma.ram.findMany();
+		return ram;
+	} catch (err) {
+		throw new Error(err as string);
+	}
+}
+
 export async function getRamProductById(id: string) {
-	return await prisma.ram.findUnique({ where: { id } });
+	try {
+		const ram = await prisma.ram.findUnique({ where: { id } });
+		return ram;
+	} catch (err) {
+		throw new Error(err as string);
+	}
 }
 
 export async function updateRamProductById(
