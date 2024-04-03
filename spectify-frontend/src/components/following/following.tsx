@@ -7,6 +7,7 @@ import { getUserById } from "@/database/user";
 import { getUserImg } from "@/action/updateProfile";
 import FollowButton from "@/components/main/profile/followButton";
 import Link from "next/link";
+import FollowingBuilds from "@/components/following/followingBuilds";
 
 export default function FollowingComponent({limit}: {limit: number}) {
     const session = useSession();
@@ -66,6 +67,13 @@ export default function FollowingComponent({limit}: {limit: number}) {
                     {isLimit === Infinity || following.length <= limit ? null :<Link href={"/following/more"}> <button onClick={() => setIsLimit((limit))} className="font-bold text-xl">More</button></Link>}
                 </div>
             </div>
+            <div className="mt-10 pt-12 border-t border-gray-300">
+                {(following as { followingId: string, image: string, username: string }[]).map((user) => (
+                    <div key={user.followingId}>
+                        <FollowingBuilds followingId={user.followingId} followingImg={user.image} followingUsername={user.username} />
+                    </div>
+                ))}
+                </div>
         </>
     );
 }   
