@@ -12,7 +12,7 @@ import { getCaseComputerById, getCaseComputers } from "@/database/caseComputerPr
 import { getCpuCoolerById, getCpuCoolers } from "@/database/cpuCoolerProduct";
 
 type TProps = {
-	model: "cpu" | "mobo" | "ram" | "gpu" | "ssd" | "psu" | "case" | "cooler";
+	model: "cpu" | "mobo" | "ram" | "gpu" | "ssd" | "psu" | "caseComputer" | "cpuCooler";
 };
 
 export default function DataBoard({ model }: TProps) {
@@ -45,10 +45,10 @@ export default function DataBoard({ model }: TProps) {
 			case "psu":
 				newData = id ? [await getPsuProductById(id)] : await getPsuProducts();
 				break;
-			case "case":
+			case "caseComputer":
 				newData = id ? [await getCaseComputerById(id)] : await getCaseComputers();
 				break;
-			case "cooler":
+			case "cpuCooler":
 				newData = id ? [await getCpuCoolerById(id)] : await getCpuCoolers();
 				break;
 			default:

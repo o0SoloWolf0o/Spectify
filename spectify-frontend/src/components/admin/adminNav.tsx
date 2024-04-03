@@ -122,25 +122,25 @@ export default function AdminNav() {
 						</Button>
 					</Link>
 
-					<Link href="/admin/case">
+					<Link href="/admin/casecomputer">
 						<Button
 							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
-								pathname === "/admin/case" ? "bg-primary1-5 text-white" : ""
+								pathname === "/admin/casecomputer" ? "bg-primary1-5 text-white" : ""
 							}`}
 						>
 							<FiCpu />
-							Case
+							Case Computer
 						</Button>
 					</Link>
 
-					<Link href="/admin/cooler">
+					<Link href="/admin/cpucooler">
 						<Button
 							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
-								pathname === "/admin/cooler" ? "bg-primary1-5 text-white" : ""
+								pathname === "/admin/cpucooler" ? "bg-primary1-5 text-white" : ""
 							}`}
 						>
 							<FiCpu />
-							Cooler
+							Cpu Cooler
 						</Button>
 					</Link>
 				</div>
