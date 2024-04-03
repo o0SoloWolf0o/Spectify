@@ -282,7 +282,6 @@ export default function ProductPopUp({
 	}
 
 	function handleSearch(value: string) {
-		// console.log("Search value:", value);
 		setSearchValue(value);
 
 
@@ -319,7 +318,6 @@ export default function ProductPopUp({
 		if (selectedProduct) {
 		  	setDisplayImage(selectedProduct.image || defaultProductImage);
 		  	setDisplayText(selectedProduct.name);
-		  	//console.log("Gay af: {}", selectedProduct.id);
 		  	setSelectedProductIDs(prevIDs => ({
 				...prevIDs,
 				[typeProduct]: selectedProduct.id
