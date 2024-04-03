@@ -131,7 +131,7 @@ type psuProducts = {
 	price: string;
 };
 
-type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
+export type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
 
 export default function ProductPage() {
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
