@@ -48,6 +48,7 @@ export default function SaveBuildComponent({ className }: IsaveBuildComponent) {
 
 	function onSubmit(build: zod.infer<typeof buildSchema>) {
 		setErrorMessage("");
+		build.image = imageBase64;
 		const validBuild = buildSchema.safeParse(build);
 		if (validBuild) {
 			startTransition(() => {
