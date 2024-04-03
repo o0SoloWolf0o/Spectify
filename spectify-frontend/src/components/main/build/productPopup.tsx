@@ -12,6 +12,7 @@ import { getCpuCoolerProducts } from "@/action/product";
 import { getMoboProducts } from "@/action/product";
 import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
+import { VscClose } from "react-icons/vsc";
 
 type cpuProducts = {
 	id: string;
@@ -316,19 +317,19 @@ export default function ProductPopUp({
 
 	useEffect(() => {
 		if (selectedProduct) {
-		  setDisplayImage(selectedProduct.image || defaultProductImage);
-		  setDisplayText(selectedProduct.name);
-		  //console.log("Gay af: {}", selectedProduct.id);
-		  setSelectedProductIDs(prevIDs => ({
-			...prevIDs,
-			[typeProduct]: selectedProduct.id
-		  }));
+		  	setDisplayImage(selectedProduct.image || defaultProductImage);
+		  	setDisplayText(selectedProduct.name);
+		  	//console.log("Gay af: {}", selectedProduct.id);
+		  	setSelectedProductIDs(prevIDs => ({
+				...prevIDs,
+				[typeProduct]: selectedProduct.id
+		  	}));
 		} else {
-		  setDisplayImage(defaultProductImage);
-		  setSelectedProductIDs(prevIDs => ({
-			...prevIDs,
-			[typeProduct]: null
-		  }));
+		  	setDisplayImage(defaultProductImage);
+		 	setSelectedProductIDs(prevIDs => ({
+				...prevIDs,
+				[typeProduct]: null
+		  	}));
 		}
 	}, [selectedProduct, typeProduct]);
 
@@ -352,14 +353,21 @@ export default function ProductPopUp({
 			<div onClick={() => {
 				handleSearch("");
 				outerModalOpenHandler();
-			}} className="flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
+			}} className="relative flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
 
 				<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
 				<span className="flex items-center">{displayText}</span>
 				{selectedProduct && (
-        		<div onClick={handleDeselectClick} className="font-bold">
-          			Deselect
-        		</div>)}
+
+				<div onClick={(e) => {
+					e.stopPropagation();
+					handleDeselectClick();
+					}} className="absolute inset-y-0 right-0 bg-red-700 text-white p-2 cursor-pointer"
+				>				
+          			<VscClose className="flex items-center my-3"/>
+        		</div>
+				
+				)}
 			</div>
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
