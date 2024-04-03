@@ -1,10 +1,7 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useEffect, useState } from "react";
 import SearchBarComponent from "@/components/main/searchBar";
-import Image from "next/image";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { getCaseComputersProducts, getCpuProducts } from "@/action/product";
 import { getRamProducts } from "@/action/product";
@@ -23,7 +20,8 @@ type cpuProducts = {
 	image: string;
 	type: string;
 	socket: string;
-	coreThreads: string;
+	core: string;
+	thread: string;
 	year: string;
 	price: string;
 	tdp: string;
@@ -33,6 +31,7 @@ type cpuProducts = {
 }
 
 type ramProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -44,6 +43,7 @@ type ramProducts = {
 }
 
 type gpuProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -67,6 +67,7 @@ type gpuProducts = {
 }
 
 type moboProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -78,6 +79,7 @@ type moboProducts = {
 }
 
 type hddProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -87,6 +89,7 @@ type hddProducts = {
 }
 
 type ssdProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -97,6 +100,7 @@ type ssdProducts = {
 }
 
 type cpuCoolerProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -106,6 +110,7 @@ type cpuCoolerProducts = {
 }
 
 type monitorProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -120,6 +125,7 @@ type monitorProducts = {
 }
 
 type psuProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -129,6 +135,7 @@ type psuProducts = {
 }
 
 type caseComputerProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -138,29 +145,30 @@ type caseComputerProducts = {
 	price: string;
 }
 
-type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
+export type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts | caseComputerProducts;
+
+export type SelectedProductIDs = {
+	[key: string]: string | null;
+};
+
+export interface ProductContextType {
+	selectedProductIDs: SelectedProductIDs;
+	handleSelectProduct: (type: string, id: string) => void;
+	handleDeselectProduct: (type: string) => void;
+}
 
 interface ProductPopUpProps {
 	typeProduct: string;
-	onSelectProduct: (selectedProduct: Product) => void;
+	onSelectProduct: (product: Product) => void;
+	onDeselectProduct: () => void;
+	selectedProduct: Product | null; 
 }
 
-{/* 
-const defaultProductImage = {
-	CPU: '',
-	GPU: '',
-	RAM: '',
-	SSD: '',
-	HDD: '',
-	MB: 'https://p7.hiclipart.com/preview/929/870/439/graphics-cards-video-adapters-computer-icons-motherboard-computer-hardware-motherboard.jpg',
-	PSU: '',
-	Monitor: '',
-	Cooler: '',
-	Case: ''
-};
-*/}
-
-export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPopUpProps) {
+export default function ProductPopUp({ 
+	typeProduct, 
+	onSelectProduct, 
+	onDeselectProduct, 
+	selectedProduct}: ProductPopUpProps) {
 
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	const [searchValue, setSearchValue] = useState("");
@@ -224,7 +232,7 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 					setAllProducts(data);
 					console.log("Motherboard products:", data);
 					setDisplayText('Motherboard');
-					handleSearch("");	
+					handleSearch("");
 					setFilteredSearchProducts(data);
 				});
 				break;
@@ -272,7 +280,6 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 		}
 	}
 
-
 	function handleSearch(value: string) {
 		// console.log("Search value:", value);
 		setSearchValue(value);
@@ -285,22 +292,49 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 
 	}
 
-	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
 	const [selectedProductInfo, setSelectedProductInfo] = useState<Product | null>(null);
 
+	const [selectedProductIDs, setSelectedProductIDs] = useState<{ [key: string]: string | null; }>({});
+
 	function handleProductClickInfo(product: Product) {
+		
 		setSelectedProductInfo(product);
 		innerModalOpenHandler();
 	}
 
 	function handleProductClick(product: Product) {
-		setSelectedProduct(product);
-		// console.log("Selected product:", product);
+
 		onSelectProduct(product);
 		setDisplayText(product.name)
 		setDisplayImage(product.image || defaultProductImage);
 	}
+
+	const handleDeselectClick = () => {
+		
+		onDeselectProduct();
+	};
+
+	useEffect(() => {
+		if (selectedProduct) {
+		  setDisplayImage(selectedProduct.image || defaultProductImage);
+		  setDisplayText(selectedProduct.name);
+		  //console.log("Gay af: {}", selectedProduct.id);
+		  setSelectedProductIDs(prevIDs => ({
+			...prevIDs,
+			[typeProduct]: selectedProduct.id
+		  }));
+		} else {
+		  setDisplayImage(defaultProductImage);
+		  setSelectedProductIDs(prevIDs => ({
+			...prevIDs,
+			[typeProduct]: null
+		  }));
+		}
+	}, [selectedProduct, typeProduct]);
+
+	useEffect(() => {
+		console.log("Selected Product IDs:", selectedProductIDs);
+	}, [selectedProductIDs]);
 
 	const { isOpen: outerModalOpen, onOpen: outerModalOpenHandler, onOpenChange: outerModalOpenChangeHandler } = useDisclosure();
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
@@ -308,12 +342,9 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 	useEffect(() => {
 		if (outerModalOpen && typeProduct) {
 			fetchData(typeProduct);
-			
+
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [outerModalOpen, typeProduct]);
-
-
 
 	return (
 		<>
@@ -325,6 +356,10 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 
 				<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
 				<span className="flex items-center">{displayText}</span>
+				{selectedProduct && (
+        		<div onClick={handleDeselectClick} className="font-bold">
+          			Deselect
+        		</div>)}
 			</div>
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
@@ -382,18 +417,102 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 
 															<ModalHeader className="flex flex-col gap-1">{selectedProductInfo?.name}</ModalHeader>
 															<ModalBody>
-																<p style={{ fontSize: "13px" }}>{selectedProductInfo?.description}</p>
-																<img src={selectedProductInfo?.image} alt={selectedProductInfo?.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} />
-																<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
-																	<div>
-																		{product.price ? (
+																<div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'stretch' }}>
+																	<div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+																		<p style={{ fontSize: '13px', maxWidth: '200px', overflowWrap: 'break-word' }}>{selectedProductInfo?.description}</p>
+																		<img
+																			src={selectedProductInfo?.image}
+																			alt={selectedProductInfo?.name}
+																			width={200}
+																			height={200}
+																			style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
+																		/>
+																		<div style={{ marginTop: '7px' }}>
+																			<p style={{ color: '#6B6B6B' }}>Estimate Price</p>
+																			<p style={{ fontWeight: 'bold' }}>{selectedProductInfo?.price} THB</p>
+																		</div>
+																	</div>
+																	<div style={{
+																		background: "#DCF1FB", flex: '1', padding: '10px',
+																		display: 'flex', flexDirection: 'column', alignItems: 'flex-start', maxWidth: '200px', marginBottom: '10px'
+																	}}>
+																		{selectedProductInfo?.typeProduct === "CPU" && (
 																			<div>
-																				<p style={{ color: "#6B6B6B" }}>Estimate Price</p>
-																				<p style={{ fontWeight: "bold" }} >{product.price}</p>
+																				<p>Type: {(selectedProductInfo as cpuProducts).type}</p>
+																				<p>Socket: {(selectedProductInfo as cpuProducts).socket}</p>
+																				<p>Core: {(selectedProductInfo as cpuProducts).core}</p>
+																				<p>Thread: {(selectedProductInfo as cpuProducts).thread}</p>
+																				<p>Year: {(selectedProductInfo as cpuProducts).year}</p>
+																				<p>TDP: {(selectedProductInfo as cpuProducts).tdp} W</p>
+																				<p>Base Clock: {(selectedProductInfo as cpuProducts).clock} GHz</p>
+																				<p>Turbo Clock: {(selectedProductInfo as cpuProducts).turbo} GHz</p>
 																			</div>
-																		) : (
-																			<p>No price available</p>
 																		)}
+																		{selectedProductInfo?.typeProduct === "RAM" && (
+																			<div>
+																				<p>Size: {(selectedProductInfo as ramProducts).size}</p>
+																				<p>Type: {(selectedProductInfo as ramProducts).type}</p>
+																				<p>Kit: {(selectedProductInfo as ramProducts).kit}</p>
+																			</div>
+																		)}
+																		{selectedProductInfo?.typeProduct === "GPU" && (
+																			<div>
+																				<p>Type: {(selectedProductInfo as gpuProducts).type}</p>
+																				<p>Architecture: {(selectedProductInfo as gpuProducts).architecture}</p>
+																				<p>Performance: {(selectedProductInfo as gpuProducts).performance}</p>
+																				<p>Year: {(selectedProductInfo as gpuProducts).year}</p>
+																				<p>Series: {(selectedProductInfo as gpuProducts).series}</p>
+																				<p>VRAM: {(selectedProductInfo as gpuProducts).vram}</p>
+																				<p>TDP: {(selectedProductInfo as gpuProducts).tdp} W</p>
+																				<p>Motherboard Bus: {(selectedProductInfo as gpuProducts).motherboardBus}</p>
+																				<p>Core Clock: {(selectedProductInfo as gpuProducts).coreClock} MHz</p>
+																				<p>Boost Clock: {(selectedProductInfo as gpuProducts).boostClock} MHz</p>
+																				<p>Effective Clock: {(selectedProductInfo as gpuProducts).effectiveClock} MHz</p>
+																				<p>Length: {(selectedProductInfo as gpuProducts).length} mm</p>
+																				<p>Cooling Fans: {(selectedProductInfo as gpuProducts).coolingFans}</p>
+																				<p>Case Slots: {(selectedProductInfo as gpuProducts).caseSlots}</p>
+																				<p>Frame Sync: {(selectedProductInfo as gpuProducts).frameSync}</p>
+																			</div>
+																		)}
+																		{selectedProductInfo?.typeProduct === "SSD" && (
+																			<div>
+																				<p>Size: {(selectedProductInfo as ssdProducts).size}</p>
+																				<p>Type: {(selectedProductInfo as ssdProducts).type}</p>
+																			</div>
+																		)}
+																		{selectedProductInfo?.typeProduct === "HDD" && (
+																			<div>
+																				<p>Size: {(selectedProductInfo as hddProducts).size}</p>
+																			</div>
+																		)}
+																		{selectedProductInfo?.typeProduct === "Power Supply" && (
+																			<div>
+																				<p>Wattage: {(selectedProductInfo as psuProducts).wattage} W</p>
+																			</div>
+																		)}
+																		{selectedProductInfo?.typeProduct === "Mother Board" && (
+																			<div>
+																				<p>Size: {(selectedProductInfo as moboProducts).size}</p>
+																				<p>Socket: {(selectedProductInfo as moboProducts).socket}</p>
+																				<p>Ram Slot: {(selectedProductInfo as moboProducts).ramslot}</p>
+																			</div>
+																		)}
+																		{selectedProductInfo?.typeProduct === "CPU Cooler" && (
+																			<div>
+																				<p>Socket: {(selectedProductInfo as cpuCoolerProducts).socket}</p>
+																			</div>
+																		)}
+																		{selectedProductInfo?.typeProduct === "Monitor" && (
+																			<div>
+																				<p>Panel Type: {(selectedProductInfo as monitorProducts).panelType}</p>
+																				<p>Resolution: {(selectedProductInfo as monitorProducts).resolution}</p>
+																				<p>Refresh Rate: {(selectedProductInfo as monitorProducts).refreshRate}</p>
+																				<p>Size: {(selectedProductInfo as monitorProducts).size}</p>
+																				<p>FreeSync: {(selectedProductInfo as monitorProducts).freesync}</p>
+																				<p>G-Sync: {(selectedProductInfo as monitorProducts).gsync}</p>
+																			</div>
+																		)}
+
 																	</div>
 																</div>
 															</ModalBody>
@@ -422,4 +541,4 @@ export default function ProductPopUp({ typeProduct, onSelectProduct }: ProductPo
 			</Modal>
 		</>
 	);
-}
+} 

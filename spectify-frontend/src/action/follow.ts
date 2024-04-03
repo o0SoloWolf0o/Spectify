@@ -1,5 +1,5 @@
 "use server";
-import {follow, unfollow, isFollowing, getFollowersCount, getFollowingCount} from "@/database/follow";
+import {follow, unfollow, isFollowing, getFollowersCount, getFollowingCount, getManyFollowing} from "@/database/follow";
 
 export async function followUser({followerId, followingId}: {followerId: string, followingId: string}) {
     return await follow(followerId, followingId);
@@ -19,4 +19,8 @@ export async function getFollowersCountById(userId: string) {
 
 export async function getFollowingCountById(userId: string) {
     return await getFollowingCount(userId);
+}
+
+export async function getManyFollowingById(userIds: string[]) {
+    return await getManyFollowing(userIds);
 }

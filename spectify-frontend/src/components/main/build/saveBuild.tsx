@@ -81,14 +81,14 @@ export default function SaveBuildComponent({ className }: IsaveBuildComponent) {
 
 	useEffect(() => {
 		if (isOpen) {
-			const cpu = localStorage.getItem("cpu") || "";
-			const mb = localStorage.getItem("mb") || "";
-			const ram = localStorage.getItem("ram") || "";
-			const gpu = localStorage.getItem("gpu") || "";
-			const ssd = localStorage.getItem("ssd") || "";
-			const psu = localStorage.getItem("psu") || "";
-			const cases = localStorage.getItem("cases") || "";
-			const cooler = localStorage.getItem("cooler") || "";
+			const cpu = localStorage.getItem("CPU") || "";
+			const mb = localStorage.getItem("MB") || "";
+			const ram = localStorage.getItem("RAM") || "";
+			const gpu = localStorage.getItem("GPU") || "";
+			const ssd = localStorage.getItem("SSD") || "";
+			const psu = localStorage.getItem("PSU") || "";
+			const cases = localStorage.getItem("Case") || "";
+			const cooler = localStorage.getItem("Cooler") || "";
 
 			if (cpu && mb && ram && gpu && ssd && psu && cases && cooler) {
 				buildForm.setValue("cpu", cpu);

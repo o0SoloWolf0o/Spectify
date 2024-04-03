@@ -29,3 +29,21 @@ export async function createBuild(userId: string, build: zod.infer<typeof buildS
 		throw e;
 	}
 }
+
+export async function getBuildById(buildId: string) {
+	const build = await prisma.build.findUnique({
+		where: {
+			id: buildId,
+		},
+	});
+	return build;
+}
+
+export const getBuildByUserId = async (user_id: string) => {
+	return await prisma.build.findMany({
+		where: {
+			user_id: user_id,
+		},
+	});
+}
+	
