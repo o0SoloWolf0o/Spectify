@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from 'react';
+import React from 'react';
 import { SelectedProducts } from './build-component';
 
 type ProductImageMap = { [key in keyof SelectedProducts]: string };

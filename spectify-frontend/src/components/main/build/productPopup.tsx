@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import SearchBarComponent from "@/components/main/searchBar";
-//import Image from "next/image";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { getCaseComputersProducts, getCpuProducts } from "@/action/product";
 import { getRamProducts } from "@/action/product";
@@ -161,7 +160,7 @@ export interface ProductContextType {
 interface ProductPopUpProps {
 	typeProduct: string;
 	onSelectProduct: (product: Product) => void;
-	onDeselectProduct: () => void; // Add this line
+	onDeselectProduct: () => void;
 	selectedProduct: Product | null; 
 }
 
