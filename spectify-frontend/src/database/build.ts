@@ -47,3 +47,10 @@ export const getBuildByUserId = async (user_id: string) => {
 	});
 }
 	
+export const getBuildsCountByUserId = async (user_id: string) => {
+	return await prisma.build.count({
+		where: {
+			user_id: user_id,
+		},
+	});
+}
