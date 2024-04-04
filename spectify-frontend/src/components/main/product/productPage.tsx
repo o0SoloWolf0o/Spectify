@@ -18,7 +18,7 @@ import { getPsuProducts } from "@/action/product";
 import { CompareCountContext } from "@/app/(main)/layout";
 import { GoArrowSwitch } from "react-icons/go";
 
-type cpuProducts = {
+export type cpuProducts = {
 	id: string;
 	typeProduct: string;
 	name: string;
@@ -35,7 +35,7 @@ type cpuProducts = {
 	description: string;
 };
 
-type ramProducts = {
+export type ramProducts = {
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -46,7 +46,7 @@ type ramProducts = {
 	price: string;
 };
 
-type gpuProducts = {
+export type gpuProducts = {
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -69,7 +69,7 @@ type gpuProducts = {
 	description: string;
 };
 
-type moboProducts = {
+export type moboProducts = {
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -80,7 +80,7 @@ type moboProducts = {
 	price: string;
 };
 
-type hddProducts = {
+export type hddProducts = {
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -89,7 +89,7 @@ type hddProducts = {
 	price: string;
 };
 
-type ssdProducts = {
+export type ssdProducts = {
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -99,7 +99,7 @@ type ssdProducts = {
 	price: string;
 };
 
-type cpuCoolerProducts = {
+export type cpuCoolerProducts = {
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -108,7 +108,7 @@ type cpuCoolerProducts = {
 	price: string;
 };
 
-type monitorProducts = {
+export type monitorProducts = {
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -122,7 +122,7 @@ type monitorProducts = {
 	description: string;
 };
 
-type psuProducts = {
+export type psuProducts = {
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -131,7 +131,7 @@ type psuProducts = {
 	price: string;
 };
 
-type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
+export type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
 
 export default function ProductPage() {
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
