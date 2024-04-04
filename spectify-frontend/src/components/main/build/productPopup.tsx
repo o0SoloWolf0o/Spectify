@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -358,13 +359,15 @@ export default function ProductPopUp({
 				<span className="flex items-center">{displayText}</span>
 
 				{selectedProduct && (
-					<div onClick={
-						handleDeselectClick
-					} className="absolute inset-y-0 right-0 bg-red-700 text-white p-2 cursor-pointer rounded-xl"
+					<div onClick={(event) => {
+						event.stopPropagation();
+						handleDeselectClick();
+					}} className="absolute inset-y-0 right-0 bg-red-700 text-white p-2 cursor-pointer rounded-xl"
 					>
 						<VscClose className="flex items-center my-3" />
 					</div>
 				)}
+
 			</div>
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
