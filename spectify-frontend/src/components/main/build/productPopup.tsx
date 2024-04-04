@@ -162,14 +162,14 @@ interface ProductPopUpProps {
 	typeProduct: string;
 	onSelectProduct: (product: Product) => void;
 	onDeselectProduct: () => void;
-	selectedProduct: Product | null; 
+	selectedProduct: Product | null;
 };
 
-export default function ProductPopUp({ 
-	typeProduct, 
-	onSelectProduct, 
-	onDeselectProduct, 
-	selectedProduct}: ProductPopUpProps) {
+export default function ProductPopUp({
+	typeProduct,
+	onSelectProduct,
+	onDeselectProduct,
+	selectedProduct }: ProductPopUpProps) {
 
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	const [searchValue, setSearchValue] = useState("");
@@ -282,7 +282,7 @@ export default function ProductPopUp({
 	};
 
 	function handleSearch(value: string) {
-		
+
 		setSearchValue(value);
 
 
@@ -298,7 +298,7 @@ export default function ProductPopUp({
 	const [selectedProductIDs, setSelectedProductIDs] = useState<{ [key: string]: string | null; }>({});
 
 	function handleProductClickInfo(product: Product) {
-		
+
 		setSelectedProductInfo(product);
 		innerModalOpenHandler();
 	};
@@ -311,24 +311,24 @@ export default function ProductPopUp({
 	};
 
 	const handleDeselectClick = () => {
-		
+
 		onDeselectProduct();
 	};
 
 	useEffect(() => {
 		if (selectedProduct) {
-		  	setDisplayImage(selectedProduct.image || defaultProductImage);
-		  	setDisplayText(selectedProduct.name);
-		  	setSelectedProductIDs(prevIDs => ({
+			setDisplayImage(selectedProduct.image || defaultProductImage);
+			setDisplayText(selectedProduct.name);
+			setSelectedProductIDs(prevIDs => ({
 				...prevIDs,
 				[typeProduct]: selectedProduct.id
-		  	}));
+			}));
 		} else {
-		  	setDisplayImage(defaultProductImage);
-		 	setSelectedProductIDs(prevIDs => ({
+			setDisplayImage(defaultProductImage);
+			setSelectedProductIDs(prevIDs => ({
 				...prevIDs,
 				[typeProduct]: null
-		  	}));
+			}));
 		}
 	}, [selectedProduct, typeProduct]);
 
@@ -352,20 +352,20 @@ export default function ProductPopUp({
 			<div onClick={() => {
 				handleSearch("");
 				outerModalOpenHandler();
-				}} className="relative flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
+			}} className="relative flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
 
 				<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
 				<span className="flex items-center">{displayText}</span>
-			
+
 				{selectedProduct && (
-				<div onClick={
-					handleDeselectClick
+					<div onClick={
+						handleDeselectClick
 					} className="absolute inset-y-0 right-0 bg-red-700 text-white p-2 cursor-pointer rounded-xl"
 					>
-          			<VscClose className="flex items-center my-3"/>
-        		</div>
+						<VscClose className="flex items-center my-3" />
+					</div>
 				)}
-			</div>	
+			</div>
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
 				<ModalContent>
