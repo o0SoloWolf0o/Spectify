@@ -8,7 +8,7 @@ import FollowButton from "@/components/main/profile/followButton";
 import { getFollowersCountById, getFollowingCountById } from "@/action/follow";
 import { useState, useEffect} from "react";
 import { useSession } from "next-auth/react";
-
+import { getBuildsCountByUserId } from "@/database/build";
 
 
 
@@ -28,6 +28,7 @@ export default function userProfilePage({
     const [followersCount, setFollowersCount] = useState(0);
     const [followingCount, setFollowingCount] = useState(0);
     const [isFetching, setFetdata] = useState(true);
+    const [build, setBuild] = useState(0);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -41,6 +42,8 @@ export default function userProfilePage({
                     setFollowersCount(followersCount);
                     const followingCount = await getFollowingCountById(user.id);
                     setFollowingCount(followingCount);
+                    const buildCount = await getBuildsCountByUserId(user.id);
+                    setBuild(buildCount);
                     setFetdata(false);
                 }
             } catch (error) {
@@ -96,7 +99,7 @@ export default function userProfilePage({
             </div>
             <div className="flex justify-between mt-10 text-lg font-bold">
                 <div className="flex items-start">
-                    <p className="mr-12">0 Build</p>
+                    <p className="mr-12">{build} Build</p>
                     <p className="mr-12">{followersCount} Followers</p>                
                     <p className="mr-12">{followingCount} Following</p>
                 </div>
