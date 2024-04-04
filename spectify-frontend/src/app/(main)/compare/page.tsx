@@ -18,7 +18,8 @@ import {
 export default function ComparePage() {
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
+  const [secondSelectedProduct, setSecondSelectedProduct] =
+    useState<Product | null>(null);
   useEffect(() => {
     // Fetch selected products from local storage or props
     const savedProducts = localStorage.getItem("compareData");
@@ -42,7 +43,11 @@ export default function ComparePage() {
   };
 
   const handleProductClick = (product: Product) => {
-    setSelectedProduct(product);
+    if (!selectedProduct) {
+      setSelectedProduct(product);
+    } else if (!secondSelectedProduct) {
+      setSecondSelectedProduct(product);
+    }
   };
 
   const renderProductSection = (type: string) => {
@@ -69,10 +74,16 @@ export default function ComparePage() {
                 height: "80px",
                 boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
                 cursor: "pointer", // Add cursor pointer for indicating clickable
+                position: "relative",
               }}
-              onClick={() => handleProductClick(product)} // Call handleProductClick on image click
+              onClick={() => handleProductClick(product)}
+              // Call handleProductClick on image click
             />
-            <p>{product.name}</p>
+            <p>
+              {product.name.length > 9
+                ? `${product.name.substring(0, 9)}...`
+                : product.name}
+            </p>
             <button onClick={() => removeFromLocalStorage(product)}>
               <IoMdClose style={{ width: "20px", height: "20px" }} />
             </button>
@@ -88,18 +99,20 @@ export default function ComparePage() {
         style={{
           borderTop: "5px solid #00A9FF",
           boxShadow: "5px 4px 8px rgba(0, 0, 0, 0.1)",
+          width: "auto",
         }}
       >
         <div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
           <div
             style={{
               width: "400px",
-              height: "1200px",
-              flex: "0 0 auto",
+              height: "800px",
+              flex: "1",
               boxSizing: "border-box",
               padding: "10px",
               margin: "10px",
               boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+              overflow: "auto", // เพิ่ม overflow: hidden เพื่อป้องกันเนื้อหาที่เกินขอบเขต
             }}
           >
             <p
@@ -112,7 +125,7 @@ export default function ComparePage() {
               Select
             </p>
 
-            {/* PC build section */}
+            {/* PC build section 
             <p
               style={{
                 fontSize: "24px",
@@ -121,27 +134,48 @@ export default function ComparePage() {
               }}
             >
               PC build
-            </p>
+            </p>*/}
             <div style={{ marginLeft: "45%" }}></div>
 
             {renderProductSection("CPU")}
             {renderProductSection("GPU")}
             {renderProductSection("RAM")}
             {renderProductSection("SSD")}
+            {renderProductSection("HDD")}
+            {renderProductSection("Power Supply")}
+            {renderProductSection("Mother Board")}
+            {renderProductSection("CPU Cooler")}
+            {renderProductSection("Monitor")}
           </div>
 
           {/* Right side content */}
           <div
             style={{
               width: "400px",
-              height: "1200px",
-              flex: "0 0 auto",
+              height: "800px",
+              flex: "1",
               boxSizing: "border-box",
               padding: "10px",
               margin: "10px",
               boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+              position: "relative",
             }}
           >
+            {selectedProduct && (
+              <button
+                onClick={() => setSelectedProduct(null)}
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <IoMdClose style={{ width: "20px", height: "20px" }} />
+              </button>
+            )}
             {selectedProduct && (
               <p
                 style={{
@@ -301,14 +335,212 @@ export default function ComparePage() {
           <div
             style={{
               width: "400px",
-              height: "1200px",
-              flex: "0 0 auto",
+              height: "800px",
+              flex: "1",
               boxSizing: "border-box",
               padding: "10px",
               margin: "10px",
               boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+              position: "relative",
             }}
-          ></div>
+          >
+            {secondSelectedProduct && (
+              <button
+                onClick={() => setSecondSelectedProduct(null)}
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <IoMdClose style={{ width: "20px", height: "20px" }} />
+              </button>
+            )}
+            {secondSelectedProduct && (
+              <p
+                style={{
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  fontSize: "24px",
+                }}
+              >
+                {secondSelectedProduct.name}
+              </p>
+            )}
+            {secondSelectedProduct && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <div style={{ display: "grid", gridTemplateColumns: "1fr" }}>
+                  <img
+                    src={secondSelectedProduct.image}
+                    alt={secondSelectedProduct.name}
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            {secondSelectedProduct && (
+              <div style={{ textAlign: "left" }}>
+                {secondSelectedProduct?.typeProduct === "CPU" && (
+                  <div>
+                    <p>Type: {(secondSelectedProduct as cpuProducts).type}</p>
+                    <p>
+                      Socket: {(secondSelectedProduct as cpuProducts).socket}
+                    </p>
+                    <p>Core: {(secondSelectedProduct as cpuProducts).core}</p>
+                    <p>
+                      Thread: {(secondSelectedProduct as cpuProducts).thread}
+                    </p>
+                    <p>Year: {(secondSelectedProduct as cpuProducts).year}</p>
+                    <p>TDP: {(secondSelectedProduct as cpuProducts).tdp} W</p>
+                    <p>
+                      Base Clock: {(secondSelectedProduct as cpuProducts).clock}{" "}
+                      GHz
+                    </p>
+                    <p>
+                      Turbo Clock:{" "}
+                      {(secondSelectedProduct as cpuProducts).turbo} GHz
+                    </p>
+                  </div>
+                )}
+                {secondSelectedProduct?.typeProduct === "RAM" && (
+                  <div>
+                    <p>Size: {(secondSelectedProduct as ramProducts).size}</p>
+                    <p>Type: {(secondSelectedProduct as ramProducts).type}</p>
+                    <p>Kit: {(secondSelectedProduct as ramProducts).kit}</p>
+                  </div>
+                )}
+                {secondSelectedProduct?.typeProduct === "GPU" && (
+                  <div>
+                    <p>Type: {(secondSelectedProduct as gpuProducts).type}</p>
+                    <p>
+                      Architecture:{" "}
+                      {(secondSelectedProduct as gpuProducts).architecture}
+                    </p>
+                    <p>
+                      Performance:{" "}
+                      {(secondSelectedProduct as gpuProducts).performance}
+                    </p>
+                    <p>Year: {(secondSelectedProduct as gpuProducts).year}</p>
+                    <p>
+                      Series: {(secondSelectedProduct as gpuProducts).series}
+                    </p>
+                    <p>VRAM: {(secondSelectedProduct as gpuProducts).vram}</p>
+                    <p>TDP: {(secondSelectedProduct as gpuProducts).tdp} W</p>
+                    <p>
+                      Motherboard Bus:{" "}
+                      {(secondSelectedProduct as gpuProducts).motherboardBus}
+                    </p>
+                    <p>
+                      Core Clock:{" "}
+                      {(secondSelectedProduct as gpuProducts).coreClock} MHz
+                    </p>
+                    <p>
+                      Boost Clock:{" "}
+                      {(secondSelectedProduct as gpuProducts).boostClock} MHz
+                    </p>
+                    <p>
+                      Effective Clock:{" "}
+                      {(secondSelectedProduct as gpuProducts).effectiveClock}{" "}
+                      MHz
+                    </p>
+                    <p>
+                      Length: {(secondSelectedProduct as gpuProducts).length} mm
+                    </p>
+                    <p>
+                      Cooling Fans:{" "}
+                      {(secondSelectedProduct as gpuProducts).coolingFans}
+                    </p>
+                    <p>
+                      Case Slots:{" "}
+                      {(secondSelectedProduct as gpuProducts).caseSlots}
+                    </p>
+                    <p>
+                      Frame Sync:{" "}
+                      {(secondSelectedProduct as gpuProducts).frameSync}
+                    </p>
+                  </div>
+                )}
+                {secondSelectedProduct?.typeProduct === "SSD" && (
+                  <div>
+                    <p>Size: {(secondSelectedProduct as ssdProducts).size}</p>
+                    <p>Type: {(secondSelectedProduct as ssdProducts).type}</p>
+                  </div>
+                )}
+                {secondSelectedProduct?.typeProduct === "HDD" && (
+                  <div>
+                    <p>Size: {(secondSelectedProduct as hddProducts).size}</p>
+                  </div>
+                )}
+                {secondSelectedProduct?.typeProduct === "Power Supply" && (
+                  <div>
+                    <p>
+                      Wattage: {(secondSelectedProduct as psuProducts).wattage}{" "}
+                      W
+                    </p>
+                  </div>
+                )}
+                {secondSelectedProduct?.typeProduct === "Mother Board" && (
+                  <div>
+                    <p>Size: {(secondSelectedProduct as moboProducts).size}</p>
+                    <p>
+                      Socket: {(secondSelectedProduct as moboProducts).socket}
+                    </p>
+                    <p>
+                      Ram Slot:{" "}
+                      {(secondSelectedProduct as moboProducts).ramslot}
+                    </p>
+                  </div>
+                )}
+                {secondSelectedProduct?.typeProduct === "CPU Cooler" && (
+                  <div>
+                    <p>
+                      Socket:{" "}
+                      {(secondSelectedProduct as cpuCoolerProducts).socket}
+                    </p>
+                  </div>
+                )}
+                {secondSelectedProduct?.typeProduct === "Monitor" && (
+                  <div>
+                    <p>
+                      Panel Type:{" "}
+                      {(secondSelectedProduct as monitorProducts).panelType}
+                    </p>
+                    <p>
+                      Resolution:{" "}
+                      {(secondSelectedProduct as monitorProducts).resolution}
+                    </p>
+                    <p>
+                      Refresh Rate:{" "}
+                      {(secondSelectedProduct as monitorProducts).refreshRate}
+                    </p>
+                    <p>
+                      Size: {(secondSelectedProduct as monitorProducts).size}
+                    </p>
+                    <p>
+                      FreeSync:{" "}
+                      {(secondSelectedProduct as monitorProducts).freesync}
+                    </p>
+                    <p>
+                      G-Sync: {(secondSelectedProduct as monitorProducts).gsync}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>
