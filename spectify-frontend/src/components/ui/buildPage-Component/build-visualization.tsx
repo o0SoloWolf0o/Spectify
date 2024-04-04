@@ -29,20 +29,20 @@ const Visualization: React.FC<VisualizationProps> = ({ selectedProducts }) => {
   return (
     
     <div className="flex flex-nowrap justify-center items-center">
-      
       {Object.entries(safeSelectedProducts).map(([type, product]) => {
         
         if (!product) return null;
         const imageUrl = productTypeToImageUrl[type as keyof SelectedProducts];
         return (
-          
+          <div>
+          test image
           <img 
             key={type} 
             src={imageUrl} 
             alt={type} 
             style={{ width: '50px', height: '50px' }} 
           />
-        
+          </div>
         );
       })}
     </div>
