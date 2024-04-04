@@ -156,14 +156,14 @@ export interface ProductContextType {
 	selectedProductIDs: SelectedProductIDs;
 	handleSelectProduct: (type: string, id: string) => void;
 	handleDeselectProduct: (type: string) => void;
-}
+};
 
 interface ProductPopUpProps {
 	typeProduct: string;
 	onSelectProduct: (product: Product) => void;
 	onDeselectProduct: () => void;
 	selectedProduct: Product | null; 
-}
+};
 
 export default function ProductPopUp({ 
 	typeProduct, 
@@ -279,9 +279,10 @@ export default function ProductPopUp({
 				handleSearch("");
 				break;
 		}
-	}
+	};
 
 	function handleSearch(value: string) {
+		
 		setSearchValue(value);
 
 
@@ -290,7 +291,7 @@ export default function ProductPopUp({
 		);
 		setFilteredSearchProducts(filteredProducts.length > 0 ? filteredProducts : allProducts);
 
-	}
+	};
 
 	const [selectedProductInfo, setSelectedProductInfo] = useState<Product | null>(null);
 
@@ -300,14 +301,14 @@ export default function ProductPopUp({
 		
 		setSelectedProductInfo(product);
 		innerModalOpenHandler();
-	}
+	};
 
 	function handleProductClick(product: Product) {
 
 		onSelectProduct(product);
 		setDisplayText(product.name)
 		setDisplayImage(product.image || defaultProductImage);
-	}
+	};
 
 	const handleDeselectClick = () => {
 		
@@ -351,22 +352,20 @@ export default function ProductPopUp({
 			<div onClick={() => {
 				handleSearch("");
 				outerModalOpenHandler();
-			}} className="relative flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
+				}} className="relative flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
 
 				<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
 				<span className="flex items-center">{displayText}</span>
+			
 				{selectedProduct && (
-
-				<div onClick={(e) => {
-					e.stopPropagation();
-					handleDeselectClick();
-					}} className="absolute inset-y-0 right-0 bg-red-700 text-white p-2 cursor-pointer"
-				>				
+				<div onClick={
+					handleDeselectClick
+					} className="absolute inset-y-0 right-0 bg-red-700 text-white p-2 cursor-pointer rounded-xl"
+					>
           			<VscClose className="flex items-center my-3"/>
         		</div>
-				
 				)}
-			</div>
+			</div>	
 
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
 				<ModalContent>
@@ -547,4 +546,4 @@ export default function ProductPopUp({
 			</Modal>
 		</>
 	);
-} 
+};
