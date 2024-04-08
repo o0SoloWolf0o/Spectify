@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function createPsuProduct(typeProduct: string, name: string, image: string, wattage: string, description: string, price: string) {
+export async function createPsuProduct(typeProduct: string, name: string, image: string, wattage: string, description: string, price: string, tdp: string) {
 	try {
 		await prisma.psu.create({
 			data: {
@@ -14,6 +14,7 @@ export async function createPsuProduct(typeProduct: string, name: string, image:
 				wattage,
 				description,
 				price,
+				tdp,
 			},
 		});
 	} catch (err) {
@@ -55,7 +56,8 @@ export async function updatePsuProduct(
 	image: string,
 	wattage: string,
 	description: string,
-	price: string
+	price: string,
+	tdp: string
 ) {
 	try {
 		const psu = await prisma.psu.update({
@@ -67,6 +69,7 @@ export async function updatePsuProduct(
 				wattage,
 				description,
 				price,
+				tdp,
 			},
 		});
 		return psu;

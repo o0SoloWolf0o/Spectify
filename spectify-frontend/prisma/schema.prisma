@@ -144,6 +144,7 @@ model mobo {
     size    String
     socket  String
     ramslot String
+    tdp    String
     description String
     price   String
 
@@ -160,6 +161,8 @@ model ram {
     kit     String
     description String
     price   String
+    tdp    String
+    bus    String
 
     build build[]
 }
@@ -185,6 +188,7 @@ model cpuCooler {
     socket  String
     description String
     price   String
+    tdp     String
 
     build build[]
 }
@@ -223,6 +227,9 @@ model hdd {
     size    String
     description String
     price   String
+    speedRead  String
+    speedWrite String
+    tdp    String
 
     build build[]
 }
@@ -236,6 +243,9 @@ model ssd {
     type   String
     description String
     price   String
+    speedRead  String
+    speedWrite String
+    tdp    String
 
     build build[]
 }
@@ -265,6 +275,7 @@ model psu {
     wattage String
     description String
     price   String
+    tdp    String
 
     build build[]
 }

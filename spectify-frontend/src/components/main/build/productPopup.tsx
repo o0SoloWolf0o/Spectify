@@ -42,6 +42,8 @@ type ramProducts = {
 	kit: string;
 	description: string;
 	price: string;
+	bus: string;
+	tdp: string;
 }
 
 type gpuProducts = {
@@ -88,6 +90,8 @@ type hddProducts = {
 	size: string;
 	description: string;
 	price: string;
+	speedRead: string;
+	speedWrite: string;
 }
 
 type ssdProducts = {
@@ -99,6 +103,8 @@ type ssdProducts = {
 	type: string;
 	description: string;
 	price: string;
+	speedRead: string;
+	speedWrite: string;
 }
 
 type cpuCoolerProducts = {
@@ -461,6 +467,7 @@ export default function ProductPopUp({
 																				<p>Size: {(selectedProductInfo as ramProducts).size}</p>
 																				<p>Type: {(selectedProductInfo as ramProducts).type}</p>
 																				<p>Kit: {(selectedProductInfo as ramProducts).kit}</p>
+																				<p>Bus Speed: {(selectedProduct as ramProducts).bus}</p>
 																			</div>
 																		)}
 																		{selectedProductInfo?.typeProduct === "GPU" && (
@@ -486,11 +493,15 @@ export default function ProductPopUp({
 																			<div>
 																				<p>Size: {(selectedProductInfo as ssdProducts).size}</p>
 																				<p>Type: {(selectedProductInfo as ssdProducts).type}</p>
+																				<p>Read Speed: {(selectedProduct as ssdProducts).speedRead}</p>
+																				<p>Write Speed: {(selectedProduct as ssdProducts).speedWrite}</p>
 																			</div>
 																		)}
 																		{selectedProductInfo?.typeProduct === "HDD" && (
 																			<div>
 																				<p>Size: {(selectedProductInfo as hddProducts).size}</p>
+																				<p>Read Speed: {(selectedProduct as hddProducts).speedRead}</p>
+																				<p>Write Speed: {(selectedProduct as hddProducts).speedWrite}</p>
 																			</div>
 																		)}
 																		{selectedProductInfo?.typeProduct === "Power Supply" && (

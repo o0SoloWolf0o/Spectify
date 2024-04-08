@@ -10,7 +10,10 @@ export async function createHddProduct(
     image: string,
     size: string,
     description: string,
-    price: string
+    price: string,
+    tdp: string,
+    speedRead: string,
+    speedWrite: string
 ) {
     try {
 
@@ -23,7 +26,10 @@ export async function createHddProduct(
                     image,
                     size,
                     description,
-                    price
+                    price,
+                    tdp,
+                    speedRead,
+                    speedWrite
                 }
             }
         );
@@ -41,13 +47,35 @@ export async function getHddProduct() {
     }
 }
 
+export async function getHddProducts() {
+    try {
+        const gpu = await prisma.gpu.findMany()
+        return gpu
+    } catch (err) {
+        throw new Error(err as string)
+    }
+}
+
+export async function getHddProductById(id: string) {
+    try {
+        const gpu = await prisma.gpu.findUnique({ where: { id } })
+        return gpu
+    } catch (err) {
+        throw new Error(err as string)
+    }
+}
+
 export async function updateHddProductById(id: string,
     typeProduct: string,
     name: string,
     image: string,
     size: string,
     description: string,
-    price: string) {
+    price: string,
+    tdp: string,
+    speedRead: string,
+    speedWrite: string
+) {
     try {
         const hdd = await prisma.hdd.update({
             where: { id },
@@ -57,7 +85,10 @@ export async function updateHddProductById(id: string,
                 image,
                 size,
                 description,
-                price
+                price,
+                tdp,
+                speedRead,
+                speedWrite
             }
         })
         return hdd
