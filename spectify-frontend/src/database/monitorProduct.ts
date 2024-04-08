@@ -49,6 +49,24 @@ export async function getMonitorProduct() {
     }
 }
 
+export async function getMonitorProducts() {
+    try {
+        const monitor = await prisma.monitor.findMany()
+        return monitor
+    } catch (err) {
+        throw new Error(err as string)
+    }
+}
+
+export async function getMonitorProductById(id: string) {
+    try {
+        const monitor = await prisma.monitor.findUnique({where:{id}})
+        return monitor
+    } catch (err) {
+        throw new Error(err as string)
+    }
+}
+
 export async function updateMonitorProductById(id: string,
     typeProduct:string,
     name:string,

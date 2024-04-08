@@ -5,7 +5,7 @@ import { string } from "zod";
 
 const prisma = new PrismaClient();
 
-export async function createCpuCooler(typeProduct: string, name: string, image: string, socket: string, description: string, price: string) {
+export async function createCpuCooler(typeProduct: string, name: string, image: string, socket: string, description: string, price: string, tdp: string) {
 	try {
 		await prisma.cpuCooler.create({
 			data: {
@@ -15,6 +15,7 @@ export async function createCpuCooler(typeProduct: string, name: string, image: 
 				socket,
 				description,
 				price,
+				tdp,
 			},
 		});
 	} catch (err) {
@@ -56,7 +57,8 @@ export async function updateCpuCooler(
 	image: string,
 	socket: string,
 	description: string,
-	price: string
+	price: string,
+	tdp: string
 ) {
 	try {
 		const cpuCooler = await prisma.cpuCooler.update({
@@ -68,6 +70,7 @@ export async function updateCpuCooler(
 				socket,
 				description,
 				price,
+				tdp,
 			},
 		});
 		return cpuCooler;

@@ -17,6 +17,7 @@ import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
 import { CompareCountContext } from "@/app/(main)/layout";
 import { GoArrowSwitch } from "react-icons/go";
+import { ram } from "@prisma/client";
 
 export type cpuProducts = {
 	id: string;
@@ -44,6 +45,7 @@ export type ramProducts = {
 	kit: string;
 	description: string;
 	price: string;
+	bus: string;
 };
 
 export type gpuProducts = {
@@ -87,6 +89,8 @@ export type hddProducts = {
 	size: string;
 	description: string;
 	price: string;
+	speedRead: string;
+	speedWrite: string;
 };
 
 export type ssdProducts = {
@@ -97,6 +101,8 @@ export type ssdProducts = {
 	type: string;
 	description: string;
 	price: string;
+	speedRead: string;
+	speedWrite: string;
 };
 
 export type cpuCoolerProducts = {
@@ -381,6 +387,7 @@ export default function ProductPage() {
 														<p>Size: {(selectedProduct as ramProducts).size}</p>
 														<p>Type: {(selectedProduct as ramProducts).type}</p>
 														<p>Kit: {(selectedProduct as ramProducts).kit}</p>
+														<p>Bus Speed: {(selectedProduct as ramProducts).bus}</p>
 													</div>
 												)}
 												{selectedProduct?.typeProduct === "GPU" && (
@@ -406,11 +413,15 @@ export default function ProductPage() {
 													<div>
 														<p>Size: {(selectedProduct as ssdProducts).size}</p>
 														<p>Type: {(selectedProduct as ssdProducts).type}</p>
+														<p>Read Speed: {(selectedProduct as ssdProducts).speedRead}</p>
+														<p>Write Speed: {(selectedProduct as ssdProducts).speedWrite}</p>
 													</div>
 												)}
 												{selectedProduct?.typeProduct === "HDD" && (
 													<div>
 														<p>Size: {(selectedProduct as hddProducts).size}</p>
+														<p>Read Speed: {(selectedProduct as hddProducts).speedRead}</p>
+														<p>Write Speed: {(selectedProduct as hddProducts).speedWrite}</p>
 													</div>
 												)}
 												{selectedProduct?.typeProduct === "Power Supply" && (
