@@ -1,6 +1,6 @@
 "use client";
 import { getBuildByUserId } from "@/database/build";
-import BuildPopupComponent from "../main/build/buildPopup";
+import BuildPopupComponent from "../build/buildPopup";
 import { useEffect, useState } from "react";
 import { Avatar } from "@nextui-org/react";
 

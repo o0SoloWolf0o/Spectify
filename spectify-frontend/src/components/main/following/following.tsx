@@ -7,7 +7,7 @@ import { getUserById } from "@/database/user";
 import { getUserImg } from "@/action/updateProfile";
 import FollowButton from "@/components/main/profile/followButton";
 import Link from "next/link";
-import FollowingBuilds from "@/components/following/followingBuilds";
+import FollowingBuilds from "@/components/main/following/followingBuilds";
 
 export default function FollowingComponent({limit}: {limit: number}) {
     const session = useSession();
