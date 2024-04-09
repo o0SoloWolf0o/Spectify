@@ -112,7 +112,7 @@ export default function ComparePage() {
               padding: "10px",
               margin: "10px",
               boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
-              overflow: "auto", // เพิ่ม overflow: hidden เพื่อป้องกันเนื้อหาที่เกินขอบเขต
+              overflow: "auto",
             }}
           >
             <p
@@ -135,6 +135,7 @@ export default function ComparePage() {
             >
               PC build
             </p>*/}
+
             <div style={{ marginLeft: "45%" }}></div>
 
             {renderProductSection("CPU")}
@@ -231,6 +232,7 @@ export default function ComparePage() {
                     <p>Size: {(selectedProduct as ramProducts).size}</p>
                     <p>Type: {(selectedProduct as ramProducts).type}</p>
                     <p>Kit: {(selectedProduct as ramProducts).kit}</p>
+                    <p>Bus Speed: {(selectedProduct as ramProducts).bus}</p>
                   </div>
                 )}
                 {selectedProduct?.typeProduct === "GPU" && (
@@ -281,11 +283,23 @@ export default function ComparePage() {
                   <div>
                     <p>Size: {(selectedProduct as ssdProducts).size}</p>
                     <p>Type: {(selectedProduct as ssdProducts).type}</p>
+                    <p>
+                      Read Speed: {(selectedProduct as ssdProducts).speedRead}
+                    </p>
+                    <p>
+                      Write Speed: {(selectedProduct as ssdProducts).speedWrite}
+                    </p>
                   </div>
                 )}
                 {selectedProduct?.typeProduct === "HDD" && (
                   <div>
                     <p>Size: {(selectedProduct as hddProducts).size}</p>
+                    <p>
+                      Read Speed: {(selectedProduct as hddProducts).speedRead}
+                    </p>
+                    <p>
+                      Write Speed: {(selectedProduct as hddProducts).speedWrite}
+                    </p>
                   </div>
                 )}
                 {selectedProduct?.typeProduct === "Power Supply" && (
@@ -420,6 +434,9 @@ export default function ComparePage() {
                     <p>Size: {(secondSelectedProduct as ramProducts).size}</p>
                     <p>Type: {(secondSelectedProduct as ramProducts).type}</p>
                     <p>Kit: {(secondSelectedProduct as ramProducts).kit}</p>
+                    <p>
+                      Bus Speed: {(secondSelectedProduct as ramProducts).bus}
+                    </p>
                   </div>
                 )}
                 {secondSelectedProduct?.typeProduct === "GPU" && (
@@ -477,11 +494,27 @@ export default function ComparePage() {
                   <div>
                     <p>Size: {(secondSelectedProduct as ssdProducts).size}</p>
                     <p>Type: {(secondSelectedProduct as ssdProducts).type}</p>
+                    <p>
+                      Read Speed:{" "}
+                      {(secondSelectedProduct as ssdProducts).speedRead}
+                    </p>
+                    <p>
+                      Write Speed:{" "}
+                      {(secondSelectedProduct as ssdProducts).speedWrite}
+                    </p>
                   </div>
                 )}
                 {secondSelectedProduct?.typeProduct === "HDD" && (
                   <div>
                     <p>Size: {(secondSelectedProduct as hddProducts).size}</p>
+                    <p>
+                      Read Speed:{" "}
+                      {(secondSelectedProduct as ssdProducts).speedRead}
+                    </p>
+                    <p>
+                      Write Speed:{" "}
+                      {(secondSelectedProduct as ssdProducts).speedWrite}
+                    </p>
                   </div>
                 )}
                 {secondSelectedProduct?.typeProduct === "Power Supply" && (
