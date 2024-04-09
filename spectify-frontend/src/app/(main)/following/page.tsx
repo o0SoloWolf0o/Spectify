@@ -1,5 +1,5 @@
 "use client";
-import FollowingComponent from "@/components/following/following";
+import FollowingComponent from "@/components/main/following/following";
 import { useState } from "react";
 import Link from "next/link";
 export default function FollowingPage() {
