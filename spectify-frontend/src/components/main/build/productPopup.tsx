@@ -387,7 +387,7 @@ export default function ProductPopUp({
 							</ModalHeader>
 
 							<ModalBody>
-
+							<div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
 								{filteredSearchProducts.map((product, index) => (
 									<div key={index} style={{
 										width: "200px",
@@ -553,11 +553,13 @@ export default function ProductPopUp({
 										</div>
 									</div>
 								))}
+								</div>
 							</ModalBody>
 						</>
 					)}
 				</ModalContent>
 			</Modal>
+			
 		</>
 	);
 };
