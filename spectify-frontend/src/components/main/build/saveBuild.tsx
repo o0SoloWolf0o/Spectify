@@ -54,6 +54,7 @@ export default function SaveBuildComponent({ className }: IsaveBuildComponent) {
 			startTransition(() => {
 				saveBuild(build).then((res) => {
 					if (res.success) {
+						localStorage.clear();
 						router.push("/profile/" + session.data?.user.username);
 					} else {
 						setErrorMessage(res.message);

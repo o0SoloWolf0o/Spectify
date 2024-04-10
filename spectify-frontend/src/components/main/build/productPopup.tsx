@@ -362,7 +362,12 @@ export default function ProductPopUp({
 			}} className="relative flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
 
 				<img src={displayImage || defaultProductImage} style={{ display: 'inline-block', marginRight: '1rem' }} />
-				<span className="flex items-center">{displayText}</span>
+
+				{selectedProduct ? (
+      				<span className="flex items-center">{displayText}</span>	
+				) : (
+      				<p className="flex items-center justify-center">{typeProduct}</p>
+    			)}
 
 				{selectedProduct && (
 					<div onClick={(event) => {
