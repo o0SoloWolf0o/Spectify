@@ -292,7 +292,6 @@ export default function ProductPopUp({
 
 		setSearchValue(value);
 
-
 		const filteredProducts = allProducts.filter((product) =>
 			product.name.toLowerCase().includes(value.toLowerCase())
 		);
