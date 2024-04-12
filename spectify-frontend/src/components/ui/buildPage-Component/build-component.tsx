@@ -22,7 +22,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
     const handleSelectProduct = (typeProduct: string, product: Product) => {
     
         setSelectedProducts(prevProducts => {
-             const newProducts = { ...prevProducts, [typeProduct]: product };
+            const newProducts = { ...prevProducts, [typeProduct]: product };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.setItem(typeProduct, product.id);
             return newProducts;
@@ -32,7 +32,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
     const handleDeselectProduct = (typeProduct: string) => {
         
         setSelectedProducts(prevProducts => {
-             const newProducts = { ...prevProducts, [typeProduct]: null };
+            const newProducts = { ...prevProducts, [typeProduct]: null };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.removeItem(typeProduct);
             return newProducts;
