@@ -42,19 +42,19 @@ const Generator = () => {
                 
                 <div className='flex justify-center'>
 
-                    <select className='flex bg-gray-50 border border-[#D9D9D9]
+                    <select value="1" className='flex bg-gray-50 border border-[#D9D9D9]
                                     focus:ring-[#00A9FF] focus:border-[#00A9FF]
                                     text-black text-md hover:cursor-pointer
                                     rounded-lg w-full mx-5 mb-5 p-2.5'>
-                        <option selected>Gaming</option>
+                        <option value='1'>Gaming</option>
                         
-                        <option value=''>Programming</option>
+                        <option value='2'>Programming</option>
                         
-                        <option value=''>Video Editing</option>
+                        <option value='3'>Video Editing</option>
                         
-                        <option value=''>Office working</option>
+                        <option value='4'>Office working</option>
                         
-                        <option value=''>??</option>
+                        <option value='5'>??</option>
                 
                     </select>
                 
