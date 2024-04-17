@@ -14,6 +14,7 @@ import {
   monitorProducts,
   psuProducts,
 } from "@/components/main/product/productPage";
+import { Image } from "@nextui-org/react";
 
 export default function ComparePage() {
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
@@ -64,20 +65,19 @@ export default function ComparePage() {
         {products.map((product, index) => (
           <div
             key={index}
-            style={{ display: "inline-block", textAlign: "center" }}
+            style={{ display: "inline-block", textAlign: "center", margin: "0 10px"}}
           >
-            <img
+            <Image
               src={product.image}
               alt={product.name}
+              width={80}
+              height={80}
               style={{
-                width: "80px",
-                height: "80px",
                 boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
-                cursor: "pointer", // Add cursor pointer for indicating clickable
+                cursor: "pointer",
                 position: "relative",
               }}
               onClick={() => handleProductClick(product)}
-              // Call handleProductClick on image click
             />
             <p>
               {product.name.length > 9
@@ -197,15 +197,16 @@ export default function ComparePage() {
                 }}
               >
                 <div style={{ display: "grid", gridTemplateColumns: "1fr" }}>
-                  <img
+                  <Image
                     src={selectedProduct.image}
                     alt={selectedProduct.name}
+                    width={200}
+                    height={200}
                     style={{
-                      width: "200px",
-                      height: "200px",
                       boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
                     }}
                   />
+
                 </div>
               </div>
             )}
@@ -393,12 +394,12 @@ export default function ComparePage() {
                 }}
               >
                 <div style={{ display: "grid", gridTemplateColumns: "1fr" }}>
-                  <img
+                  <Image
                     src={secondSelectedProduct.image}
                     alt={secondSelectedProduct.name}
+                    width={200}
+                    height={200}
                     style={{
-                      width: "200px",
-                      height: "200px",
                       boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
                     }}
                   />

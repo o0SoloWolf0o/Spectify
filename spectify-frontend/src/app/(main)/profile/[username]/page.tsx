@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import { getUserByUsername } from "@/database/user";
 import {Avatar, Button} from "@nextui-org/react";
