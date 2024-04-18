@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useContext, useEffect, useState } from "react";
@@ -314,12 +313,17 @@ export default function ProductPage() {
 						<p style={{ fontSize: "13px" }} onClick={() => handleProductClick(product)}>
 							{product.description}
 						</p>
-						<img
+						<Image
 							src={product.image}
 							alt={product.name}
-							style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }}
+							width={200}
+							height={200}
+							style={{
+								boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+							}}
 							onClick={() => handleProductClick(product)}
 						/>
+
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
 							<div>
 								{product.price ? (
@@ -335,8 +339,8 @@ export default function ProductPage() {
 									<p>No price available</p>
 								)}
 							</div>
-							
-							<GoArrowSwitch 
+
+							<GoArrowSwitch
 								className="h-6 w-6"
 								onClick={() => handleCompareClick(product)}
 							/>
@@ -354,13 +358,16 @@ export default function ProductPage() {
 										<div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'stretch' }}>
 											<div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
 												<p style={{ fontSize: '13px', maxWidth: '200px', overflowWrap: 'break-word' }}>{selectedProduct?.description}</p>
-												<img
-													src={selectedProduct?.image}
-													alt={selectedProduct?.name}
-													width={200}
-													height={200}
-													style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
-												/>
+												{selectedProduct && selectedProduct.image && selectedProduct.name && (
+													<Image
+														src={selectedProduct.image}
+														alt={selectedProduct.name}
+														width={200}
+														height={200}
+														style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
+													/>
+												)}
+
 												<div style={{ marginTop: '7px' }}>
 													<p style={{ color: '#6B6B6B' }}>Estimate Price</p>
 													<p style={{ fontWeight: 'bold' }}>{selectedProduct?.price} THB</p>
