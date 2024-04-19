@@ -17,7 +17,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
     useEffect(() => {
         const loadedProducts = JSON.parse(localStorage.getItem('selectedProducts') || '{}');
         setSelectedProducts(prev => ({ ...prev, ...loadedProducts }));
-    }, []);
+    }, [setSelectedProducts]);
 
     const handleSelectProduct = (typeProduct: string, product: Product) => {
     
