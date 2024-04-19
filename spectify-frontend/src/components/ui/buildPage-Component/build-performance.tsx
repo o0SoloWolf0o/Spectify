@@ -180,7 +180,6 @@ const Performance = () => {
     ];
 
     return (
-        <>
         <div className="mb-5">
             {product.CPU && product.GPU && (
 
@@ -504,7 +503,6 @@ const Performance = () => {
 
             )}
         </div>
-        </>
     );
 };
 

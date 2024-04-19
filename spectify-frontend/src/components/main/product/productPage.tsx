@@ -16,6 +16,7 @@ import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
 import { CompareCountContext } from "@/app/(main)/layout";
 import { GoArrowSwitch } from "react-icons/go";
+import { ram } from "@prisma/client";
 
 export type cpuProducts = {
 	id: string;
