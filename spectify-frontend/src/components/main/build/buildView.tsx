@@ -113,7 +113,7 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 			}
 		};
 		fetchData();
-	}, []);
+	}, [buildId, buildInfo]);
 
 	return (
 		<>
@@ -135,7 +135,11 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 									</DropdownMenu>
 								</Dropdown>
 							</div>
-							<img src={buildImage || ""} className="aspect-square object-cover shadow rounded-lg bg-white" />
+							<Image
+								src={buildImage || ""}
+								alt="Build Image"
+								className="aspect-square object-cover shadow rounded-lg bg-white"
+							/>
 							<Textarea
 								value={buildBio}
 								className="aspect-square rounded-lg resize-none text-base outline outline-2 disabled:cursor-default caret-transparent"
@@ -157,35 +161,68 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 							<div className="flex flex-col w-full gap-4">
 								<p className="text-xl font-bold">Components</p>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<img src={cpu?.image || ""} className="h-full aspect-square" />
+									<Image
+										src={cpu?.image || ""}
+										alt="CPU Image"
+										className="h-full aspect-square"
+									/>
 									<p>{cpu?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<img src={mobo?.image || ""} className="h-full aspect-square" />
+									<Image
+										src={mobo?.image || ""}
+										alt="Motherboard Image"
+										className="h-full aspect-square"
+									/>
 									<p>{mobo?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<img src={ram?.image || ""} className="h-full aspect-square" />
+									<Image
+										src={ram?.image || ""}
+										alt="RAM Image"
+										className="h-full aspect-square"
+									/>
+
 									<p>{ram?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<img src={gpu?.image || ""} className="h-full aspect-square" />
+									<Image
+										src={gpu?.image || ""}
+										alt="GPU Image"
+										className="h-full aspect-square"
+									/>
 									<p>{gpu?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<img src={ssd?.image || ""} className="h-full aspect-square" />
+									<Image
+										src={ssd?.image || ""}
+										alt="SSD Image"
+										className="h-full aspect-square"
+									/>
 									<p>{ssd?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<img src={psu?.image || ""} className="h-full aspect-square" />
+									<Image
+										src={psu?.image || ""}
+										alt="PSU Image"
+										className="h-full aspect-square"
+									/>
 									<p>{psu?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<img src={caseComputer?.image || ""} className="h-full aspect-square" />
+									<Image
+										src={caseComputer?.image || ""}
+										alt="Computer Case Image"
+										className="h-full aspect-square"
+									/>
 									<p>{caseComputer?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<img src={cooler?.image || ""} className="h-full aspect-square" />
+									<Image
+										src={cooler?.image || ""}
+										alt="Cooler Image"
+										className="h-full aspect-square"
+									/>
 									<p>{cooler?.name}</p>
 								</Button>
 							</div>

@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import AuthPopup from "@/components/main/auth/authPopup";
 import AuthErrorComponent from "@/components/main/auth/authError";
-
+import Image from "next/image";
 interface IsaveBuildComponent {
 	className?: string | "";
 }
@@ -105,7 +105,7 @@ export default function SaveBuildComponent({ className }: IsaveBuildComponent) {
 				setComponentFill(false);
 			}
 		}
-	}, [isOpen]);
+	}, [buildForm, isOpen]);
 
 	return (
 		<>
@@ -138,12 +138,13 @@ export default function SaveBuildComponent({ className }: IsaveBuildComponent) {
 														/>
 														<div className="flex flex-row justify-between gap-4">
 															<div className="w-1/2 aspect-square ">
-																<img
+																<Image
 																	src={imageBase64}
 																	onClick={handleImageClick}
 																	className="w-full h-full object-cover cursor-pointer shadow rounded-lg bg-white"
 																	alt=""
 																/>
+
 																<Input
 																	type="file"
 																	ref={fileInputRef}

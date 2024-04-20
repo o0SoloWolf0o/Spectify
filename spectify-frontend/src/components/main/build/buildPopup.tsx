@@ -10,6 +10,7 @@ import BuildLikeComponent from "./buildLike";
 import BuildCompareComponent from "./buildCompare";
 import BuildShareComponent from "./buildShare";
 import BuildViewComponent from "./buildView";
+import Image from 'next/image'
 
 type TBuildPopupComponent = {
 	buildId: string;
@@ -36,15 +37,16 @@ export default function BuildPopupComponent({ buildId, size }: TBuildPopupCompon
 		getBuildById(buildId).then((res) => {
 			setBuild(res);
 		});
-	}, []);
+	}, [buildId]);
 
 	return (
 		<>
 			{build ? (
 				<>
 					<div className={cn(variant({ size }))}>
-						<img
+						<Image
 							src={build?.image || ""}
+							alt="Build Image"
 							onClick={onOpen}
 							className="w-full h-full object-cover cursor-pointer shadow rounded-lg bg-white"
 						/>
