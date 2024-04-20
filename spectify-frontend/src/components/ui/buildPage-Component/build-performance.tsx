@@ -47,11 +47,13 @@ const Performance = () => {
 
     let product: Product = {};
 
-    if (typeof window !== 'undefined') {
-        const allproduct = localStorage.getItem('selectedProducts') || '';
-        product = JSON.parse(allproduct);
+    if (typeof localStorage !== 'undefined') {
+        const allProductData = localStorage.getItem('selectedProducts');
+        if (allProductData) {
+            product = JSON.parse(allProductData);
+        }
     }
-
+    
     // Calculate FPS 1920 x 1080 (FHD (1080p))
     let FPS_Valorant_Low: number | null = null;
     let FPS_Valorant_Medium: number | null = null;

@@ -126,9 +126,11 @@ const Optimization = () => {
 
     let product: Product = {};
 
-    if (typeof window !== 'undefined') {
-        const allproduct = localStorage.getItem('selectedProducts') || '';
-        product = JSON.parse(allproduct);
+    if (typeof localStorage !== 'undefined') {
+        const allProductData = localStorage.getItem('selectedProducts');
+        if (allProductData) {
+            product = JSON.parse(allProductData);
+        }
     }
 
     // Sum of all TDP

@@ -142,8 +142,10 @@ model mobo {
     name    String
     image   String
     size    String
-    socket  String
+    socketCPU  String
+    socketStorage String
     ramslot String
+    ramkit String
     tdp    String
     description String
     price   String
