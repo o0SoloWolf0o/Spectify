@@ -77,8 +77,10 @@ type moboProducts = {
 	name: string;
 	image: string;
 	size: string;
-	socket: string;
+	socketCPU: string;
+	socketStorage: string;
 	ramslot: string;
+	ramkit: string;
 	description: string;
 	price: string;
 }
@@ -517,7 +519,7 @@ export default function ProductPopUp({
 																			{selectedProductInfo?.typeProduct === "Mother Board" && (
 																				<div>
 																					<p>Size: {(selectedProductInfo as moboProducts).size}</p>
-																					<p>Socket: {(selectedProductInfo as moboProducts).socket}</p>
+																					<p>Socket: {(selectedProductInfo as moboProducts).socketCPU}</p>
 																					<p>Ram Slot: {(selectedProductInfo as moboProducts).ramslot}</p>
 																				</div>
 																			)}

@@ -12,8 +12,8 @@ export default {
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 		}),
 		Credentials({
-			async authorize(creadentials) {
-				const valid = signInSchema.safeParse(creadentials);
+			async authorize(credentials) {
+				const valid = signInSchema.safeParse(credentials);
 				if (valid.success) {
 					const { email, password } = valid.data;
 					const user = await getUserByEmail(email);
@@ -21,14 +21,17 @@ export default {
 						return null;
 					}
 
-					const isValid = await bcrypt.compare(password, user.password);
-
-					if (isValid) {
-						return user;
+					try {
+						const isValid = await bcrypt.compare(password, user.password);
+						if (isValid) {
+							return user;
+						}
+					} catch (error) {
+						console.error("Error comparing passwords:", error);
 					}
 				}
 				return null;
 			},
 		}),
 	],
-} satisfies NextAuthConfig;
+} as NextAuthConfig;

@@ -10,6 +10,7 @@ import { getSsdProductById, getSsdProducts } from "@/database/ssdProduct";
 import { getPsuProductById, getPsuProducts } from "@/database/psuProduct";
 import { getCaseComputerById, getCaseComputers } from "@/database/caseComputerProduct";
 import { getCpuCoolerById, getCpuCoolers } from "@/database/cpuCoolerProduct";
+import { useCallback } from 'react';
 
 type TProps = {
 	model: "cpu" | "mobo" | "ram" | "gpu" | "ssd" | "psu" | "caseComputer" | "cpuCooler";
@@ -23,7 +24,7 @@ export default function DataBoard({ model }: TProps) {
 		fetchData(id);
 	}
 
-	async function fetchData(id?: string) {
+	const fetchData = useCallback(async (id?: string) => {
 		let newData: any;
 		setIsLoaded(false);
 		switch (model) {
@@ -57,11 +58,11 @@ export default function DataBoard({ model }: TProps) {
 		}
 		setData(newData);
 		setIsLoaded(true);
-	}
+	}, [model, setIsLoaded, setData]);
 
 	useEffect(() => {
 		fetchData();
-	}, [model]);
+	}, [fetchData, model]);
 
 	return (
 		<>
