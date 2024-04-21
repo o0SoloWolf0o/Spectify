@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useMemo, } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ProductPopUp, { Product } from '@/components/main/build/productPopup';
+import { cpuProducts } from "@/components/main/product/productPage";
 
 export type SelectedProducts = {
     [key: string]: Product | null;
@@ -14,9 +15,15 @@ interface BuildComponentProps {
 
 const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSelectedProducts }) => {
 
+    const [selectedCpuSocket, setSelectedCpuSocket] = useState<string | null>(null);
+
     useEffect(() => {
         const loadedProducts = JSON.parse(localStorage.getItem('selectedProducts') || '{}');
         setSelectedProducts(prev => ({ ...prev, ...loadedProducts }));
+        if (loadedProducts.CPU) {
+            setSelectedCpuSocket(loadedProducts.CPU.socket);
+        }
+        
     }, [setSelectedProducts]);
 
     const handleSelectProduct = (typeProduct: string, product: Product) => {
@@ -25,6 +32,11 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             const newProducts = { ...prevProducts, [typeProduct]: product };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.setItem(typeProduct, product.id);
+            
+            if (typeProduct === 'CPU') {
+                setSelectedCpuSocket((product as cpuProducts).socket); // Set the socket
+            }
+
             return newProducts;
         });
     };
@@ -35,6 +47,11 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             const newProducts = { ...prevProducts, [typeProduct]: null };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.removeItem(typeProduct);
+            
+            if (typeProduct === 'CPU') {
+                setSelectedCpuSocket(null); // Clear the socket if CPU is deselected
+            }
+            
             return newProducts;
         });
     };
@@ -63,6 +80,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
                         onSelectProduct={(product) => handleSelectProduct(type, product)}
                         onDeselectProduct={() => handleDeselectProduct(type)}
                         selectedProduct={product}
+                        selectedCpuSocket={type === 'MB' ? selectedCpuSocket : undefined}
                     />
                 ))}
 
