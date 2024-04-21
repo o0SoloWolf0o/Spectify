@@ -34,7 +34,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             localStorage.setItem(typeProduct, product.id);
             
             if (typeProduct === 'CPU') {
-                setSelectedCpuSocket((product as cpuProducts).socket); // Set the socket
+                setSelectedCpuSocket((product as cpuProducts).socket);
             }
 
             return newProducts;
@@ -49,7 +49,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             localStorage.removeItem(typeProduct);
             
             if (typeProduct === 'CPU') {
-                setSelectedCpuSocket(null); // Clear the socket if CPU is deselected
+                setSelectedCpuSocket(null);
             }
             
             return newProducts;

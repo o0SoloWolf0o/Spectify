@@ -275,7 +275,6 @@ useEffect(() => {
 		  data = await getHddProducts();
 		  setDisplayText('HDD');
 		  break;
-		// Remove case "MB" since we're handling it below
 		case "PSU":
 		  data = await getPsuProducts();
 		  setDisplayText('Power Supply');
@@ -303,7 +302,6 @@ useEffect(() => {
 	};
   
 	if (typeProduct === "MB" && selectedCpuSocket) {
-	  // Fetch and filter motherboards based on CPU socket
 	  getMoboProducts().then((mobos) => {
 		const compatibleMobos = mobos.filter((mobo: moboProducts) => mobo.socketCPU === selectedCpuSocket);
 		setAllProducts(compatibleMobos);
@@ -311,117 +309,9 @@ useEffect(() => {
 		setFilteredSearchProducts(compatibleMobos);
 	  });
 	} else {
-	  // Fetch all other product types as normal
 	  fetchData();
 	}
   }, [typeProduct, selectedCpuSocket]);
-  
-	
-	// useEffect(() => {
-	// 	const fetchData = async (typeProduct: string) => {
-	// 		switch (typeProduct) {
-	// 			case "CPU":
-	// 				getCpuProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("CPU products:", data);
-	// 					setDisplayText('CPU');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				});
-	// 				break;
-	// 			case "GPU":
-	// 				getGpuProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("GPU products:", data);
-	// 					setDisplayText('VGA');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				});
-	// 				break;
-	// 			case "RAM":
-	// 				getRamProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("RAM products:", data);
-	// 					setDisplayText('Memory');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				});
-	// 				break;
-	// 			case "SSD":
-	// 				getSsdProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("SSD products:", data);
-	// 					setDisplayText('Storage');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				});
-	// 				break;
-	// 			case "HDD":
-	// 				getHddProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("HDD products:", data);
-	// 					setDisplayText('HDD');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				});
-	// 				break;
-	// 			case "MB":
-	// 				getMoboProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("Motherboard products:", data);
-	// 					setDisplayText('Motherboard');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				});
-	// 				break;
-	// 			case "PSU":
-	// 				getPsuProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("PSU products:", data);
-	// 					setDisplayText('Power Supply');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				});
-	// 				break;
-	// 			case "Monitor":
-	// 				getMonitorProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("Monitor products:", data);
-	// 					setDisplayText('Monitor');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				});
-	// 				break;
-	// 			case "Cooler":
-	// 				getCpuCoolerProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("CPU Cooler products:", data);
-	// 					setDisplayText('CPU cooler');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				});
-	// 				break;
-	// 			case "Case":
-	// 				getCaseComputersProducts().then((data) => {
-	// 					setAllProducts(data);
-	// 					console.log("Case products:", data);
-	// 					setDisplayText('Case');
-	// 					handleSearch("");
-	// 					setFilteredSearchProducts(data);
-	// 				})
-	// 				break;
-	// 			default:
-	// 				setAllProducts([]);
-	// 				setFilteredSearchProducts(allProducts);
-	// 				handleSearch("");
-	// 				break;
-	// 		}
-	// 	};
-
-	// 	if (outerModalOpen && typeProduct) {
-	// 		fetchData(typeProduct);
-	// 	}
-	// }, [allProducts, handleSearch, outerModalOpen, typeProduct]);
 
 	return (
 		<>
