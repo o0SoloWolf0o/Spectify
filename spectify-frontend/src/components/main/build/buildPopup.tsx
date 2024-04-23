@@ -49,6 +49,7 @@ export default function BuildPopupComponent({ buildId, size }: TBuildPopupCompon
 							alt="Build Image"
 							onClick={onOpen}
 							className="w-full h-full object-cover cursor-pointer shadow rounded-lg bg-white"
+							width="200" height="200"
 						/>
 						<div className="flex flex-row justify-between">
 							<BuildLikeCountComponent />

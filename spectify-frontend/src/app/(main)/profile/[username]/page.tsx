@@ -95,6 +95,7 @@ export default function userProfilePage({
                         isZoomed
                         src="https://media.cnn.com/api/v1/images/stellar/prod/210104111236-beginner-gaming-pc.jpg?q=w_2065,h_1162,x_0,y_0,c_fill"
                         alt="Computer set"
+                        width="200" height="200"
                         />
                     </div> */}
             </div>
