@@ -44,7 +44,11 @@ export default function ComparePage() {
   };
 
   const handleProductClick = (product: Product) => {
-    if (!selectedProduct) {
+    if (selectedProduct === product) {
+      setSelectedProduct(null);
+    } else if (secondSelectedProduct === product) {
+      setSecondSelectedProduct(null);
+    } else if (!selectedProduct) {
       setSelectedProduct(product);
     } else if (!secondSelectedProduct) {
       setSecondSelectedProduct(product);
@@ -53,7 +57,7 @@ export default function ComparePage() {
 
   const renderProductSection = (type: string) => {
     const products = filterProductsByType(type, selectedProducts);
-
+  
     return (
       <>
         <p
@@ -76,6 +80,8 @@ export default function ComparePage() {
                 boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
                 cursor: "pointer",
                 position: "relative",
+                // Highlight the selected product with a border
+                border: (product === selectedProduct || product === secondSelectedProduct) ? "2px solid #00A9FF" : "none",
               }}
               onClick={() => handleProductClick(product)}
             />
