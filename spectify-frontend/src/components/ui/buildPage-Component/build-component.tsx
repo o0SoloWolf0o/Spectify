@@ -68,7 +68,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
 
                 <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
                     <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
-                        Total price: ${totalPrice}
+                        Total price: {totalPrice} Baht
                     </h2>
                 </div>
             </div>
