@@ -143,6 +143,8 @@ export default function SaveBuildComponent({ className }: IsaveBuildComponent) {
 																	onClick={handleImageClick}
 																	className="w-full h-full object-cover cursor-pointer shadow rounded-lg bg-white"
 																	alt=""
+																	width={100}
+																	height={100}
 																/>
 
 																<Input

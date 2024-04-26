@@ -139,6 +139,8 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 								src={buildImage || ""}
 								alt="Build Image"
 								className="aspect-square object-cover shadow rounded-lg bg-white"
+								width="220"
+								height="220"
 							/>
 							<Textarea
 								value={buildBio}
@@ -165,6 +167,8 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 										src={cpu?.image || ""}
 										alt="CPU Image"
 										className="h-full aspect-square"
+										width="40"
+										height="40"
 									/>
 									<p>{cpu?.name}</p>
 								</Button>
@@ -173,6 +177,8 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 										src={mobo?.image || ""}
 										alt="Motherboard Image"
 										className="h-full aspect-square"
+										width="40"
+										height="40"
 									/>
 									<p>{mobo?.name}</p>
 								</Button>
@@ -181,8 +187,9 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 										src={ram?.image || ""}
 										alt="RAM Image"
 										className="h-full aspect-square"
+										width="40"
+										height="40"
 									/>
-
 									<p>{ram?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
@@ -190,6 +197,8 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 										src={gpu?.image || ""}
 										alt="GPU Image"
 										className="h-full aspect-square"
+										width="40"
+										height="40"
 									/>
 									<p>{gpu?.name}</p>
 								</Button>
@@ -198,6 +207,8 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 										src={ssd?.image || ""}
 										alt="SSD Image"
 										className="h-full aspect-square"
+										width="40"
+										height="40"
 									/>
 									<p>{ssd?.name}</p>
 								</Button>
@@ -206,6 +217,8 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 										src={psu?.image || ""}
 										alt="PSU Image"
 										className="h-full aspect-square"
+										width="40"
+										height="40"
 									/>
 									<p>{psu?.name}</p>
 								</Button>
@@ -214,6 +227,8 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 										src={caseComputer?.image || ""}
 										alt="Computer Case Image"
 										className="h-full aspect-square"
+										width="40"
+										height="40"
 									/>
 									<p>{caseComputer?.name}</p>
 								</Button>
@@ -222,6 +237,8 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 										src={cooler?.image || ""}
 										alt="Cooler Image"
 										className="h-full aspect-square"
+										width="40"
+										height="40"
 									/>
 									<p>{cooler?.name}</p>
 								</Button>
@@ -229,7 +246,7 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 
 							<div className="flex flex-col w-full">
 								<Button disabled className="bg-gray-300 shadow-lg p-1">
-									<p>Total price: {totalPrice}.-</p>
+									<p>Total price: {totalPrice} Baht</p>
 								</Button>
 							</div>
 						</>
