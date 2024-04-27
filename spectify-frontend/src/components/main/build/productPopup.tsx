@@ -255,7 +255,7 @@ export default function ProductPopUp({
 				case "CPU":
 					getCpuProducts().then((data) => {
 						setAllProducts(data);
-						console.log("CPU products:", data);
+						// console.log("CPU products:", data);
 						setDisplayText('CPU');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -264,7 +264,7 @@ export default function ProductPopUp({
 				case "GPU":
 					getGpuProducts().then((data) => {
 						setAllProducts(data);
-						console.log("GPU products:", data);
+						// console.log("GPU products:", data);
 						setDisplayText('VGA');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -273,7 +273,7 @@ export default function ProductPopUp({
 				case "RAM":
 					getRamProducts().then((data) => {
 						setAllProducts(data);
-						console.log("RAM products:", data);
+						// console.log("RAM products:", data);
 						setDisplayText('Memory');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -282,7 +282,7 @@ export default function ProductPopUp({
 				case "SSD":
 					getSsdProducts().then((data) => {
 						setAllProducts(data);
-						console.log("SSD products:", data);
+						// console.log("SSD products:", data);
 						setDisplayText('Storage');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -291,7 +291,7 @@ export default function ProductPopUp({
 				case "HDD":
 					getHddProducts().then((data) => {
 						setAllProducts(data);
-						console.log("HDD products:", data);
+						// console.log("HDD products:", data);
 						setDisplayText('HDD');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -300,7 +300,7 @@ export default function ProductPopUp({
 				case "MB":
 					getMoboProducts().then((data) => {
 						setAllProducts(data);
-						console.log("Motherboard products:", data);
+						// console.log("Motherboard products:", data);
 						setDisplayText('Motherboard');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -309,7 +309,7 @@ export default function ProductPopUp({
 				case "PSU":
 					getPsuProducts().then((data) => {
 						setAllProducts(data);
-						console.log("PSU products:", data);
+						// console.log("PSU products:", data);
 						setDisplayText('Power Supply');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -318,7 +318,7 @@ export default function ProductPopUp({
 				case "Monitor":
 					getMonitorProducts().then((data) => {
 						setAllProducts(data);
-						console.log("Monitor products:", data);
+						// console.log("Monitor products:", data);
 						setDisplayText('Monitor');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -327,7 +327,7 @@ export default function ProductPopUp({
 				case "Cooler":
 					getCpuCoolerProducts().then((data) => {
 						setAllProducts(data);
-						console.log("CPU Cooler products:", data);
+						// console.log("CPU Cooler products:", data);
 						setDisplayText('CPU cooler');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -336,7 +336,7 @@ export default function ProductPopUp({
 				case "Case":
 					getCaseComputersProducts().then((data) => {
 						setAllProducts(data);
-						console.log("Case products:", data);
+						// console.log("Case products:", data);
 						setDisplayText('Case');
 						handleSearch("");
 						setFilteredSearchProducts(data);
@@ -363,7 +363,7 @@ export default function ProductPopUp({
 				outerModalOpenHandler();
 			}} className="relative flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
 
-				<Image src={displayImage || defaultProductImage} alt="Product Image" style={{ display: 'inline-block', marginRight: '1rem'}} width={65} height={65}/>
+				<Image src={displayImage || defaultProductImage} alt="Product Image" style={{ display: 'inline-block', marginRight: '1rem' }} width={65} height={65} />
 
 				{selectedProduct ? (
 					<span className="flex items-center">{displayText}</span>
@@ -455,7 +455,7 @@ export default function ProductPopUp({
 																		</div>
 																		<div style={{
 																			background: "#DCF1FB", flex: '1', padding: '10px',
-																			display: 'flex', flexDirection: 'column', alignItems: 'flex-start', maxWidth: '200px', marginBottom: '10px'
+																			display: 'flex', flexDirection: 'column', alignItems: 'flex-start', maxWidth: '200px', marginBottom: '10px', borderRadius: '10px'
 																		}}>
 																			{selectedProductInfo?.typeProduct === "CPU" && (
 																				<div>
@@ -474,7 +474,7 @@ export default function ProductPopUp({
 																					<p>Size: {(selectedProductInfo as ramProducts).size}</p>
 																					<p>Type: {(selectedProductInfo as ramProducts).type}</p>
 																					<p>Kit: {(selectedProductInfo as ramProducts).kit}</p>
-																					<p>Bus Speed: {(selectedProduct as ramProducts).bus}</p>
+																					<p>Bus Speed: {(selectedProductInfo as ramProducts)?.bus}</p>
 																				</div>
 																			)}
 																			{selectedProductInfo?.typeProduct === "GPU" && (
@@ -485,7 +485,7 @@ export default function ProductPopUp({
 																					<p>Year: {(selectedProductInfo as gpuProducts).year}</p>
 																					<p>Series: {(selectedProductInfo as gpuProducts).series}</p>
 																					<p>VRAM: {(selectedProductInfo as gpuProducts).vram}</p>
-																					<p>TDP: {(selectedProductInfo as gpuProducts).tdp} W</p>
+																					<p>TDP: {(selectedProductInfo as gpuProducts).tdp}</p>
 																					<p>Motherboard Bus: {(selectedProductInfo as gpuProducts).motherboardBus}</p>
 																					<p>Core Clock: {(selectedProductInfo as gpuProducts).coreClock} MHz</p>
 																					<p>Boost Clock: {(selectedProductInfo as gpuProducts).boostClock} MHz</p>
@@ -498,10 +498,10 @@ export default function ProductPopUp({
 																			)}
 																			{selectedProductInfo?.typeProduct === "SSD" && (
 																				<div>
-																					<p>Size: {(selectedProductInfo as ssdProducts).size}</p>
-																					<p>Type: {(selectedProductInfo as ssdProducts).type}</p>
-																					<p>Read Speed: {(selectedProduct as ssdProducts).speedRead}</p>
-																					<p>Write Speed: {(selectedProduct as ssdProducts).speedWrite}</p>
+																					<p>Size: {(selectedProductInfo as ssdProducts)?.size}</p>
+																					<p>Type: {(selectedProductInfo as ssdProducts)?.type}</p>
+																					<p>Read Speed: {(selectedProductInfo as ssdProducts)?.speedRead}</p>
+																					<p>Write Speed: {(selectedProductInfo as ssdProducts)?.speedWrite}</p>
 																				</div>
 																			)}
 																			{selectedProductInfo?.typeProduct === "HDD" && (
@@ -513,7 +513,7 @@ export default function ProductPopUp({
 																			)}
 																			{selectedProductInfo?.typeProduct === "Power Supply" && (
 																				<div>
-																					<p>Wattage: {(selectedProductInfo as psuProducts).wattage} W</p>
+																					<p>Wattage: {(selectedProductInfo as psuProducts).wattage}</p>
 																				</div>
 																			)}
 																			{selectedProductInfo?.typeProduct === "Mother Board" && (

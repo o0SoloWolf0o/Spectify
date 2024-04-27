@@ -40,7 +40,7 @@ export async function createHddProduct(
 
 export async function getHddProduct() {
     try {
-        const gpu = await prisma.gpu.findMany({ take: 10 })
+        const gpu = await prisma.hdd.findMany({ take: 10 })
         return gpu
     } catch (err) {
         throw new Error(err as string)
