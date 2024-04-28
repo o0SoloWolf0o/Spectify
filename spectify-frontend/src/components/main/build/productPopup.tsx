@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -303,7 +302,7 @@ export default function ProductPopUp({
 		};
 		fetchData();
 
-	},[typeProduct, selectedCpuSocket, selectedMoboRamType]);
+	}, [typeProduct, selectedCpuSocket, selectedMoboRamType]);
 
 	return (
 		<>
@@ -313,7 +312,7 @@ export default function ProductPopUp({
 				outerModalOpenHandler();
 			}} className="relative flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
 
-				<Image src={displayImage || defaultProductImage} alt="Product Image" style={{ display: 'inline-block', marginRight: '1rem'}} width={65} height={65}/>
+				<Image src={displayImage || defaultProductImage} alt="Product Image" style={{ display: 'inline-block', marginRight: '1rem' }} width={65} height={65} />
 
 				{selectedProduct ? (
 					<span className="flex items-center">{displayText}</span>
@@ -360,7 +359,9 @@ export default function ProductPopUp({
 												{product.name}
 											</p>
 											<p style={{ fontSize: "13px" }} >{product.description}</p>
-											<img src={product.image} alt={product.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} />
+											<div style={{ width: '180px', height: '180px', boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}>
+												<Image src={product.image} alt={product.name} width={180} height={180} />
+											</div>
 											<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
 												<div>
 													{product.price ? (
@@ -391,11 +392,11 @@ export default function ProductPopUp({
 																	<div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'stretch' }}>
 																		<div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
 																			<p style={{ fontSize: '13px', maxWidth: '200px', overflowWrap: 'break-word' }}>{selectedProductInfo?.description}</p>
-																			<img
+																			<Image
 																				src={selectedProductInfo?.image}
 																				alt={selectedProductInfo?.name}
-																				width={200}
-																				height={200}
+																				width={180}
+																				height={180}
 																				style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
 																			/>
 																			<div style={{ marginTop: '7px' }}>
@@ -405,7 +406,7 @@ export default function ProductPopUp({
 																		</div>
 																		<div style={{
 																			background: "#DCF1FB", flex: '1', padding: '10px',
-																			display: 'flex', flexDirection: 'column', alignItems: 'flex-start', maxWidth: '200px', marginBottom: '10px'
+																			display: 'flex', flexDirection: 'column', alignItems: 'flex-start', maxWidth: '200px', marginBottom: '10px', borderRadius: '10px'
 																		}}>
 																			{selectedProductInfo?.typeProduct === "CPU" && (
 																				<div>
@@ -424,7 +425,7 @@ export default function ProductPopUp({
 																					<p>Size: {(selectedProductInfo as ramProducts).size}</p>
 																					<p>Type: {(selectedProductInfo as ramProducts).type}</p>
 																					<p>Kit: {(selectedProductInfo as ramProducts).kit}</p>
-																					<p>Bus Speed: {(selectedProduct as ramProducts).bus}</p>
+																					<p>Bus Speed: {(selectedProductInfo as ramProducts)?.bus}</p>
 																				</div>
 																			)}
 																			{selectedProductInfo?.typeProduct === "GPU" && (
@@ -435,7 +436,7 @@ export default function ProductPopUp({
 																					<p>Year: {(selectedProductInfo as gpuProducts).year}</p>
 																					<p>Series: {(selectedProductInfo as gpuProducts).series}</p>
 																					<p>VRAM: {(selectedProductInfo as gpuProducts).vram}</p>
-																					<p>TDP: {(selectedProductInfo as gpuProducts).tdp} W</p>
+																					<p>TDP: {(selectedProductInfo as gpuProducts).tdp}</p>
 																					<p>Motherboard Bus: {(selectedProductInfo as gpuProducts).motherboardBus}</p>
 																					<p>Core Clock: {(selectedProductInfo as gpuProducts).coreClock} MHz</p>
 																					<p>Boost Clock: {(selectedProductInfo as gpuProducts).boostClock} MHz</p>
@@ -448,10 +449,10 @@ export default function ProductPopUp({
 																			)}
 																			{selectedProductInfo?.typeProduct === "SSD" && (
 																				<div>
-																					<p>Size: {(selectedProductInfo as ssdProducts).size}</p>
-																					<p>Type: {(selectedProductInfo as ssdProducts).type}</p>
-																					<p>Read Speed: {(selectedProduct as ssdProducts).speedRead}</p>
-																					<p>Write Speed: {(selectedProduct as ssdProducts).speedWrite}</p>
+																					<p>Size: {(selectedProductInfo as ssdProducts)?.size}</p>
+																					<p>Type: {(selectedProductInfo as ssdProducts)?.type}</p>
+																					<p>Read Speed: {(selectedProductInfo as ssdProducts)?.speedRead}</p>
+																					<p>Write Speed: {(selectedProductInfo as ssdProducts)?.speedWrite}</p>
 																				</div>
 																			)}
 																			{selectedProductInfo?.typeProduct === "HDD" && (
@@ -463,7 +464,7 @@ export default function ProductPopUp({
 																			)}
 																			{selectedProductInfo?.typeProduct === "Power Supply" && (
 																				<div>
-																					<p>Wattage: {(selectedProductInfo as psuProducts).wattage} W</p>
+																					<p>Wattage: {(selectedProductInfo as psuProducts).wattage}</p>
 																				</div>
 																			)}
 																			{selectedProductInfo?.typeProduct === "Mother Board" && (
