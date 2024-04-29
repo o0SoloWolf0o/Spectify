@@ -26,21 +26,24 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
     const [selectedMoboRamType, setSelectedMoboRamType] = useState<string | null>(null);
 
     const handleSelectProduct = (typeProduct: string, product: Product) => {
-    
         setSelectedProducts(prevProducts => {
             const newProducts = { ...prevProducts, [typeProduct]: product };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.setItem(typeProduct, product.id);
-            
+    
             if (typeProduct === 'CPU' && 'socket' in product) {
-                setSelectedCpuSocket((product as cpuProducts).socket);
+                const cpuProduct = product as cpuProducts;
+                setSelectedCpuSocket(cpuProduct.socket);
             } else if (typeProduct === 'MB' && 'ramslot' in product) {
-                setSelectedMoboRamType((product as moboProducts).ramslot);
+                const moboProduct = product as unknown as moboProducts;
+                setSelectedMoboRamType(moboProduct.ramslot);
             }
-
+    
             return newProducts;
         });
     };
+    
+    
 
     const handleDeselectProduct = (typeProduct: string) => {
         
