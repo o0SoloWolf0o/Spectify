@@ -17,7 +17,7 @@ import {
 
 import { useEffect, useState } from "react";
 import BuildPopupComponent from "../build/buildPopup";
-import { getBuildByUserId } from "@/database/build";
+import { getBuildsIdbyUserId } from "@/database/build";
 
 
 export default function TabComponent({userId}: {userId: string}) {
@@ -26,7 +26,8 @@ export default function TabComponent({userId}: {userId: string}) {
 
   useEffect(() => {
       const fetchBuilds = async () => {
-      const builds = await getBuildByUserId(userId);
+      const builds = await getBuildsIdbyUserId(userId);
+      builds.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       setBuilds(builds as never[]);
       setIsFetching(false);
     }
@@ -34,6 +35,7 @@ export default function TabComponent({userId}: {userId: string}) {
   }
   , [userId]);
   
+  console.log(builds);
 
   return (
     <Tabs defaultValue="build" className="w-[64rem]">
