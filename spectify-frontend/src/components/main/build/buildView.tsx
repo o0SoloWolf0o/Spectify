@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { Textarea } from "@/components/ui/textarea";
 import { getBuildById } from "@/database/build";
 import { getCaseComputerById } from "@/database/caseComputerProduct";
@@ -15,38 +16,15 @@ import { useEffect, useState } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
 import Image from "next/image";
 
-function LoadImage(image: string, name: string, fps: string) {
-	return (
-		<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-			<Image
-				src={`/images/games/${image}`}
-				alt={`${name}`}
-				width="80"
-				height="80"
-				sizes="100vw"
-				priority={true}
-				className="shadow-lg rounded-sm"
-			/>
-			<div className="flex flex-col gap-4 w-full font-bold">
-				<p className="text-lg">{name}</p>
-				<div className="flex flex-row w-full justify-between align-middle items-center">
-					<p className="text-xl">{fps}</p>
-					<div className="flex flex-col">
-						<p>FPS</p>
-						<p>1080p</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
-}
-
 type TProps = {
 	buildInfo?: any;
 	buildId?: string;
 };
 
 export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
+	const session = useSession();
+	const userId = session.data?.user.id;
+	const [buildUserId, setBuildUserId] = useState<string>();
 	const [buildName, setBuildName] = useState<string>();
 	const [buildImage, setBuildImage] = useState<string>();
 	const [buildBio, setBuildBio] = useState<string>();
@@ -67,10 +45,8 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 				let build: any;
 
 				if (buildId) {
-					console.log("buildId");
 					build = await getBuildById(buildId);
 				} else {
-					console.log("buildInfo");
 					build = buildInfo;
 				}
 
@@ -95,6 +71,7 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 				const coolerPrice = parseFloat(coolerData?.price ?? "0");
 				setTotalPrice(cpuPrice + moboPrice + ramPrice + gpuPrice + ssdPrice + psuPrice + casePrice + coolerPrice);
 
+				setBuildUserId(build.user_id);
 				setBuildName(build.buildName);
 				setBuildImage(build.image);
 				setBuildBio(build.buildBio);
@@ -123,22 +100,26 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 						<>
 							<div className="w-full flex flex-row justify-between items-center align-middle">
 								<p className="text-lg">{buildName}</p>
-								<Dropdown>
-									<DropdownTrigger>
-										<Button variant="light" className="aspect-square text-lg font-bold">
-											<FiMoreHorizontal />
-										</Button>
-									</DropdownTrigger>
-									<DropdownMenu aria-label="Static Actions">
-										<DropdownItem>Edit info</DropdownItem>
-										<DropdownItem>Edit build</DropdownItem>
-									</DropdownMenu>
-								</Dropdown>
+								{buildUserId == userId ? (
+									<Dropdown>
+										<DropdownTrigger>
+											<Button variant="light" className="aspect-square text-lg font-bold">
+												<FiMoreHorizontal />
+											</Button>
+										</DropdownTrigger>
+										<DropdownMenu aria-label="Static Actions">
+											<DropdownItem>Edit Build</DropdownItem>
+											<DropdownItem>Del Build</DropdownItem>
+										</DropdownMenu>
+									</Dropdown>
+								) : (
+									<></>
+								)}
 							</div>
 							<Image
 								src={buildImage || ""}
 								alt="Build Image"
-								className="aspect-square object-cover shadow rounded-lg bg-white"
+								className="h-auto w-auto aspect-square object-cover shadow rounded-lg bg-white"
 								width="220"
 								height="220"
 							/>
@@ -163,63 +144,33 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 							<div className="flex flex-col w-full gap-4">
 								<p className="text-xl font-bold">Components</p>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<Image
-										src={cpu?.image || ""}
-										alt="CPU Image"
-										className="h-full aspect-square"
-										width="40"
-										height="40"
-									/>
+									<Image src={cpu?.image || ""} alt="CPU Image" className="h-full w-auto aspect-square" width="40" height="40" />
 									<p>{cpu?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
 									<Image
 										src={mobo?.image || ""}
 										alt="Motherboard Image"
-										className="h-full aspect-square"
+										className="h-full w-auto aspect-square"
 										width="40"
 										height="40"
 									/>
 									<p>{mobo?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<Image
-										src={ram?.image || ""}
-										alt="RAM Image"
-										className="h-full aspect-square"
-										width="40"
-										height="40"
-									/>
+									<Image src={ram?.image || ""} alt="RAM Image" className="h-full w-auto aspect-square" width="40" height="40" />
 									<p>{ram?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<Image
-										src={gpu?.image || ""}
-										alt="GPU Image"
-										className="h-full aspect-square"
-										width="40"
-										height="40"
-									/>
+									<Image src={gpu?.image || ""} alt="GPU Image" className="h-full w-auto aspect-square" width="40" height="40" />
 									<p>{gpu?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<Image
-										src={ssd?.image || ""}
-										alt="SSD Image"
-										className="h-full aspect-square"
-										width="40"
-										height="40"
-									/>
+									<Image src={ssd?.image || ""} alt="SSD Image" className="h-full w-auto aspect-square" width="40" height="40" />
 									<p>{ssd?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<Image
-										src={psu?.image || ""}
-										alt="PSU Image"
-										className="h-full aspect-square"
-										width="40"
-										height="40"
-									/>
+									<Image src={psu?.image || ""} alt="PSU Image" className="h-full w-auto aspect-square" width="40" height="40" />
 									<p>{psu?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
@@ -233,20 +184,14 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 									<p>{caseComputer?.name}</p>
 								</Button>
 								<Button disabled className="bg-white shadow-lg p-1 justify-start">
-									<Image
-										src={cooler?.image || ""}
-										alt="Cooler Image"
-										className="h-full aspect-square"
-										width="40"
-										height="40"
-									/>
+									<Image src={cooler?.image || ""} alt="Cooler Image" className="h-full aspect-square" width="40" height="40" />
 									<p>{cooler?.name}</p>
 								</Button>
 							</div>
 
 							<div className="flex flex-col w-full">
 								<Button disabled className="bg-gray-300 shadow-lg p-1">
-									<p>Total price: {totalPrice} Baht</p>
+									<p>Total price: {totalPrice.toLocaleString()} Baht</p>
 								</Button>
 							</div>
 						</>
@@ -292,9 +237,9 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 					<p className="text-xl font-bold">Performance</p>
 					{dataIsLoaded ? (
 						<>
-							{LoadImage("valo.webp", "Valorant", "1234")}
-							{LoadImage("ow.webp", "Overwatch", "1234")}
-							{LoadImage("lol.webp", "League of Legends", "1234")}
+							<div>Image1</div>
+							<div>Image2</div>
+							<div>Image3</div>
 						</>
 					) : (
 						<>
