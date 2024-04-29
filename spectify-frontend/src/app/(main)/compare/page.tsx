@@ -29,7 +29,7 @@ export default function ComparePage() {
       setSelectedProducts(parsedProducts);
     }
   }, []);
-
+  
   const filterProductsByType = (
     type: string,
     selectedProducts: Product[]
@@ -41,7 +41,16 @@ export default function ComparePage() {
     const updatedProducts = selectedProducts.filter((p) => p !== product);
     localStorage.setItem("compareData", JSON.stringify(updatedProducts));
     setSelectedProducts(updatedProducts);
+    
+    // Remove details of the product being removed from selectedProduct and secondSelectedProduct
+    if (selectedProduct === product) {
+      setSelectedProduct(null);
+    }
+    if (secondSelectedProduct === product) {
+      setSecondSelectedProduct(null);
+    }
   };
+  
 
   const handleProductClick = (product: Product) => {
     if (selectedProduct === product) {
@@ -57,7 +66,7 @@ export default function ComparePage() {
 
   const renderProductSection = (type: string) => {
     const products = filterProductsByType(type, selectedProducts);
-  
+
     return (
       <>
         <p
