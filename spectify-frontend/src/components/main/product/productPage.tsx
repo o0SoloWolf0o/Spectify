@@ -303,7 +303,7 @@ export default function ProductPage() {
 				{filteredSearchProducts.length === 0 && (
 					<div style={{ display: "flex", flexWrap: "wrap" }}>
 						{/* <p>Loading products...</p> */}
-						<Card className="w-[200px] space-y-5 p-4 mr-5" radius="lg">
+						<Card className="w-[200px] space-y-5 p-4 mr-5 mt-5" radius="lg">
 							<Skeleton className="rounded-lg">
 								<div className="h-24 rounded-lg bg-default-300"></div>
 							</Skeleton>
@@ -320,7 +320,7 @@ export default function ProductPage() {
 							</div>
 						</Card>
 
-						<Card className="w-[200px] space-y-5 p-4 mr-5" radius="lg">
+						<Card className="w-[200px] space-y-5 p-4 mr-5 mt-5" radius="lg">
 							<Skeleton className="rounded-lg">
 								<div className="h-24 rounded-lg bg-default-300"></div>
 							</Skeleton>
@@ -337,7 +337,7 @@ export default function ProductPage() {
 							</div>
 						</Card>
 
-						<Card className="w-[200px] space-y-5 p-4 mr-5" radius="lg">
+						<Card className="w-[200px] space-y-5 p-4 mr-5 mt-5" radius="lg">
 							<Skeleton className="rounded-lg">
 								<div className="h-24 rounded-lg bg-default-300"></div>
 							</Skeleton>
@@ -354,7 +354,7 @@ export default function ProductPage() {
 							</div>
 						</Card>
 
-						<Card className="w-[200px] space-y-5 p-4 mr-5" radius="lg">
+						<Card className="w-[200px] space-y-5 p-4 mr-5 mt-5" radius="lg">
 							<Skeleton className="rounded-lg">
 								<div className="h-24 rounded-lg bg-default-300"></div>
 							</Skeleton>
@@ -371,7 +371,7 @@ export default function ProductPage() {
 							</div>
 						</Card>
 
-						<Card className="w-[200px] space-y-5 p-4 mr-5" radius="lg">
+						<Card className="w-[200px] space-y-5 p-4 mr-5 mt-5" radius="lg">
 							<Skeleton className="rounded-lg">
 								<div className="h-24 rounded-lg bg-default-300"></div>
 							</Skeleton>
@@ -388,7 +388,7 @@ export default function ProductPage() {
 							</div>
 						</Card>
 
-						<Card className="w-[200px] space-y-5 p-4 mr-5" radius="lg">
+						<Card className="w-[200px] space-y-5 p-4 mr-5 mt-5" radius="lg">
 							<Skeleton className="rounded-lg">
 								<div className="h-24 rounded-lg bg-default-300"></div>
 							</Skeleton>
@@ -405,7 +405,7 @@ export default function ProductPage() {
 							</div>
 						</Card>
 
-						<Card className="w-[200px] space-y-5 p-4 mr-5" radius="lg">
+						<Card className="w-[200px] space-y-5 p-4 mr-5 mt-5" radius="lg">
 							<Skeleton className="rounded-lg">
 								<div className="h-24 rounded-lg bg-default-300"></div>
 							</Skeleton>
