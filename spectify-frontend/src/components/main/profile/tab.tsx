@@ -35,7 +35,7 @@ export default function TabComponent({userId}: {userId: string}) {
   }
   , [userId]);
   
-  console.log(builds);
+  // console.log(builds);
 
   return (
     <Tabs defaultValue="build" className="w-[64rem]">
