@@ -13,12 +13,11 @@ import BuildPopupComponent from "@/components/main/build/buildPopup";
 export default function FollowingBuildsComponent() {
     const session = useSession();
     const sessionUser = session?.data?.user;
-    const [following, setFollowing] = useState([]);
     const [isFetching, setIsFetching] = useState(true);
     const [builds, setBuilds] = useState([]);
 
     useEffect(() => {
-        const fetchFollowing = async () => {
+        const fetchFollowingBuilds = async () => {
             try {
                 const sessionUserId = [sessionUser?.id ?? ""];
                 const followingData = await getManyFollowingById(sessionUserId);
@@ -56,14 +55,13 @@ export default function FollowingBuildsComponent() {
                 const followingBuilds = Array.from(followingBuildsMap.values());
                 followingBuilds.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
                 setBuilds(followingBuilds as never[]);
-                setFollowing(followingWithUserDetails as never[]);
                 setIsFetching(false);
             } catch (error) {
                 console.error("Error fetching following:", error);
             }
         };
         if (sessionUser?.id) {
-            fetchFollowing();
+            fetchFollowingBuilds();
         }
     }, [sessionUser?.id]);
 
