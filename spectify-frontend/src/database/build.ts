@@ -53,7 +53,7 @@ export const getBuildsCountByUserId = async (user_id: string) => {
 			user_id: user_id,
 		},
 	});
-};
+}
 
 export const getBuildsIdbyUserId = async (user_id: string) => {
 	const builds = await prisma.build.findMany({
