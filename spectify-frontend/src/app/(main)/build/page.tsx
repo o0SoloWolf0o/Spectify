@@ -7,6 +7,7 @@ import Performance from '@/components/ui/buildPage-Component/build-performance';
 import Visualization from '@/components/ui/buildPage-Component/build-visualization';
 import Optimization from '@/components/ui/buildPage-Component/build-opti';
 import SaveBuildComponent from '@/components/main/build/saveBuild';
+import Image from 'next/image';
 
 export default function BuildPage() {
 
@@ -28,7 +29,11 @@ export default function BuildPage() {
 
 
                 <div className='bg-white shadow-xl box-content row-span-2'>
-
+                
+                    {/* <div className="relative text-center" style={{ width: '430px', height: '430px' }}>
+                        <Image src={"/images/vispng/main.png"} alt='' layout='fill' objectFit='contain'/>
+                    </div> */}
+                    
                     <Visualization selectedProducts={selectedProducts} />
 
                 </div>
