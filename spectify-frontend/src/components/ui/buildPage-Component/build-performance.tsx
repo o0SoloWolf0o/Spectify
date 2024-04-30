@@ -191,9 +191,9 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 
 	return (
 		<>
-			<div className="mb-5">
+			<div className={`${paramCpu && paramGpu ? "" : "mb-5"}`}>
 				{product.CPU && product.GPU && (
-					<div className="ml-4 mr-4">
+					<div className={`${paramCpu && paramGpu ? "" : "ml-4 mr-4"}`}>
 						<p className="text-2xl">
 							FPS count by settings For {product.CPU.name} and {product.GPU.name}
 						</p>

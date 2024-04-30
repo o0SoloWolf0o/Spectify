@@ -27,7 +27,6 @@ import { Input } from "@/components/ui/input";
 import AuthErrorComponent from "@/components/main/auth/authError";
 import { deleteBuild, updateBuild } from "@/action/build";
 import Performance from "@/components/ui/buildPage-Component/build-performance";
-import { CupSoda } from "lucide-react";
 
 type TProps = {
 	buildInfo?: any;
