@@ -18,11 +18,13 @@ import {
 import { useEffect, useState } from "react";
 import BuildPopupComponent from "../build/buildPopup";
 import { getBuildByUserId } from "@/database/build";
+import { getLikesBuild } from "@/action/like";
 
 
 export default function TabComponent({userId}: {userId: string}) {
   const [isFetching, setIsFetching] = useState(true);
   const [builds, setBuilds] = useState([]);
+  const [likes, setLikes] = useState([]);
 
   useEffect(() => {
       const fetchBuilds = async () => {
@@ -31,6 +33,16 @@ export default function TabComponent({userId}: {userId: string}) {
       setIsFetching(false);
     }
     fetchBuilds();
+  }
+  , [userId]);
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      const likes = await getLikesBuild(userId);
+      likes.sort((a, b) => b.date.getTime() - a.date.getTime());
+      setLikes(likes as never[]);
+    }
+    fetchLikes();
   }
   , [userId]);
   
@@ -63,8 +75,14 @@ export default function TabComponent({userId}: {userId: string}) {
       <TabsContent value="like">
         <Card>
           <CardHeader>
-            <CardDescription>
-              My favorite build.
+            <CardDescription className="flex justify-center">
+            <div className="grid grid-cols-3 gap-16">
+              {(likes as {id: string ,build_id: string}[]).map((like) => (
+                <div key={like.id} className="flex justify-start">
+                   <BuildPopupComponent buildId={like.build_id} />
+                </div>
+              ))}
+              </div>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">

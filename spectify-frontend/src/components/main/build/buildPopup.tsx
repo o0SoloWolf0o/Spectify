@@ -52,9 +52,9 @@ export default function BuildPopupComponent({ buildId, size }: TBuildPopupCompon
 							width="200" height="200"
 						/>
 						<div className="flex flex-row justify-between">
-							<BuildLikeCountComponent />
+							<BuildLikeCountComponent build_id={build.id} />
 							<div className="flex flex-row gap-4">
-								<BuildLikeComponent />
+								<BuildLikeComponent build_id={build.id} />
 								<BuildCompareComponent />
 								<BuildShareComponent />
 							</div>
