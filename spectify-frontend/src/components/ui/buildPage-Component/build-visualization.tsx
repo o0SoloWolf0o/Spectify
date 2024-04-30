@@ -10,10 +10,10 @@ const productTypeToImageUrl: ProductImageMap = {
 
   CPU: '/images/vispng/CPU.png',
   GPU: '/images/vispng/GPU.png',
-  MB: '/images/vispng/MB.png',
+  MB: '/images/vispng/MB2.png',
   RAM: '/images/vispng/RAM.png',
   SSD: '/images/vispng/SSD.png',
-  PSU: '/images/vispng/PSU.png',
+  PSU: '/images/vispng/PSU2.png',
   Case: '/images/vispng/Case.png',
   Cooler: '/images/vispng/Cooler.png',
 
