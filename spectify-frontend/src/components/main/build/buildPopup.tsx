@@ -10,7 +10,7 @@ import BuildLikeComponent from "./buildLike";
 import BuildCompareComponent from "./buildCompare";
 import BuildShareComponent from "./buildShare";
 import BuildViewComponent from "./buildView";
-import Image from 'next/image'
+import Image from "next/image";
 
 type TBuildPopupComponent = {
 	buildId: string;
@@ -49,7 +49,8 @@ export default function BuildPopupComponent({ buildId, size }: TBuildPopupCompon
 							alt="Build Image"
 							onClick={onOpen}
 							className="w-full h-full object-cover cursor-pointer shadow rounded-lg bg-white"
-							width="200" height="200"
+							width="200"
+							height="200"
 						/>
 						<div className="flex flex-row justify-between">
 							<BuildLikeCountComponent />
@@ -77,7 +78,7 @@ export default function BuildPopupComponent({ buildId, size }: TBuildPopupCompon
 				</>
 			)}
 
-			<Modal isOpen={isOpen} onOpenChange={onOpenChange} size="4xl">
+			<Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">
 				<ModalContent>
 					{(onClose) => (
 						<>

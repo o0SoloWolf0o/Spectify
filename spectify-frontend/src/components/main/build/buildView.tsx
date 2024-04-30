@@ -421,7 +421,9 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 					<p className="text-xl font-bold">Performance</p>
 					{dataIsLoaded ? (
 						<>
-							<Performance paramCpu={cpu} paramGpu={gpu} />
+							<div className="w-max">
+								<Performance paramCpu={cpu} paramGpu={gpu} />
+							</div>
 						</>
 					) : (
 						<>
