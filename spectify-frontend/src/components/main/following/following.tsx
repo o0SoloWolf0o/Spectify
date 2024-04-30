@@ -7,8 +7,7 @@ import { getUserById } from "@/database/user";
 import { getUserImg } from "@/action/updateProfile";
 import FollowButton from "@/components/main/profile/followButton";
 import Link from "next/link";
-import {getBuildsIdbyUserId} from "@/database/build";
-import BuildPopupComponent from "@/components/main/build/buildPopup";
+import FollowingBuildsComponent from "./followingBuilds";
 
 export default function FollowingComponent({limit}: {limit: number}) {
     const session = useSession();
@@ -16,7 +15,6 @@ export default function FollowingComponent({limit}: {limit: number}) {
     const [following, setFollowing] = useState([]);
     const [isFetching, setIsFetching] = useState(true);
     const [isLimit, setIsLimit] = useState(limit);
-    const [builds, setBuilds] = useState([]);
 
     useEffect(() => {
         const fetchFollowing = async () => {
@@ -35,28 +33,6 @@ export default function FollowingComponent({limit}: {limit: number}) {
                         };
                     })
                 );
-                const followingBuildsMap = new Map();
-                await Promise.all(
-                    followingWithUserDetails.map(async (follow) => {
-                        const builds = await getBuildsIdbyUserId(follow.followingId);
-                        if (builds.length > 0) {
-                            builds.forEach((build) => {
-                                if (!followingBuildsMap.has(build.id)) {
-                                    followingBuildsMap.set(build.id, {
-                                        followingImg: follow.image,
-                                        followingUsername: follow.username,
-                                        buildId: build.id,
-                                        date: build.date
-                                    });
-                                }
-                            });
-                        }
-                    })
-                );
-                
-                const followingBuilds = Array.from(followingBuildsMap.values());
-                followingBuilds.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-                setBuilds(followingBuilds as never[]);
                 setFollowing(followingWithUserDetails as never[]);
                 setIsFetching(false);
             } catch (error) {
@@ -72,8 +48,6 @@ export default function FollowingComponent({limit}: {limit: number}) {
     if (isFetching) {
         return <div>Loading...</div>;
     }
-
-    console.log(builds);
 
     return (
         <>
@@ -96,17 +70,7 @@ export default function FollowingComponent({limit}: {limit: number}) {
             </div>
             {isLimit === Infinity ? null : (
             <div className="mt-10 pt-12 border-t border-gray-300">
-                {(builds as { buildId: string, followingImg: string, followingUsername: string}[]).map((build) => (
-                   <div key={build.buildId} className="flex justify-center mb-10 space-y-4">
-                   <div className="flex justify-center flex-col pb-12 border-b border-gray-300">
-                       <div className="flex justify-start mb-4">
-                            <div><Link href={`/profile/${build.followingUsername}`}><Avatar src={build.followingImg} alt="user img" size="sm" /></Link></div>
-                            <div><Link href={`/profile/${build.followingUsername}`}><p className="ml-2">{build.followingUsername}</p></Link></div>
-                       </div>
-                       <BuildPopupComponent size="large" buildId={build.buildId} />
-                       </div>
-               </div>
-                ))}
+                <FollowingBuildsComponent/>
                 </div>
             )}
         </>
