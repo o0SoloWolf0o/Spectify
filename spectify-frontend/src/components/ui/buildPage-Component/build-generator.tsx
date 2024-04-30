@@ -81,45 +81,59 @@ const Generator = () => {
     };
     fetchProducts();
 
-    // Select all products from all products prices make it lower than budget or = budget and save all product to local storage
-    const budget = 30000;
-    // cpuprice + ramprice + gpuprice + moboprice + ssdprice + cpucoolerprice + psuprice + caseprice
-    // cpuProducts.forEach(cpuProduct => {
-    //     console.log(cpuProduct.price);
-    // });
-    // ramProducts.forEach(ramProduct => {
-    //     console.log(ramProduct.price);
-    // });
-    // gpuProducts.forEach(gpuProduct => {
-    //     console.log(gpuProduct.price);
-    // });
-    // moboProducts.forEach(moboProduct => {
-    //     console.log(moboProduct.price);
-    // });
-    // ssdProducts.forEach(ssdProduct => {
-    //     console.log(ssdProduct.price);
-    // });
-    // cpuCoolerProducts.forEach(cpuCoolerProduct => {
-    //     console.log(cpuCoolerProduct.price);
-    // });
-    // psuProducts.forEach(psuProduct => {
-    //     console.log(psuProduct.price);
-    // });
-    // caseComputerProducts.forEach(caseComputerProduct => {
-    //     console.log(caseComputerProduct.price);
-    // });
+    const selectProducts = (budget: number) => {
+        let selectedProducts: { cpu: cpuProducts; gpu: gpuProducts; ram: ramProducts; ssd: ssdProducts; mobo: moboProducts; cpuCooler: cpuCoolerProducts; psu: psuProducts; case: caseComputerProducts; totalPrice: number; }[] = [];
 
-    // 
+        cpuProducts.forEach(cpu => {
+            gpuProducts.forEach(gpu => {
+                ramProducts.forEach(ram => {
+                    ssdProducts.forEach(ssd => {
+                        moboProducts.forEach(mobo => {
+                            cpuCoolerProducts.forEach(cpuCooler => {
+                                psuProducts.forEach(psu => {
+                                    caseComputerProducts.forEach(computerCase => {
+                                        let totalPrice = parseFloat(cpu.price) + parseFloat(gpu.price) + parseFloat(ram.price) + parseFloat(ssd.price) + parseFloat(mobo.price) + parseFloat(cpuCooler.price) + parseFloat(psu.price) + parseFloat(computerCase.price);
+                                        if (totalPrice <= budget) {
+                                            // Check if all components are present
+                                            if (cpu && gpu && ram && ssd && mobo && cpuCooler && psu && computerCase) {
+                                                selectedProducts.push({
+                                                    cpu,
+                                                    gpu,
+                                                    ram,
+                                                    ssd,
+                                                    mobo,
+                                                    cpuCooler,
+                                                    psu,
+                                                    case: computerCase,
+                                                    totalPrice
+                                                });
+                                            }
+                                        }
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+        return selectedProducts[0];
+    };
 
-    const saveToLocalStorage = (data: any[]) => {
-        try {
-            const jsonData = JSON.stringify(data);
-            localStorage.setItem("compareData", jsonData);
-            console.log("Data saved to local storage:", jsonData);
-        } catch (error) {
-            console.error("Error saving data to local storage:", error);
+    const [Budget, setBudget] = useState(0); 
+
+    const handleBudgetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setBudget(parseInt(event.target.value));
+    };
+
+    const handleApplyClick = () => {
+        const selectedProduct = selectProducts(Budget);
+
+        if (selectedProduct) {
+            localStorage.setItem('selectedProducts', JSON.stringify(selectedProduct));
         }
     };
+
 
     const [isSwitchOn, setIsSwitchOn] = useState(false);
 
@@ -146,13 +160,16 @@ const Generator = () => {
                         <input
                             type="number"
                             min="0"
+                            placeholder="Enter price"
+                            value={Budget}
+                            onChange={handleBudgetChange}
                             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 mb-5 mx-5'
                         />
                     </div>
                 </div>
 
                 <div className='grid grid-cols-1 grid-rows-1 gap-0 mx-5'>
-                    <button className='rounded-xl bg-[#00A9FF] text-white'>
+                    <button className='rounded-xl bg-[#00A9FF] text-white' onClick={handleApplyClick}>
                         <h2 className='text-2xl font-semibold'>
                             apply
                         </h2>
