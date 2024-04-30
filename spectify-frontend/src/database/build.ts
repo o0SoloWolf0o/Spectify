@@ -1,6 +1,6 @@
 "use server";
 
-import { buildSchema } from "@/schemas";
+import { buildSchema, buildBioSchema } from "@/schemas";
 import * as zod from "zod";
 import { PrismaClient } from "@prisma/client";
 
@@ -45,12 +45,29 @@ export const getBuildByUserId = async (user_id: string) => {
 			user_id: user_id,
 		},
 	});
-}
-	
+};
+
 export const getBuildsCountByUserId = async (user_id: string) => {
 	return await prisma.build.count({
 		where: {
 			user_id: user_id,
 		},
 	});
+};
+
+export async function updateBuildById(userId: string, build: zod.infer<typeof buildBioSchema>) {
+	try {
+		await prisma.build.update({
+			where: {
+				id: build.buildId,
+			},
+			data: {
+				image: build.image,
+				buildName: build.buildName,
+				buildBio: build.buildBio,
+			},
+		});
+	} catch (e) {
+		throw e;
+	}
 }

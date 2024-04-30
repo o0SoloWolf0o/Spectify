@@ -11,10 +11,21 @@ import { getMoboProductById } from "@/database/moboProduct";
 import { getPsuProductById } from "@/database/psuProduct";
 import { getRamProductById } from "@/database/ramProduct";
 import { getSsdProductById } from "@/database/ssdProduct";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Skeleton } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Skeleton, ModalHeader } from "@nextui-org/react";
+import { useEffect, useState, useRef, useTransition } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
 import Image from "next/image";
+import { Modal, ModalContent, ModalBody, useDisclosure } from "@nextui-org/react";
+import { MdDeleteForever } from "react-icons/md";
+import { MdEditSquare } from "react-icons/md";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as zod from "zod";
+import { buildBioSchema } from "@/schemas";
+import { Input } from "@/components/ui/input";
+import AuthErrorComponent from "@/components/main/auth/authError";
+import { updateBuild } from "@/action/build";
 
 type TProps = {
 	buildInfo?: any;
@@ -38,6 +49,69 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 	const [cooler, setCooler] = useState<any>();
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [dataIsLoaded, setDataIsLoaded] = useState(false);
+	const { isOpen, onOpen, onOpenChange } = useDisclosure();
+	const [modalPanel, setModalPanel] = useState<"edit" | "delete">();
+	const [imageBase64, setImageBase64] = useState("");
+	const fileInputRef = useRef<HTMLInputElement>(null);
+	const [isPending, startTransition] = useTransition();
+	const [errorMessage, setErrorMessage] = useState("");
+	const buildForm = useForm<zod.infer<typeof buildBioSchema>>({
+		resolver: zodResolver(buildBioSchema),
+		defaultValues: {
+			buildId: "",
+			image: "",
+			buildName: "",
+			buildBio: "",
+		},
+	});
+
+	function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+		const file = e.target.files?.[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				setImageBase64(reader.result as string);
+			};
+			reader.readAsDataURL(file);
+		}
+	}
+
+	function handleImageClick() {
+		fileInputRef.current?.click();
+	}
+
+	function submitBioUpdate(build: zod.infer<typeof buildBioSchema>) {
+		setErrorMessage("");
+		build.image = imageBase64;
+		console.log(build);
+		const validBuild = buildBioSchema.safeParse(build);
+		if (validBuild) {
+			startTransition(() => {
+				updateBuild(build).then((res) => {
+					if (res.success) {
+						location.reload;
+					} else {
+						setErrorMessage(res.message);
+					}
+				});
+			});
+		} else {
+			setErrorMessage("Build data not valid.");
+		}
+	}
+
+	function submitDelete() {
+		const bId = buildForm.getValues("buildId");
+		startTransition(() => {
+			// updateBuild(build).then((res) => {
+			// 	if (res.success) {
+			// 		location.reload;
+			// 	} else {
+			// 		setErrorMessage(res.message);
+			// 	}
+			// });
+		});
+	}
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -84,6 +158,11 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 				setCaseComputer(caseData);
 				setCooler(coolerData);
 
+				buildForm.setValue("buildId", build.id);
+				setImageBase64(build.image);
+				buildForm.setValue("buildName", build.buildName);
+				buildForm.setValue("buildBio", build.buildBio);
+
 				setDataIsLoaded(true);
 			} catch (error) {
 				console.log(error);
@@ -94,6 +173,94 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 
 	return (
 		<>
+			<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+				<ModalContent>
+					{(onClose) => (
+						<>
+							{modalPanel == "edit" && (
+								<>
+									<ModalHeader>Edit bio</ModalHeader>
+									<ModalBody className="p-12">
+										<Form {...buildForm}>
+											<form onSubmit={buildForm.handleSubmit(submitBioUpdate)} className="flex flex-col space-y-8">
+												<FormField
+													control={buildForm.control}
+													name="buildName"
+													render={({ field }) => (
+														<FormItem>
+															<FormLabel>Build name</FormLabel>
+															<FormControl>
+																<Input placeholder="Name your build" {...field} />
+															</FormControl>
+															<FormMessage />
+														</FormItem>
+													)}
+												/>
+												<div className="flex flex-row justify-between gap-4">
+													<div className="w-1/2 aspect-square ">
+														<Image
+															src={imageBase64}
+															onClick={handleImageClick}
+															className="w-full h-full object-cover cursor-pointer shadow rounded-lg bg-white"
+															alt=""
+															width={100}
+															height={100}
+														/>
+
+														<Input
+															type="file"
+															ref={fileInputRef}
+															onChange={handleImageChange}
+															accept="image/*"
+															className="hidden"
+														/>
+													</div>
+													<FormField
+														control={buildForm.control}
+														name="buildBio"
+														render={({ field }) => (
+															<FormItem className="w-1/2 aspect-square">
+																<FormControl>
+																	<Textarea
+																		placeholder="Description"
+																		{...field}
+																		className="h-full w-full resize-none"
+																	/>
+																</FormControl>
+																<FormMessage />
+															</FormItem>
+														)}
+													/>
+												</div>
+												<Button type="submit" disabled={isPending} className="bg-primary1-5 hover:bg-primary1-3">
+													Save
+												</Button>
+												<AuthErrorComponent message={errorMessage} />
+											</form>
+										</Form>
+									</ModalBody>
+								</>
+							)}
+							{modalPanel == "delete" && (
+								<>
+									<ModalHeader>Are you sure?</ModalHeader>
+									<ModalBody className="p-12">
+										<div className="flex flex-col gap-8 justify-center w-full">
+											<Button className="bg-red-300 text-red-500 w-auto" onClick={submitDelete}>
+												Delete this build.
+											</Button>
+											<Button className="bg-green-300 text-green-500 w-auto" onClick={onClose}>
+												No, I've change my mind.
+											</Button>
+										</div>
+									</ModalBody>
+								</>
+							)}
+						</>
+					)}
+				</ModalContent>
+			</Modal>
+
 			<div className="flex flex-row gap-4">
 				<div className="flex flex-col p-4 gap-4 shadow-md rounded-lg w-1/3">
 					{dataIsLoaded ? (
@@ -108,8 +275,25 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 											</Button>
 										</DropdownTrigger>
 										<DropdownMenu aria-label="Static Actions">
-											<DropdownItem>Edit Build</DropdownItem>
-											<DropdownItem>Del Build</DropdownItem>
+											<DropdownItem
+												onClick={() => {
+													onOpen();
+													setModalPanel("edit");
+												}}
+												startContent={<MdEditSquare />}
+											>
+												Edit build
+											</DropdownItem>
+											<DropdownItem
+												onClick={() => {
+													onOpen();
+													setModalPanel("delete");
+												}}
+												startContent={<MdDeleteForever />}
+												className="text-red-500"
+											>
+												Delete build
+											</DropdownItem>
 										</DropdownMenu>
 									</Dropdown>
 								) : (
