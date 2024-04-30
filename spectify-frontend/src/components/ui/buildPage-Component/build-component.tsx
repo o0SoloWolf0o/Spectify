@@ -35,7 +35,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             if (typeProduct === 'CPU' && 'socket' in product) {
                 setSelectedCpuSocket((product as cpuProducts).socket);
             } else if (typeProduct === 'MB' && 'ramslot' in product) {
-                setSelectedMoboRamType((product as moboProducts).ramslot);
+                setSelectedMoboRamType((product as unknown as moboProducts).ramslot);
             }
 
             return newProducts;
