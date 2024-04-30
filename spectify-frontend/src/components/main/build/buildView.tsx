@@ -25,7 +25,7 @@ import * as zod from "zod";
 import { buildBioSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import AuthErrorComponent from "@/components/main/auth/authError";
-import { updateBuild } from "@/action/build";
+import { deleteBuild, updateBuild } from "@/action/build";
 
 type TProps = {
 	buildInfo?: any;
@@ -83,13 +83,12 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 	function submitBioUpdate(build: zod.infer<typeof buildBioSchema>) {
 		setErrorMessage("");
 		build.image = imageBase64;
-		console.log(build);
 		const validBuild = buildBioSchema.safeParse(build);
 		if (validBuild) {
 			startTransition(() => {
 				updateBuild(build).then((res) => {
 					if (res.success) {
-						location.reload;
+						location.reload();
 					} else {
 						setErrorMessage(res.message);
 					}
@@ -101,15 +100,14 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 	}
 
 	function submitDelete() {
-		const bId = buildForm.getValues("buildId");
 		startTransition(() => {
-			// updateBuild(build).then((res) => {
-			// 	if (res.success) {
-			// 		location.reload;
-			// 	} else {
-			// 		setErrorMessage(res.message);
-			// 	}
-			// });
+			deleteBuild(buildForm.getValues("buildId")).then((res) => {
+				if (res.success) {
+					location.reload();
+				} else {
+					setErrorMessage(res.message);
+				}
+			});
 		});
 	}
 

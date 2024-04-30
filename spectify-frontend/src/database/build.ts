@@ -60,11 +60,25 @@ export async function updateBuildById(userId: string, build: zod.infer<typeof bu
 		await prisma.build.update({
 			where: {
 				id: build.buildId,
+				user_id: userId,
 			},
 			data: {
 				image: build.image,
 				buildName: build.buildName,
 				buildBio: build.buildBio,
+			},
+		});
+	} catch (e) {
+		throw e;
+	}
+}
+
+export async function deleteBuildById(userId: string, buildId: string) {
+	try {
+		await prisma.build.delete({
+			where: {
+				id: buildId,
+				user_id: userId,
 			},
 		});
 	} catch (e) {

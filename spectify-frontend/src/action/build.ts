@@ -1,7 +1,7 @@
 "use server";
 
 import { userDetail } from "@/hooks/userDetail";
-import { createBuild } from "@/database/build";
+import { createBuild, deleteBuildById } from "@/database/build";
 import { buildSchema, buildBioSchema } from "@/schemas";
 import { getBuildById, updateBuildById } from "@/database/build";
 import * as zod from "zod";
@@ -28,9 +28,9 @@ export async function updateBuild(build: zod.infer<typeof buildBioSchema>) {
 
 	try {
 		await updateBuildById(user.id, build);
-		return { success: true, message: "Build saved" };
+		return { success: true, message: "Build updated" };
 	} catch (e) {
-		return { success: false, message: "Error saving build" };
+		return { success: false, message: "Error updating build" };
 	}
 }
 
@@ -38,5 +38,12 @@ export async function deleteBuild(buildId: string) {
 	const user = await userDetail();
 	if (!user) {
 		return { success: false, message: "User not found" };
+	}
+
+	try {
+		await deleteBuildById(user.id, buildId);
+		return { success: true, message: "Build deleted" };
+	} catch (e) {
+		return { success: false, message: "Error deleting build" };
 	}
 }
