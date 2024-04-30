@@ -55,6 +55,19 @@ export const getBuildsCountByUserId = async (user_id: string) => {
 	});
 };
 
+export const getBuildsIdbyUserId = async (user_id: string) => {
+	const builds = await prisma.build.findMany({
+		where: {
+			user_id: user_id,
+		},
+		select: {
+			id: true,
+			date: true,
+		},
+	});
+	return builds;
+}
+
 export async function updateBuildById(userId: string, build: zod.infer<typeof buildBioSchema>) {
 	try {
 		await prisma.build.update({
