@@ -52,7 +52,7 @@ export default function FollowingComponent({limit}: {limit: number}) {
     return (
         <>
             <h1 className="font-bold text-2xl">Following</h1>
-            <div className="grid justify-start mt-6 grid-cols-3 md:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4 justify-start mt-6">
                 {(following as { followingId: string, image: string, username: string }[]).slice(0, limit).map((user) => (
                     <div key={user.followingId}>
                         <div className="flex justify-center">
