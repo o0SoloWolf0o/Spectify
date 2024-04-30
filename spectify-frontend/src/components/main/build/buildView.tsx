@@ -26,7 +26,7 @@ import { buildBioSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import AuthErrorComponent from "@/components/main/auth/authError";
 import { deleteBuild, updateBuild } from "@/action/build";
-import Performance from "@/components/ui/buildPage-Component/build-performance";
+import Performance from "@/components/ui/buildPage-Component/build-view-performance";
 
 type TProps = {
 	buildInfo?: any;
@@ -168,7 +168,7 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 			}
 		};
 		fetchData();
-	}, [buildId, buildInfo]);
+	}, [buildForm, buildId, buildInfo]);
 
 	return (
 		<>
@@ -249,7 +249,7 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 												Delete this build.
 											</Button>
 											<Button className="bg-green-300 text-green-500 w-auto" onClick={onClose}>
-												No, I've change my mind.
+												No, I&apos;ve change my mind.
 											</Button>
 										</div>
 									</ModalBody>
