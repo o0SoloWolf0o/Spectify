@@ -26,6 +26,8 @@ import { buildBioSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import AuthErrorComponent from "@/components/main/auth/authError";
 import { deleteBuild, updateBuild } from "@/action/build";
+import Performance from "@/components/ui/buildPage-Component/build-performance";
+import { CupSoda } from "lucide-react";
 
 type TProps = {
 	buildInfo?: any;
@@ -419,9 +421,7 @@ export default function BuildViewComponent({ buildInfo, buildId }: TProps) {
 					<p className="text-xl font-bold">Performance</p>
 					{dataIsLoaded ? (
 						<>
-							<div>Image1</div>
-							<div>Image2</div>
-							<div>Image3</div>
+							<Performance paramCpu={cpu} paramGpu={gpu} />
 						</>
 					) : (
 						<>
