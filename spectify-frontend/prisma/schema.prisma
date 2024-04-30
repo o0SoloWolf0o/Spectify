@@ -30,6 +30,7 @@ model User {
     following     follow[]  @relation("userFollowing")
     followers     follow[]  @relation("userFollower")
     build         build[]
+    like          like[]
 }
 
 model UserDetail {
@@ -77,6 +78,15 @@ model follow {
     @@unique([followerId, followingId])
 }
 
+model like {
+    id      String   @id @default(cuid())
+    user_id String
+    build_id String
+    date    DateTime
+    user User @relation(fields: [user_id], references: [id])
+    build build @relation(fields: [build_id], references: [id])
+}
+
 model news {
     id      String   @id @default(cuid())
     title   String
@@ -103,6 +113,7 @@ model build {
     monitor_id String?
     date    DateTime
     user_id String
+    like like[]
 
     cpu cpu @relation(fields: [cpu_id], references: [id])
     mobo mobo @relation(fields: [mobo_id], references: [id])

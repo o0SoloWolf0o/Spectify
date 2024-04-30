@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useEffect, useMemo, } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ProductPopUp, { Product } from '@/components/main/build/productPopup';
+import ProductPage from "@/components/main/product/productPage";
+import { cpuProducts } from "@/components/main/product/productPage";
+import { moboProducts } from "@/components/main/product/productPage";
 
 export type SelectedProducts = {
     [key: string]: Product | null;
@@ -19,15 +22,28 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
         setSelectedProducts(prev => ({ ...prev, ...loadedProducts }));
     }, [setSelectedProducts]);
 
+    const [selectedCpuSocket, setSelectedCpuSocket] = useState<string | null>(null);
+    const [selectedMoboRamType, setSelectedMoboRamType] = useState<string | null>(null);
+
     const handleSelectProduct = (typeProduct: string, product: Product) => {
-    
         setSelectedProducts(prevProducts => {
             const newProducts = { ...prevProducts, [typeProduct]: product };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.setItem(typeProduct, product.id);
+    
+            if (typeProduct === 'CPU' && 'socket' in product) {
+                const cpuProduct = product as cpuProducts;
+                setSelectedCpuSocket(cpuProduct.socket);
+            } else if (typeProduct === 'MB' && 'ramslot' in product) {
+                const moboProduct = product as unknown as moboProducts;
+                setSelectedMoboRamType(moboProduct.ramslot);
+            }
+    
             return newProducts;
         });
     };
+    
+    
 
     const handleDeselectProduct = (typeProduct: string) => {
         
@@ -35,6 +51,15 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             const newProducts = { ...prevProducts, [typeProduct]: null };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.removeItem(typeProduct);
+            
+            if (typeProduct === 'CPU') {
+                setSelectedCpuSocket(null);
+            }
+            
+            if (typeProduct === 'MB') {
+                setSelectedMoboRamType(null);
+            }
+            
             return newProducts;
         });
     };
@@ -63,6 +88,8 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
                         onSelectProduct={(product) => handleSelectProduct(type, product)}
                         onDeselectProduct={() => handleDeselectProduct(type)}
                         selectedProduct={product}
+                        selectedCpuSocket={type === 'MB' ? selectedCpuSocket : undefined}
+                        selectedMoboRamType={type === 'RAM' ? selectedMoboRamType : undefined}
                     />
                 ))}
 

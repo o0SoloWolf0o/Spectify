@@ -10,10 +10,10 @@ const productTypeToImageUrl: ProductImageMap = {
 
   CPU: '/images/vispng/CPU.png',
   GPU: '/images/vispng/GPU.png',
-  MB: '/images/vispng/MB.png',
+  MB: '/images/vispng/MB2.png',
   RAM: '/images/vispng/RAM.png',
   SSD: '/images/vispng/SSD.png',
-  PSU: '/images/vispng/PSU.png',
+  PSU: '/images/vispng/PSU2.png',
   Case: '/images/vispng/Case.png',
   Cooler: '/images/vispng/Cooler.png',
 
@@ -29,22 +29,19 @@ const Visualization: React.FC<VisualizationProps> = ({ selectedProducts }) => {
 
   return (
 
-    <div className="flex flex-nowrap justify-center items-center">
+    <div className="relative text-center" style={{ width: '430px', height: '430px' }}>
       {Object.entries(safeSelectedProducts).map(([type, product]) => {
 
         if (!product) return null;
         const imageUrl = productTypeToImageUrl[type as keyof SelectedProducts];
         return (
           <div key={type}>
-            test image
             <Image
               key={type}
               src={imageUrl}
               alt={type}
-              width={50}
-              height={50}
-              style={{ width: '50px', height: '50px' }}
-              className='w-full h-full'
+              layout='fill'
+              objectFit='contain'
             />
           </div>
         );

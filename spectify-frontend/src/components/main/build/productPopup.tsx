@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -173,12 +172,16 @@ interface ProductPopUpProps {
 	onSelectProduct: (product: Product) => void;
 	onDeselectProduct: () => void;
 	selectedProduct: Product | null;
+	selectedCpuSocket?: string | null;
+	selectedMoboRamType?: string | null;
 };
 
 export default function ProductPopUp({
 	typeProduct,
 	onSelectProduct,
 	onDeselectProduct,
+	selectedCpuSocket,
+	selectedMoboRamType,
 	selectedProduct }: ProductPopUpProps) {
 
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
@@ -250,110 +253,56 @@ export default function ProductPopUp({
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
 
 	useEffect(() => {
-		const fetchData = async (typeProduct: string) => {
+		const fetchData = async () => {
+			let products: Product[] = [];
+
 			switch (typeProduct) {
 				case "CPU":
-					getCpuProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("CPU products:", data);
-						setDisplayText('CPU');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					});
+					products = await getCpuProducts();
 					break;
 				case "GPU":
-					getGpuProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("GPU products:", data);
-						setDisplayText('VGA');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					});
+					products = await getGpuProducts();
 					break;
 				case "RAM":
-					getRamProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("RAM products:", data);
-						setDisplayText('Memory');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					});
+					products = await getRamProducts();
 					break;
 				case "SSD":
-					getSsdProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("SSD products:", data);
-						setDisplayText('Storage');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					});
+					products = await getSsdProducts();
 					break;
 				case "HDD":
-					getHddProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("HDD products:", data);
-						setDisplayText('HDD');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					});
+					products = await getHddProducts();
 					break;
 				case "MB":
-					getMoboProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("Motherboard products:", data);
-						setDisplayText('Motherboard');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					});
+					products = await getMoboProducts();
 					break;
 				case "PSU":
-					getPsuProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("PSU products:", data);
-						setDisplayText('Power Supply');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					});
+					products = await getPsuProducts();
 					break;
 				case "Monitor":
-					getMonitorProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("Monitor products:", data);
-						setDisplayText('Monitor');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					});
+					products = await getMonitorProducts();
 					break;
 				case "Cooler":
-					getCpuCoolerProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("CPU Cooler products:", data);
-						setDisplayText('CPU cooler');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					});
+					products = await getCpuCoolerProducts();
 					break;
 				case "Case":
-					getCaseComputersProducts().then((data) => {
-						setAllProducts(data);
-						// console.log("Case products:", data);
-						setDisplayText('Case');
-						handleSearch("");
-						setFilteredSearchProducts(data);
-					})
-					break;
-				default:
-					setAllProducts([]);
-					setFilteredSearchProducts(allProducts);
-					handleSearch("");
+					products = await getCaseComputersProducts();
 					break;
 			}
-		};
 
-		if (outerModalOpen && typeProduct) {
-			fetchData(typeProduct);
-		}
-	}, [allProducts, handleSearch, outerModalOpen, typeProduct]);
+			if (typeProduct === "MB" && selectedCpuSocket) {
+				const compatibleMobos = products.filter((product) => (product as moboProducts).socketCPU === selectedCpuSocket);
+				products = compatibleMobos;
+			} else if (typeProduct === "RAM" && selectedMoboRamType) {
+				const compatibleRams = products.filter((product) => (product as ramProducts).type === selectedMoboRamType);
+				products = compatibleRams;
+			}
+
+			setAllProducts(products);
+			setFilteredSearchProducts(products);
+		};
+		fetchData();
+
+	}, [typeProduct, selectedCpuSocket, selectedMoboRamType]);
 
 	return (
 		<>
@@ -410,7 +359,9 @@ export default function ProductPopUp({
 												{product.name}
 											</p>
 											<p style={{ fontSize: "13px" }} >{product.description}</p>
-											<img src={product.image} alt={product.name} style={{ width: "200px", height: "200px", boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }} />
+											<div style={{ width: '180px', height: '180px', boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}>
+												<Image src={product.image} alt={product.name} width={180} height={180} />
+											</div>
 											<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
 												<div>
 													{product.price ? (
@@ -441,11 +392,11 @@ export default function ProductPopUp({
 																	<div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'stretch' }}>
 																		<div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
 																			<p style={{ fontSize: '13px', maxWidth: '200px', overflowWrap: 'break-word' }}>{selectedProductInfo?.description}</p>
-																			<img
+																			<Image
 																				src={selectedProductInfo?.image}
 																				alt={selectedProductInfo?.name}
-																				width={200}
-																				height={200}
+																				width={180}
+																				height={180}
 																				style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
 																			/>
 																			<div style={{ marginTop: '7px' }}>
