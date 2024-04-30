@@ -2,12 +2,12 @@
 import { useSession } from "next-auth/react";
 import { getManyFollowingById } from "@/action/follow";
 import { useEffect, useState } from "react";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, image } from "@nextui-org/react";
 import { getUserById } from "@/database/user";
 import { getUserImg } from "@/action/updateProfile";
 import FollowButton from "@/components/main/profile/followButton";
 import Link from "next/link";
-import FollowingBuilds from "@/components/main/following/followingBuilds";
+import FollowingBuildsComponent from "./followingBuilds";
 
 export default function FollowingComponent({limit}: {limit: number}) {
     const session = useSession();
@@ -25,6 +25,7 @@ export default function FollowingComponent({limit}: {limit: number}) {
                     followingData.map(async (follow) => {
                         const user = await getUserById(follow.followingId);
                         const image = await getUserImg(follow.followingId);
+                       
                         return {
                             ...user,
                             image,
@@ -69,11 +70,7 @@ export default function FollowingComponent({limit}: {limit: number}) {
             </div>
             {isLimit === Infinity ? null : (
             <div className="mt-10 pt-12 border-t border-gray-300">
-                {(following as { followingId: string, image: string, username: string }[]).map((user) => (
-                    <div key={user.followingId}>
-                        <FollowingBuilds followingId={user.followingId} followingImg={user.image} followingUsername={user.username} />
-                    </div>
-                ))}
+                <FollowingBuildsComponent/>
                 </div>
             )}
         </>
