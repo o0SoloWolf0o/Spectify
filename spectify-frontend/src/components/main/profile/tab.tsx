@@ -17,7 +17,7 @@ import {
 
 import { useEffect, useState } from "react";
 import BuildPopupComponent from "../build/buildPopup";
-import { getBuildByUserId } from "@/database/build";
+import { getBuildsIdbyUserId } from "@/database/build";
 import { getLikesBuild } from "@/action/like";
 
 
@@ -28,7 +28,8 @@ export default function TabComponent({userId}: {userId: string}) {
 
   useEffect(() => {
       const fetchBuilds = async () => {
-      const builds = await getBuildByUserId(userId);
+      const builds = await getBuildsIdbyUserId(userId);
+      builds.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       setBuilds(builds as never[]);
       setIsFetching(false);
     }
@@ -39,13 +40,14 @@ export default function TabComponent({userId}: {userId: string}) {
   useEffect(() => {
     const fetchLikes = async () => {
       const likes = await getLikesBuild(userId);
-      likes.sort((a, b) => b.date.getTime() - a.date.getTime());
+      likes.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       setLikes(likes as never[]);
     }
     fetchLikes();
   }
   , [userId]);
   
+  // console.log(builds);
 
   return (
     <Tabs defaultValue="build" className="w-[64rem]">

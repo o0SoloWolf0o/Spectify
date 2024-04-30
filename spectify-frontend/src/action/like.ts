@@ -1,5 +1,5 @@
 "use server";
-import { like, unlike, isLiked, getLikes, getLikesCount } from "@/database/like";
+import { like, unlike, isLiked, getLikes, getLikesCount, getMostLiked} from "@/database/like";
 
 export async function likeBuild({ userId, buildId }: { userId: string, buildId: string }) {
     return await like(userId, buildId);
@@ -21,3 +21,6 @@ export async function getLikesCountBuild(buildId: string) {
     return await getLikesCount(buildId);
 }
 
+export async function getMostLikedBuilds() {
+    return await getMostLiked();
+}

@@ -46,3 +46,17 @@ export const getLikesCount = async (build_id: string) => {
         },
     });
 };
+
+export const getMostLiked = async () => {
+    return await prisma.like.groupBy({
+        by: ["build_id"],
+        _count: {
+            build_id: true,
+        },
+        orderBy: {
+            _count: {
+                build_id: "desc",
+            },
+        },
+    });
+};

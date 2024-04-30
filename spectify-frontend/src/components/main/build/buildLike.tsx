@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useTransition } from "react";
 
-export default function BuildLikeComponent({ build_id}: { build_id: string }) {
+export default function BuildLikeComponent({ build_id, onUpdateLikeCount}: { build_id: string, onUpdateLikeCount?: (increment:boolean) => void}) {
 	const session = useSession();
 	const sessionUser = session?.data?.user;
 	const [liked, setLiked] = useState(false);
@@ -28,11 +28,13 @@ export default function BuildLikeComponent({ build_id}: { build_id: string }) {
 			startTransition(() => {
 				if (liked) {
 					unlikeBuild({ userId: sessionUser.id, buildId: build_id }).then(() => {
+						onUpdateLikeCount && onUpdateLikeCount(false); // Add null check before invoking the function
 						setLiked(false);
 						setLoading(false);
 					});
 				} else {
 					likeBuild({ userId: sessionUser.id, buildId: build_id }).then(() => {
+						onUpdateLikeCount && onUpdateLikeCount(true); // Add null check before invoking the function
 						setLiked(true);
 						setLoading(false);
 					});

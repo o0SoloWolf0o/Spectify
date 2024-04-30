@@ -33,6 +33,8 @@ export default function BuildPopupComponent({ buildId, size }: TBuildPopupCompon
 		},
 	});
 
+	const [likeCount, setLikeCount] = useState(0);
+
 	useEffect(() => {
 		getBuildById(buildId).then((res) => {
 			setBuild(res);
@@ -52,9 +54,11 @@ export default function BuildPopupComponent({ buildId, size }: TBuildPopupCompon
 							width="200" height="200"
 						/>
 						<div className="flex flex-row justify-between">
-							<BuildLikeCountComponent build_id={build.id} />
+								<BuildLikeCountComponent build_id={build.id} likeupdate={likeCount} />
 							<div className="flex flex-row gap-4">
-								<BuildLikeComponent build_id={build.id} />
+								<BuildLikeComponent build_id={build.id} onUpdateLikeCount={(increment)=>
+                            increment ? setLikeCount(likeCount + 1) : setLikeCount(likeCount - 1)
+                        } />
 								<BuildCompareComponent />
 								<BuildShareComponent />
 							</div>
