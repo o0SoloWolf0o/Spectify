@@ -2,7 +2,7 @@
 
 import { Modal, ModalContent, ModalBody, useDisclosure } from "@nextui-org/react";
 import { Button } from "@/components/ui/button";
-import saveBuild from "@/action/saveBuild";
+import { saveBuild } from "@/action/build";
 import { buildSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
