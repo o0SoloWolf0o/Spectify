@@ -76,7 +76,7 @@ export type moboProducts = {
 	name: string;
 	image: string;
 	size: string;
-	socket: string;
+	socketCPU: string;
 	ramslot: string;
 	description: string;
 	price: string;
@@ -926,7 +926,7 @@ export default function ProductPage() {
 												{selectedProduct?.typeProduct === "Mother Board" && (
 													<div>
 														<p>Size: {(selectedProduct as moboProducts).size}</p>
-														<p>Socket: {(selectedProduct as moboProducts).socket}</p>
+														<p>Socket: {(selectedProduct as moboProducts).socketCPU}</p>
 														<p>Ram Slot: {(selectedProduct as moboProducts).ramslot}</p>
 													</div>
 												)}

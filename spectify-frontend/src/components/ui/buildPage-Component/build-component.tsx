@@ -2,7 +2,6 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import ProductPopUp, { Product } from '@/components/main/build/productPopup';
-import ProductPage from "@/components/main/product/productPage";
 import { cpuProducts } from "@/components/main/product/productPage";
 import { moboProducts } from "@/components/main/product/productPage";
 
