@@ -89,29 +89,29 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
     fetchProducts();
 
     const selectProducts = (budget: number) => {
-        let selectedProducts: { cpu: cpuProducts; gpu: gpuProducts; ram: ramProducts; ssd: ssdProducts; mobo: moboProducts; cpuCooler: cpuCoolerProducts; psu: psuProducts; case: caseComputerProducts; }[] = [];
+        let selectedProducts: { CPU: cpuProducts; GPU: gpuProducts; RAM: ramProducts; SSD: ssdProducts; MB: moboProducts; Cooler: cpuCoolerProducts; PSU: psuProducts; Case: caseComputerProducts; }[] = [];
     
-        cpuProducts.forEach(cpu => {
-            gpuProducts.forEach(gpu => {
-                ramProducts.forEach(ram => {
-                    ssdProducts.forEach(ssd => {
-                        moboProducts.forEach(mobo => {
-                            cpuCoolerProducts.forEach(cpuCooler => {
-                                psuProducts.forEach(psu => {
+        cpuProducts.forEach(CPU => {
+            moboProducts.forEach(MB => {
+                gpuProducts.forEach(GPU => {
+                    ramProducts.forEach(RAM => {
+                        ssdProducts.forEach(SSD => {
+                            cpuCoolerProducts.forEach(Cooler => {
+                                psuProducts.forEach(PSU => {
                                     caseComputerProducts.forEach(computerCase => {
-                                        let totalPrice = parseFloat(cpu.price) + parseFloat(gpu.price) + parseFloat(ram.price) + parseFloat(ssd.price) + parseFloat(mobo.price) + parseFloat(cpuCooler.price) + parseFloat(psu.price) + parseFloat(computerCase.price);
+                                        let totalPrice = parseFloat(CPU.price) + parseFloat(GPU.price) + parseFloat(RAM.price) + parseFloat(SSD.price) + parseFloat(MB.price) + parseFloat(Cooler.price) + parseFloat(PSU.price) + parseFloat(computerCase.price);
                                         if (totalPrice <= budget) {
                                             // Check if all components are present
-                                            if (cpu && gpu && ram && ssd && mobo && cpuCooler && psu && computerCase) {
+                                            if (CPU && GPU && RAM && SSD && MB && Cooler && PSU && computerCase) {
                                                 selectedProducts.push({
-                                                    cpu,
-                                                    gpu,
-                                                    ram,
-                                                    ssd,
-                                                    mobo,
-                                                    cpuCooler,
-                                                    psu,
-                                                    case: computerCase
+                                                    CPU,
+                                                    MB,
+                                                    GPU,
+                                                    RAM,
+                                                    SSD,
+                                                    Cooler,
+                                                    PSU,
+                                                    Case: computerCase
                                                 });
                                             }
                                         }
@@ -139,6 +139,8 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
         if (selectedProduct) {
             localStorage.setItem('selectedProducts', JSON.stringify(selectedProduct));
         }
+
+        window.location.reload();
     };
 
 
