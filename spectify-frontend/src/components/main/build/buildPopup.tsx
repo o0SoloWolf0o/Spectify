@@ -61,7 +61,7 @@ export default function BuildPopupComponent({ buildId, size }: TBuildPopupCompon
                             increment ? setLikeCount(likeCount + 1) : setLikeCount(likeCount - 1)
                         } />
 								<BuildCompareComponent />
-								<BuildShareComponent />
+								<BuildShareComponent build_id={build.id} />
 							</div>
 						</div>
 					</div>
