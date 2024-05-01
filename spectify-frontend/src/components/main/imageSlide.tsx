@@ -4,15 +4,18 @@ export default function ImageSlideComponent() {
     const images = [
         {
             src: "https://www.commartthailand.com/wp-content/uploads/2023/09/KV_CommartAwards2023-01.png",
-            alt: "image1"
+            alt: "image1",
+            link: "https://www.commartthailand.com/"
         },
         {
             src: "https://notebookspec.com/web/wp-content/uploads/2022/07/NBS-220707_FB-Share-Link_Commart-2022.jpg",
-            alt: "image2"
+            alt: "image2",
+            link: "https://www.commartthailand.com/"
         },
         {
             src: "https://www.commartthailand.com/wp-content/uploads/2024/02/CommartX2.png",
-            alt: "image3"
+            alt: "image3",
+            link: "https://www.commartthailand.com/"
         }
 
     ];
@@ -22,7 +25,9 @@ export default function ImageSlideComponent() {
     return (
         <>
             <div className="relative mx-16">
-                <img src={images[currentImage].src} alt={images[currentImage].alt} className="w-full h-96 object-cover rounded-2xl"/>
+            <a href={images[currentImage].link} target="_blank" rel="noopener noreferrer">
+                <img  src={images[currentImage].src} alt={images[currentImage].alt} className="w-full h-96 object-cover rounded-2xl"/>
+                </a>
                 <div className="absolute top-1/2 left-0 right-0 flex justify-between">
                     <button onClick={() => setCurrentImage((currentImage - 1 + images.length) % images.length)} className="bg-black bg-opacity-50 text-white p-2 rounded-full">
                         {"<"}
