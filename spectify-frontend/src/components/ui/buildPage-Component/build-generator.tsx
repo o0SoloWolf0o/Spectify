@@ -12,6 +12,8 @@ import {
 } from "@/components/main/product/productPage";
 
 import { getCpuProducts, getRamProducts, getGpuProducts, getSsdProducts, getCpuCoolerProducts, getMoboProducts, getPsuProducts, getCaseComputersProducts } from "@/action/product";
+import { Product } from '@/components/main/build/productPopup';
+import { SelectedProducts } from './build-component';
 
 type caseComputerProducts = {
     id: string;
@@ -35,7 +37,12 @@ type psuProducts = {
     tdp: string;
 };
 
-const Generator = () => {
+type GeneratorProps = {
+    setSelectedProducts: React.Dispatch<React.SetStateAction<SelectedProducts>>;
+};
+
+const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAction<SelectedProducts>> }> = ({ setSelectedProducts }) => {
+// const Generator = () => {
 
     const [cpuProducts, setCPUProducts] = useState<cpuProducts[]>([]);
     const [ramProducts, setRamProducts] = useState<ramProducts[]>([]);
@@ -82,29 +89,29 @@ const Generator = () => {
     fetchProducts();
 
     const selectProducts = (budget: number) => {
-        let selectedProducts: { cpu: cpuProducts; gpu: gpuProducts; ram: ramProducts; ssd: ssdProducts; mobo: moboProducts; cpuCooler: cpuCoolerProducts; psu: psuProducts; case: caseComputerProducts; totalPrice: number; }[] = [];
+        let selectedProducts: { CPU: cpuProducts; GPU: gpuProducts; RAM: ramProducts; SSD: ssdProducts; MB: moboProducts; Cooler: cpuCoolerProducts; PSU: psuProducts; Case: caseComputerProducts; totalPrice: number; }[] = [];
 
-        cpuProducts.forEach(cpu => {
-            gpuProducts.forEach(gpu => {
-                ramProducts.forEach(ram => {
-                    ssdProducts.forEach(ssd => {
-                        moboProducts.forEach(mobo => {
-                            cpuCoolerProducts.forEach(cpuCooler => {
-                                psuProducts.forEach(psu => {
+        cpuProducts.forEach(CPU => {
+            gpuProducts.forEach(GPU => {
+                moboProducts.forEach(MB => {
+                    ssdProducts.forEach(SSD => {
+                        ramProducts.forEach(RAM => {
+                            cpuCoolerProducts.forEach(Cooler => {
+                                psuProducts.forEach(PSU => {
                                     caseComputerProducts.forEach(computerCase => {
-                                        let totalPrice = parseFloat(cpu.price) + parseFloat(gpu.price) + parseFloat(ram.price) + parseFloat(ssd.price) + parseFloat(mobo.price) + parseFloat(cpuCooler.price) + parseFloat(psu.price) + parseFloat(computerCase.price);
+                                        let totalPrice = parseFloat(CPU.price) + parseFloat(GPU.price) + parseFloat(MB.price) + parseFloat(SSD.price) + parseFloat(RAM.price) + parseFloat(Cooler.price) + parseFloat(PSU.price) + parseFloat(computerCase.price);
                                         if (totalPrice <= budget) {
                                             // Check if all components are present
-                                            if (cpu && gpu && ram && ssd && mobo && cpuCooler && psu && computerCase) {
+                                            if (CPU && GPU && RAM && SSD && MB && Cooler && PSU && computerCase) {
                                                 selectedProducts.push({
-                                                    cpu,
-                                                    gpu,
-                                                    ram,
-                                                    ssd,
-                                                    mobo,
-                                                    cpuCooler,
-                                                    psu,
-                                                    case: computerCase,
+                                                    CPU,
+                                                    GPU,
+                                                    RAM,
+                                                    SSD,
+                                                    MB,
+                                                    Cooler,
+                                                    PSU,
+                                                    Case: computerCase,
                                                     totalPrice
                                                 });
                                             }
