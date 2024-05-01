@@ -137,13 +137,21 @@ export type psuProducts = {
 	price: string;
 };
 
-export type Product = cpuProducts | ramProducts | gpuProducts | moboProducts | hddProducts | ssdProducts | cpuCoolerProducts | monitorProducts | psuProducts;
+export type Product =
+	| cpuProducts
+	| ramProducts
+	| gpuProducts
+	| moboProducts
+	| hddProducts
+	| ssdProducts
+	| cpuCoolerProducts
+	| monitorProducts
+	| psuProducts;
 
 export default function ProductPage() {
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	const [searchValue, setSearchValue] = useState("");
 	const [filteredSearchProducts, setFilteredSearchProducts] = useState<Product[]>([]);
-	const { compareCounts, setCompareCounts } = useContext(CompareCountContext);
 
 	useEffect(() => {
 		console.log("Fetching products...");
@@ -233,8 +241,6 @@ export default function ProductPage() {
 		}
 	}
 
-
-
 	function handleResetFilter() {
 		setSelectedTypeProduct(null);
 		setFilteredSearchProducts(allProducts);
@@ -271,9 +277,21 @@ export default function ProductPage() {
 		// saveToLocalStorage(limitedSelectedProducts);
 		saveToLocalStorage(unlimitedSelectedProducts);
 
+		updateCompareCounts();
+	}
+
+	const { compareCounts, setCompareCounts } = useContext(CompareCountContext);
+	function updateCompareCounts() {
 		const compareItem = localStorage.getItem("compareData");
-		const totalCompare = Object.keys(JSON.parse(compareItem || "{}")).length;
-		setCompareCounts(totalCompare);
+		// const compareBuild = localStorage.getItem("compareBuild");
+
+		const totalItem = Object.keys(JSON.parse(compareItem || "{}")).length;
+		// const totalBuild = Object.keys(JSON.parse(compareBuild || "{}")).length;
+
+		// const totalCompare =  compareItem + compareBuild
+		const totalCompare = totalItem;
+
+		setCompareCounts(totalItem);
 	}
 
 	return (
@@ -281,11 +299,7 @@ export default function ProductPage() {
 			<SearchBarComponent onSearch={handleSearch} placeholder={"Product"} />
 
 			<div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-				<RadioGroup
-					value={selectedTypeProduct || ""}
-					onChange={(e) => handleTypeProduct(e.target.value)}
-					orientation="horizontal"
-				>
+				<RadioGroup value={selectedTypeProduct || ""} onChange={(e) => handleTypeProduct(e.target.value)} orientation="horizontal">
 					{filterNames.map((name, index) => (
 						<Radio key={index} value={name} className="m-2">
 							{name}
@@ -298,7 +312,6 @@ export default function ProductPage() {
 				</Button>
 			</div>
 			<div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
-
 				{/* loading product skeleton */}
 				{filteredSearchProducts.length === 0 && (
 					<div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -826,44 +839,50 @@ export default function ProductPage() {
 								)}
 							</div>
 
-							<GoArrowSwitch
-								className="h-6 w-6"
-								onClick={() => handleCompareClick(product)}
-							/>
+							<GoArrowSwitch className="h-6 w-6" onClick={() => handleCompareClick(product)} />
 						</div>
 					</div>
-				))
-				}
+				))}
 
-				<Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"lg"} >
+				<Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"lg"}>
 					<Modal isOpen={isOpen} onOpenChange={onOpenChange} size={"lg"}>
 						<ModalContent>
 							{(onClose) => (
 								<>
 									<ModalHeader className="flex flex-col gap-1">{selectedProduct?.name}</ModalHeader>
 									<ModalBody>
-										<div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'stretch' }}>
-											<div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-												<p style={{ fontSize: '13px', maxWidth: '200px', overflowWrap: 'break-word' }}>{selectedProduct?.description}</p>
+										<div style={{ display: "flex", justifyContent: "flex-start", alignItems: "stretch" }}>
+											<div style={{ display: "flex", flexDirection: "column", flex: "1" }}>
+												<p style={{ fontSize: "13px", maxWidth: "200px", overflowWrap: "break-word" }}>
+													{selectedProduct?.description}
+												</p>
 												{selectedProduct && selectedProduct.image && selectedProduct.name && (
 													<Image
 														src={selectedProduct.image}
 														alt={selectedProduct.name}
 														width={200}
 														height={200}
-														style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
+														style={{ boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)" }}
 													/>
 												)}
 
-												<div style={{ marginTop: '7px' }}>
-													<p style={{ color: '#6B6B6B' }}>Estimate Price</p>
-													<p style={{ fontWeight: 'bold' }}>{selectedProduct?.price} THB</p>
+												<div style={{ marginTop: "7px" }}>
+													<p style={{ color: "#6B6B6B" }}>Estimate Price</p>
+													<p style={{ fontWeight: "bold" }}>{selectedProduct?.price} THB</p>
 												</div>
 											</div>
-											<div style={{
-												background: "#DCF1FB", flex: '1', padding: '10px',
-												display: 'flex', flexDirection: 'column', alignItems: 'flex-start', maxWidth: '200px', marginBottom: '10px'
-											}}>
+											<div
+												style={{
+													background: "#DCF1FB",
+													flex: "1",
+													padding: "10px",
+													display: "flex",
+													flexDirection: "column",
+													alignItems: "flex-start",
+													maxWidth: "200px",
+													marginBottom: "10px",
+												}}
+											>
 												{selectedProduct?.typeProduct === "CPU" && (
 													<div>
 														<p>Type: {(selectedProduct as cpuProducts).type}</p>
@@ -945,7 +964,6 @@ export default function ProductPage() {
 														<p>G-Sync: {(selectedProduct as monitorProducts).gsync}</p>
 													</div>
 												)}
-
 											</div>
 										</div>
 									</ModalBody>
@@ -953,7 +971,6 @@ export default function ProductPage() {
 							)}
 						</ModalContent>
 					</Modal>
-
 				</Modal>
 			</div>
 		</>
