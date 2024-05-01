@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import AuthPopup from "@/components/main/auth/authPopup";
 import AuthErrorComponent from "@/components/main/auth/authError";
 import Image from "next/image";
+import { MdUploadFile } from "react-icons/md";
 interface IsaveBuildComponent {
 	className?: string | "";
 }
@@ -107,6 +108,8 @@ export default function SaveBuildComponent({ className }: IsaveBuildComponent) {
 		}
 	}, [buildForm, isOpen]);
 
+
+
 	return (
 		<>
 			{session.data ? (
@@ -137,24 +140,31 @@ export default function SaveBuildComponent({ className }: IsaveBuildComponent) {
 															)}
 														/>
 														<div className="flex flex-row justify-between gap-4">
-															<div className="w-1/2 aspect-square ">
-																<Image
-																	src={imageBase64}
-																	onClick={handleImageClick}
-																	className="w-full h-full object-cover cursor-pointer shadow rounded-lg bg-white"
-																	alt=""
-																	width={100}
-																	height={100}
-																/>
-
-																<Input
-																	type="file"
-																	ref={fileInputRef}
-																	onChange={handleImageChange}
-																	accept="image/*"
-																	className="hidden"
-																/>
-															</div>
+															{!imageBase64 && (
+																<label htmlFor="fileInput" className="w-1/2 aspect-square cursor-pointer">
+																	<MdUploadFile className="w-full h-full" />
+																	<Input
+																		id="fileInput"
+																		type="file"
+																		ref={fileInputRef}
+																		onChange={handleImageChange}
+																		accept="image/*"
+																		className="hidden"
+																	/>
+																</label>
+															)}
+															{imageBase64 && (
+																<div className="w-1/2 aspect-square">
+																	<Image
+																		src={imageBase64}
+																		onClick={handleImageClick}
+																		className="w-full h-full object-cover cursor-pointer shadow rounded-lg bg-white"
+																		alt=""
+																		width={100}
+																		height={100}
+																	/>
+																</div>
+															)}
 															<FormField
 																control={buildForm.control}
 																name="buildBio"
