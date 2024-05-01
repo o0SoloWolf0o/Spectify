@@ -92,8 +92,8 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
         let selectedProducts: { CPU: cpuProducts; GPU: gpuProducts; RAM: ramProducts; SSD: ssdProducts; MB: moboProducts; Cooler: cpuCoolerProducts; PSU: psuProducts; Case: caseComputerProducts; }[] = [];
     
         cpuProducts.forEach(CPU => {
-            moboProducts.forEach(MB => {
-                gpuProducts.forEach(GPU => {
+            gpuProducts.forEach(GPU => {
+                moboProducts.forEach(MB => {
                     ramProducts.forEach(RAM => {
                         ssdProducts.forEach(SSD => {
                             cpuCoolerProducts.forEach(Cooler => {
@@ -104,9 +104,9 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
                                             // Check if all components are present
                                             if (CPU && GPU && RAM && SSD && MB && Cooler && PSU && computerCase) {
                                                 selectedProducts.push({
-                                                    CPU,
-                                                    MB,
+                                                    CPU, 
                                                     GPU,
+                                                    MB,
                                                     RAM,
                                                     SSD,
                                                     Cooler,
