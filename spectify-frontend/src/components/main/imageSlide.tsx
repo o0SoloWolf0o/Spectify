@@ -11,7 +11,7 @@ export default function ImageSlideComponent() {
             alt: "image2"
         },
         {
-            src: "https://www.commartthailand.com/wp-content/uploads/2024/02/CommartComTech1-02.png",
+            src: "https://www.commartthailand.com/wp-content/uploads/2024/02/CommartX2.png",
             alt: "image3"
         }
 
