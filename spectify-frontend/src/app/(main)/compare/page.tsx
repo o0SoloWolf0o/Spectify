@@ -326,7 +326,7 @@ export default function ComparePage() {
                 {selectedProduct?.typeProduct === "Mother Board" && (
                   <div>
                     <p>Size: {(selectedProduct as moboProducts).size}</p>
-                    <p>Socket: {(selectedProduct as moboProducts).socket}</p>
+                    <p>Socket: {(selectedProduct as moboProducts).socketCPU}</p>
                     <p>Ram Slot: {(selectedProduct as moboProducts).ramslot}</p>
                   </div>
                 )}
@@ -545,7 +545,7 @@ export default function ComparePage() {
                   <div>
                     <p>Size: {(secondSelectedProduct as moboProducts).size}</p>
                     <p>
-                      Socket: {(secondSelectedProduct as moboProducts).socket}
+                      Socket: {(selectedProduct as moboProducts).socketCPU}
                     </p>
                     <p>
                       Ram Slot:{" "}

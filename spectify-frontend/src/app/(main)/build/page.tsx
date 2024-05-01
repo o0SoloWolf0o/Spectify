@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BuildComponent, { SelectedProducts } from '@/components/ui/buildPage-Component/build-component';
 import Generator from '@/components/ui/buildPage-Component/build-generator';
 import Performance from '@/components/ui/buildPage-Component/build-performance';
 import Visualization from '@/components/ui/buildPage-Component/build-visualization';
 import Optimization from '@/components/ui/buildPage-Component/build-opti';
 import SaveBuildComponent from '@/components/main/build/saveBuild';
-import Image from 'next/image';
 
 export default function BuildPage() {
 
@@ -40,7 +39,7 @@ export default function BuildPage() {
 
                 <div className='bg-white shadow-xl box-content row-span-2 col-start-1 row-start-3 justify-center flex-row'>
 
-                    <Generator />
+                    <Generator setSelectedProducts={setSelectedProducts} />
 
                 </div>
 
