@@ -13,7 +13,7 @@ export default function HomePage() {
         <ImageSlideComponent />
         <div className='mt-6'>
             <h1 className="font-bold text-2xl">Trending</h1>
-                <div className='flex justify-center mt-6'>
+                <div className='mt-6'>
                 <BuildReccomendComponent />
                 </div>
             </div>
