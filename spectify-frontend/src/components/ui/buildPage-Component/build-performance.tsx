@@ -214,7 +214,6 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 
 						{/* FHD */}
 						{selectedResolution === "FHD" && (
-							<>
 								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
 									<Image
 										src={`/images/games/valo.webp`}
@@ -243,10 +242,8 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 										</div>
 									</div>
 								</div>
-							</>
 						)}
 						{selectedResolution === "FHD" && (
-							<>
 								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
 									<Image
 										src={`/images/games/lol.webp`}
@@ -275,10 +272,8 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 										</div>
 									</div>
 								</div>
-							</>
 						)}
 						{selectedResolution === "FHD" && (
-							<>
 								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
 									<Image
 										src={`/images/games/ow.webp`}
@@ -307,12 +302,10 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 										</div>
 									</div>
 								</div>
-							</>
 						)}
 
 						{/* QHD */}
 						{selectedResolution === "QHD" && (
-							<>
 								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
 									<Image
 										src={`/images/games/valo.webp`}
@@ -341,11 +334,9 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 										</div>
 									</div>
 								</div>
-							</>
 						)}
 
 						{selectedResolution === "QHD" && (
-							<>
 								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
 									<Image
 										src={`/images/games/lol.webp`}
@@ -374,11 +365,9 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 										</div>
 									</div>
 								</div>
-							</>
 						)}
 
 						{selectedResolution === "QHD" && (
-							<>
 								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
 									<Image
 										src={`/images/games/ow.webp`}
@@ -407,12 +396,10 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 										</div>
 									</div>
 								</div>
-							</>
 						)}
 
 						{/* 4K */}
 						{selectedResolution === "UHD" && (
-							<>
 								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
 									<Image
 										src={`/images/games/valo.webp`}
@@ -441,11 +428,9 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 										</div>
 									</div>
 								</div>
-							</>
 						)}
 
 						{selectedResolution === "UHD" && (
-							<>
 								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
 									<Image
 										src={`/images/games/lol.webp`}
@@ -474,11 +459,9 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 										</div>
 									</div>
 								</div>
-							</>
 						)}
 
 						{selectedResolution === "UHD" && (
-							<>
 								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
 									<Image
 										src={`/images/games/ow.webp`}
@@ -507,7 +490,6 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 										</div>
 									</div>
 								</div>
-							</>
 						)}
 					</div>
 				)}
