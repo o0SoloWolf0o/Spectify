@@ -147,11 +147,7 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
         if (selectedProduct) {
             localStorage.setItem('selectedProducts', JSON.stringify(selectedProduct));
         }
-        // wait for selectedProducts to be set and reload the page
-        setTimeout(() => {
-            setSelectedProducts(JSON.parse(localStorage.getItem('selectedProducts') || '{}'));
-            window.location.reload();
-        }, 1000);
+        
     };
 
 
