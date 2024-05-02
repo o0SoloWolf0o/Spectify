@@ -138,16 +138,37 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
         setBudget(parseInt(event.target.value));
     };
 
-    const handleApplyClick = () => {
-        
-        fetchProducts();
+    const handleApplyClick = async () => {
+        await fetchProducts();
 
         const selectedProduct = selectProducts(Budget);
 
         if (selectedProduct) {
             localStorage.setItem('selectedProducts', JSON.stringify(selectedProduct));
         }
-        
+
+        // Check if all items are selected
+        const allItemsSelected = checkAllItemsSelected(selectedProduct);
+        if (allItemsSelected) {
+            window.location.reload();
+        }
+    };
+
+    const checkAllItemsSelected = (selectedProduct: any) => {
+        if (selectedProduct && selectedProduct !== null &&
+            selectedProduct.CPU &&
+            selectedProduct.GPU &&
+            selectedProduct.MB &&
+            selectedProduct.RAM &&
+            selectedProduct.SSD &&
+            selectedProduct.Cooler &&
+            selectedProduct.PSU &&
+            selectedProduct.Case
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     };
 
 
