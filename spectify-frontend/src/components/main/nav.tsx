@@ -176,7 +176,7 @@ export default function NavComponent() {
 				/>
 
 				<div className="mx-2 my-1">
-					<div>
+					{/* <div>
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button className="w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white">
@@ -195,7 +195,7 @@ export default function NavComponent() {
 								<DropdownMenuItem>Link2</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
-					</div>
+					</div> */}
 
 					{isSession ? (
 						<div>
