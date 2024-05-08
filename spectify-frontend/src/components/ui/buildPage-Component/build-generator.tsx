@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Switch } from "@nextui-org/react";
 import {
     cpuProducts,
@@ -37,6 +37,17 @@ type psuProducts = {
     tdp: string;
 };
 
+interface SelectedProduct {
+    CPU: cpuProducts;
+    GPU: gpuProducts;
+    RAM: ramProducts;
+    SSD: ssdProducts;
+    MB: moboProducts;
+    Cooler: cpuCoolerProducts;
+    PSU: psuProducts;
+    Case: caseComputerProducts;
+}
+
 type GeneratorProps = {
     setSelectedProducts: React.Dispatch<React.SetStateAction<SelectedProducts>>;
 };
@@ -52,50 +63,58 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
     const [psuProducts, setPsuProducts] = useState<psuProducts[]>([]);
     const [caseComputerProducts, setCaseComputerProducts] = useState<caseComputerProducts[]>([]);
 
-    let productsFetched = false;
+    const [productsFetched, setProductsFetched] = useState(false);
 
-    const fetchProducts = async () => {
-        try {
-            if (!productsFetched) {
-                const [
-                    cpuProducts,
-                    ramProducts,
-                    gpuProducts,
-                    moboProducts,
-                    ssdProducts,
-                    cpuCoolerProducts,
-                    psuProducts,
-                    caseComputerProducts,
-                ] = await Promise.all([
-                    getCpuProducts(),
-                    getRamProducts(),
-                    getGpuProducts(),
-                    getMoboProducts(),
-                    getSsdProducts(),
-                    getCpuCoolerProducts(),
-                    getPsuProducts(),
-                    getCaseComputersProducts(),
-                ]);
-                
-                setCPUProducts(cpuProducts);
-                setMoboProducts(moboProducts);
-                setRamProducts(ramProducts);
-                setGpuProducts(gpuProducts);
-                setSsdProducts(ssdProducts);
-                setPsuProducts(psuProducts);
-                setCaseComputerProducts(caseComputerProducts);
-                setCpuCoolerProducts(cpuCoolerProducts);
-            } else {
-                console.log("Products already fetched. Skipping...");
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                if (!productsFetched) {
+                    const [
+                        cpuProducts,
+                        ramProducts,
+                        gpuProducts,
+                        moboProducts,
+                        ssdProducts,
+                        cpuCoolerProducts,
+                        psuProducts,
+                        caseComputerProducts,
+                    ] = await Promise.all([
+                        getCpuProducts(),
+                        getRamProducts(),
+                        getGpuProducts(),
+                        getMoboProducts(),
+                        getSsdProducts(),
+                        getCpuCoolerProducts(),
+                        getPsuProducts(),
+                        getCaseComputersProducts(),
+                    ]);
+                    
+                    setProductsFetched(true);
+                    setCPUProducts(cpuProducts);
+                    setMoboProducts(moboProducts);
+                    setRamProducts(ramProducts);
+                    setGpuProducts(gpuProducts);
+                    setSsdProducts(ssdProducts);
+                    setPsuProducts(psuProducts);
+                    setCaseComputerProducts(caseComputerProducts);
+                    setCpuCoolerProducts(cpuCoolerProducts);
+                } else {
+                    console.log("Products already fetched. Skipping...");
+                }
+            } catch (error) {
+                console.error("Error fetching products:", error);
             }
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        }
-    };
+        };
 
-    const selectProducts = (budget: number) => {
-        let selectedProducts: { CPU: cpuProducts; GPU: gpuProducts; RAM: ramProducts; SSD: ssdProducts; MB: moboProducts; Cooler: cpuCoolerProducts; PSU: psuProducts; Case: caseComputerProducts; }[] = [];
+        fetchProducts();
+    }, [productsFetched]);
 
+
+    const [Budget, setBudget] = useState(0);
+    
+    const selectedProduct = useMemo(() => {
+        let selectedProducts: SelectedProduct[] = [];
+    
         cpuProducts.forEach(CPU => {
             gpuProducts.forEach(GPU => {
                 moboProducts.forEach(MB => {
@@ -104,8 +123,8 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
                             cpuCoolerProducts.forEach(Cooler => {
                                 psuProducts.forEach(PSU => {
                                     caseComputerProducts.forEach(computerCase => {
-                                        let totalPrice = parseFloat(CPU.price) + parseFloat(GPU.price) + parseFloat(RAM.price) + parseFloat(SSD.price) + parseFloat(MB.price) + parseFloat(Cooler.price) + parseFloat(PSU.price) + parseFloat(computerCase.price);
-                                        if (totalPrice <= budget) {
+                                        const totalPrice = parseFloat(CPU.price) + parseFloat(GPU.price) + parseFloat(RAM.price) + parseFloat(SSD.price) + parseFloat(MB.price) + parseFloat(Cooler.price) + parseFloat(PSU.price) + parseFloat(computerCase.price);
+                                        if (totalPrice <= Budget) {
                                             // Check if all components are present
                                             if (CPU && GPU && RAM && SSD && MB && Cooler && PSU && computerCase) {
                                                 selectedProducts.push({
@@ -128,31 +147,29 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
                 });
             });
         });
+    
         return selectedProducts[0];
-    };
-
-
-    const [Budget, setBudget] = useState(0);
+    }, [Budget, cpuProducts, ramProducts, gpuProducts, moboProducts, ssdProducts, cpuCoolerProducts, psuProducts, caseComputerProducts]);
+    
 
     const handleBudgetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setBudget(parseInt(event.target.value));
     };
 
-    const handleApplyClick = async () => {
-        await fetchProducts();
-
-        const selectedProduct = selectProducts(Budget);
-
-        if (selectedProduct) {
-            localStorage.setItem('selectedProducts', JSON.stringify(selectedProduct));
+    const handleApplyClick = () => {
+        const productSelected = selectedProduct;
+        
+        if (productSelected) {
+            localStorage.setItem('selectedProducts', JSON.stringify(productSelected));
         }
-
+        
         // Check if all items are selected
-        const allItemsSelected = checkAllItemsSelected(selectedProduct);
+        const allItemsSelected = checkAllItemsSelected(productSelected);
         if (allItemsSelected) {
             window.location.reload();
         }
     };
+
 
     const checkAllItemsSelected = (selectedProduct: any) => {
         if (selectedProduct && selectedProduct !== null &&
