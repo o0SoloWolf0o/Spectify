@@ -14,6 +14,7 @@ import { getMonitorProducts } from "@/action/product";
 import { getPsuProducts } from "@/action/product";
 import { VscClose } from "react-icons/vsc";
 import { Image } from "@nextui-org/react";
+import { Card, Skeleton } from "@nextui-org/react";
 
 type cpuProducts = {
 	id: string;
@@ -343,176 +344,201 @@ export default function ProductPopUp({
 							</ModalHeader>
 
 							<ModalBody>
-								<div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
-									{filteredSearchProducts.map((product, index) => (
-										<div key={index} style={{
-											width: "200px",
-											height: "400px",
-											flex: "0 0 auto",
-											boxSizing: "border-box",
-											padding: "10px",
-											margin: "10px",
-											boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
-										}}
-										>
-											<p style={{ fontWeight: "bold" }}>
-												{product.name}
-											</p>
-											<p style={{ fontSize: "13px" }} >{product.description}</p>
-											<div style={{ width: '180px', height: '180px', boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}>
-												<Image src={product.image} alt={product.name} width={180} height={180} />
-											</div>
-											<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
-												<div>
-													{product.price ? (
-														<div>
-															<p style={{ color: "#6B6B6B" }} >Estimate Price</p>
-															<p style={{ fontWeight: "bold" }} >{product.price}</p>
-														</div>
-													) : (
-														<p>No price available</p>
-													)}
+								{filteredSearchProducts.length === 0 ? (
+									// Render skeleton loading UI when no products are available
+									<div style={{ display: "flex", flexWrap: "wrap" }}>
+										{Array(28).fill('').map((_, index) => (
+											<Card key={index} className="w-[200px] space-y-5 p-4 mr-5 mt-5" radius="lg">
+												<Skeleton className="rounded-lg">
+													<div className="h-24 rounded-lg bg-default-300"></div>
+												</Skeleton>
+												<div className="space-y-3">
+													<Skeleton className="w-3/5 rounded-lg">
+														<div className="h-3 w-3/5 rounded-lg bg-default-200"></div>
+													</Skeleton>
+													<Skeleton className="w-4/5 rounded-lg">
+														<div className="h-3 w-4/5 rounded-lg bg-default-200"></div>
+													</Skeleton>
+													<Skeleton className="w-2/5 rounded-lg">
+														<div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
+													</Skeleton>
 												</div>
-											</div>
-											<div className="flex gap-4 items-center" style={{ justifyContent: "space-between", marginTop: "5px" }}>
+											</Card>
+										))}
+									</div>
+								) : (
+									<div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
+										{filteredSearchProducts.map((product, index) => (
+											<div key={index} style={{
+												width: "200px",
+												height: "400px",
+												flex: "0 0 auto",
+												boxSizing: "border-box",
+												padding: "10px",
+												margin: "10px",
+												boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+											}}
+											>
+												<p style={{ fontWeight: "bold" }}>
+													{product.name}
+												</p>
+												<p style={{ fontSize: "13px" }} >{product.description}</p>
+												<div style={{ width: '180px', height: '180px', boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}>
+													<Image src={product.image} alt={product.name} width={180} height={180} />
+												</div>
+												<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "7px" }}>
+													<div>
+														{product.price ? (
+															<div>
+																<p style={{ color: "#6B6B6B" }} >Estimate Price</p>
+																<p style={{ fontWeight: "bold" }} >{product.price}</p>
+															</div>
+														) : (
+															<p>No price available</p>
+														)}
+													</div>
+												</div>
+												<div className="flex gap-4 items-center" style={{ justifyContent: "space-between", marginTop: "5px" }}>
 
-												<Button size="sm" style={{ background: "#00A9FF", color: "#FFFFFF" }} onPress={() => {
-													handleProductClickInfo(product);
-												}}>
-													Info
-												</Button>
+													<Button size="sm" style={{ background: "#00A9FF", color: "#FFFFFF" }} onPress={() => {
+														handleProductClickInfo(product);
+													}}>
+														Info
+													</Button>
 
-												<Modal isOpen={innerModalOpen} onOpenChange={innerModalOpenChangeHandler}>
-													<ModalContent>
-														{(innerModalOnClose) => (
-															<>
+													<Modal isOpen={innerModalOpen} onOpenChange={innerModalOpenChangeHandler}>
+														<ModalContent>
+															{(innerModalOnClose) => (
+																<>
 
-																<ModalHeader className="flex flex-col gap-1">{selectedProductInfo?.name}</ModalHeader>
-																<ModalBody>
-																	<div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'stretch' }}>
-																		<div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-																			<p style={{ fontSize: '13px', maxWidth: '200px', overflowWrap: 'break-word' }}>{selectedProductInfo?.description}</p>
-																			<Image
-																				src={selectedProductInfo?.image}
-																				alt={selectedProductInfo?.name}
-																				width={180}
-																				height={180}
-																				style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
-																			/>
-																			<div style={{ marginTop: '7px' }}>
-																				<p style={{ color: '#6B6B6B' }}>Estimate Price</p>
-																				<p style={{ fontWeight: 'bold' }}>{selectedProductInfo?.price} THB</p>
+																	<ModalHeader className="flex flex-col gap-1">{selectedProductInfo?.name}</ModalHeader>
+																	<ModalBody>
+																		<div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'stretch' }}>
+																			<div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+																				<p style={{ fontSize: '13px', maxWidth: '200px', overflowWrap: 'break-word' }}>{selectedProductInfo?.description}</p>
+																				<Image
+																					src={selectedProductInfo?.image}
+																					alt={selectedProductInfo?.name}
+																					width={180}
+																					height={180}
+																					style={{ boxShadow: '2px 4px 8px rgba(0, 0, 0, 0.1)' }}
+																				/>
+																				<div style={{ marginTop: '7px' }}>
+																					<p style={{ color: '#6B6B6B' }}>Estimate Price</p>
+																					<p style={{ fontWeight: 'bold' }}>{selectedProductInfo?.price} THB</p>
+																				</div>
+																			</div>
+																			<div style={{
+																				background: "#DCF1FB", flex: '1', padding: '10px',
+																				display: 'flex', flexDirection: 'column', alignItems: 'flex-start', maxWidth: '200px', marginBottom: '10px', borderRadius: '10px'
+																			}}>
+																				{selectedProductInfo?.typeProduct === "CPU" && (
+																					<div>
+																						<p>Type: {(selectedProductInfo as cpuProducts).type}</p>
+																						<p>Socket: {(selectedProductInfo as cpuProducts).socket}</p>
+																						<p>Core: {(selectedProductInfo as cpuProducts).core}</p>
+																						<p>Thread: {(selectedProductInfo as cpuProducts).thread}</p>
+																						<p>Year: {(selectedProductInfo as cpuProducts).year}</p>
+																						<p>TDP: {(selectedProductInfo as cpuProducts).tdp} W</p>
+																						<p>Base Clock: {(selectedProductInfo as cpuProducts).clock} GHz</p>
+																						<p>Turbo Clock: {(selectedProductInfo as cpuProducts).turbo} GHz</p>
+																					</div>
+																				)}
+																				{selectedProductInfo?.typeProduct === "RAM" && (
+																					<div>
+																						<p>Size: {(selectedProductInfo as ramProducts).size}</p>
+																						<p>Type: {(selectedProductInfo as ramProducts).type}</p>
+																						<p>Kit: {(selectedProductInfo as ramProducts).kit}</p>
+																						<p>Bus Speed: {(selectedProductInfo as ramProducts)?.bus}</p>
+																					</div>
+																				)}
+																				{selectedProductInfo?.typeProduct === "GPU" && (
+																					<div>
+																						<p>Type: {(selectedProductInfo as gpuProducts).type}</p>
+																						<p>Architecture: {(selectedProductInfo as gpuProducts).architecture}</p>
+																						<p>Performance: {(selectedProductInfo as gpuProducts).performance}</p>
+																						<p>Year: {(selectedProductInfo as gpuProducts).year}</p>
+																						<p>Series: {(selectedProductInfo as gpuProducts).series}</p>
+																						<p>VRAM: {(selectedProductInfo as gpuProducts).vram}</p>
+																						<p>TDP: {(selectedProductInfo as gpuProducts).tdp}</p>
+																						<p>Motherboard Bus: {(selectedProductInfo as gpuProducts).motherboardBus}</p>
+																						<p>Core Clock: {(selectedProductInfo as gpuProducts).coreClock} MHz</p>
+																						<p>Boost Clock: {(selectedProductInfo as gpuProducts).boostClock} MHz</p>
+																						<p>Effective Clock: {(selectedProductInfo as gpuProducts).effectiveClock} MHz</p>
+																						<p>Length: {(selectedProductInfo as gpuProducts).length} mm</p>
+																						<p>Cooling Fans: {(selectedProductInfo as gpuProducts).coolingFans}</p>
+																						<p>Case Slots: {(selectedProductInfo as gpuProducts).caseSlots}</p>
+																						<p>Frame Sync: {(selectedProductInfo as gpuProducts).frameSync}</p>
+																					</div>
+																				)}
+																				{selectedProductInfo?.typeProduct === "SSD" && (
+																					<div>
+																						<p>Size: {(selectedProductInfo as ssdProducts)?.size}</p>
+																						<p>Type: {(selectedProductInfo as ssdProducts)?.type}</p>
+																						<p>Read Speed: {(selectedProductInfo as ssdProducts)?.speedRead}</p>
+																						<p>Write Speed: {(selectedProductInfo as ssdProducts)?.speedWrite}</p>
+																					</div>
+																				)}
+																				{selectedProductInfo?.typeProduct === "HDD" && (
+																					<div>
+																						<p>Size: {(selectedProductInfo as hddProducts).size}</p>
+																						<p>Read Speed: {(selectedProduct as hddProducts).speedRead}</p>
+																						<p>Write Speed: {(selectedProduct as hddProducts).speedWrite}</p>
+																					</div>
+																				)}
+																				{selectedProductInfo?.typeProduct === "Power Supply" && (
+																					<div>
+																						<p>Wattage: {(selectedProductInfo as psuProducts).wattage}</p>
+																					</div>
+																				)}
+																				{selectedProductInfo?.typeProduct === "Mother Board" && (
+																					<div>
+																						<p>Size: {(selectedProductInfo as moboProducts).size}</p>
+																						<p>Socket: {(selectedProductInfo as moboProducts).socketCPU}</p>
+																						<p>Ram Slot: {(selectedProductInfo as moboProducts).ramslot}</p>
+																					</div>
+																				)}
+																				{selectedProductInfo?.typeProduct === "CPU Cooler" && (
+																					<div>
+																						<p>Socket: {(selectedProductInfo as cpuCoolerProducts).socket}</p>
+																					</div>
+																				)}
+																				{selectedProductInfo?.typeProduct === "Monitor" && (
+																					<div>
+																						<p>Panel Type: {(selectedProductInfo as monitorProducts).panelType}</p>
+																						<p>Resolution: {(selectedProductInfo as monitorProducts).resolution}</p>
+																						<p>Refresh Rate: {(selectedProductInfo as monitorProducts).refreshRate}</p>
+																						<p>Size: {(selectedProductInfo as monitorProducts).size}</p>
+																						<p>FreeSync: {(selectedProductInfo as monitorProducts).freesync}</p>
+																						<p>G-Sync: {(selectedProductInfo as monitorProducts).gsync}</p>
+																					</div>
+																				)}
+
 																			</div>
 																		</div>
-																		<div style={{
-																			background: "#DCF1FB", flex: '1', padding: '10px',
-																			display: 'flex', flexDirection: 'column', alignItems: 'flex-start', maxWidth: '200px', marginBottom: '10px', borderRadius: '10px'
-																		}}>
-																			{selectedProductInfo?.typeProduct === "CPU" && (
-																				<div>
-																					<p>Type: {(selectedProductInfo as cpuProducts).type}</p>
-																					<p>Socket: {(selectedProductInfo as cpuProducts).socket}</p>
-																					<p>Core: {(selectedProductInfo as cpuProducts).core}</p>
-																					<p>Thread: {(selectedProductInfo as cpuProducts).thread}</p>
-																					<p>Year: {(selectedProductInfo as cpuProducts).year}</p>
-																					<p>TDP: {(selectedProductInfo as cpuProducts).tdp} W</p>
-																					<p>Base Clock: {(selectedProductInfo as cpuProducts).clock} GHz</p>
-																					<p>Turbo Clock: {(selectedProductInfo as cpuProducts).turbo} GHz</p>
-																				</div>
-																			)}
-																			{selectedProductInfo?.typeProduct === "RAM" && (
-																				<div>
-																					<p>Size: {(selectedProductInfo as ramProducts).size}</p>
-																					<p>Type: {(selectedProductInfo as ramProducts).type}</p>
-																					<p>Kit: {(selectedProductInfo as ramProducts).kit}</p>
-																					<p>Bus Speed: {(selectedProductInfo as ramProducts)?.bus}</p>
-																				</div>
-																			)}
-																			{selectedProductInfo?.typeProduct === "GPU" && (
-																				<div>
-																					<p>Type: {(selectedProductInfo as gpuProducts).type}</p>
-																					<p>Architecture: {(selectedProductInfo as gpuProducts).architecture}</p>
-																					<p>Performance: {(selectedProductInfo as gpuProducts).performance}</p>
-																					<p>Year: {(selectedProductInfo as gpuProducts).year}</p>
-																					<p>Series: {(selectedProductInfo as gpuProducts).series}</p>
-																					<p>VRAM: {(selectedProductInfo as gpuProducts).vram}</p>
-																					<p>TDP: {(selectedProductInfo as gpuProducts).tdp}</p>
-																					<p>Motherboard Bus: {(selectedProductInfo as gpuProducts).motherboardBus}</p>
-																					<p>Core Clock: {(selectedProductInfo as gpuProducts).coreClock} MHz</p>
-																					<p>Boost Clock: {(selectedProductInfo as gpuProducts).boostClock} MHz</p>
-																					<p>Effective Clock: {(selectedProductInfo as gpuProducts).effectiveClock} MHz</p>
-																					<p>Length: {(selectedProductInfo as gpuProducts).length} mm</p>
-																					<p>Cooling Fans: {(selectedProductInfo as gpuProducts).coolingFans}</p>
-																					<p>Case Slots: {(selectedProductInfo as gpuProducts).caseSlots}</p>
-																					<p>Frame Sync: {(selectedProductInfo as gpuProducts).frameSync}</p>
-																				</div>
-																			)}
-																			{selectedProductInfo?.typeProduct === "SSD" && (
-																				<div>
-																					<p>Size: {(selectedProductInfo as ssdProducts)?.size}</p>
-																					<p>Type: {(selectedProductInfo as ssdProducts)?.type}</p>
-																					<p>Read Speed: {(selectedProductInfo as ssdProducts)?.speedRead}</p>
-																					<p>Write Speed: {(selectedProductInfo as ssdProducts)?.speedWrite}</p>
-																				</div>
-																			)}
-																			{selectedProductInfo?.typeProduct === "HDD" && (
-																				<div>
-																					<p>Size: {(selectedProductInfo as hddProducts).size}</p>
-																					<p>Read Speed: {(selectedProduct as hddProducts).speedRead}</p>
-																					<p>Write Speed: {(selectedProduct as hddProducts).speedWrite}</p>
-																				</div>
-																			)}
-																			{selectedProductInfo?.typeProduct === "Power Supply" && (
-																				<div>
-																					<p>Wattage: {(selectedProductInfo as psuProducts).wattage}</p>
-																				</div>
-																			)}
-																			{selectedProductInfo?.typeProduct === "Mother Board" && (
-																				<div>
-																					<p>Size: {(selectedProductInfo as moboProducts).size}</p>
-																					<p>Socket: {(selectedProductInfo as moboProducts).socketCPU}</p>
-																					<p>Ram Slot: {(selectedProductInfo as moboProducts).ramslot}</p>
-																				</div>
-																			)}
-																			{selectedProductInfo?.typeProduct === "CPU Cooler" && (
-																				<div>
-																					<p>Socket: {(selectedProductInfo as cpuCoolerProducts).socket}</p>
-																				</div>
-																			)}
-																			{selectedProductInfo?.typeProduct === "Monitor" && (
-																				<div>
-																					<p>Panel Type: {(selectedProductInfo as monitorProducts).panelType}</p>
-																					<p>Resolution: {(selectedProductInfo as monitorProducts).resolution}</p>
-																					<p>Refresh Rate: {(selectedProductInfo as monitorProducts).refreshRate}</p>
-																					<p>Size: {(selectedProductInfo as monitorProducts).size}</p>
-																					<p>FreeSync: {(selectedProductInfo as monitorProducts).freesync}</p>
-																					<p>G-Sync: {(selectedProductInfo as monitorProducts).gsync}</p>
-																				</div>
-																			)}
+																	</ModalBody>
 
-																		</div>
-																	</div>
-																</ModalBody>
+																</>
+															)}
+														</ModalContent>
+													</Modal>
 
-															</>
-														)}
-													</ModalContent>
-												</Modal>
-
-												<Button
-													size="sm"
-													onPress={() => {
-														handleProductClick(product);
-														outerModalOnClose();
-													}}
-													style={{ background: "#00A9FF", color: "#FFFFFF" }}>
-													Add Component
-												</Button>
+													<Button
+														size="sm"
+														onPress={() => {
+															handleProductClick(product);
+															outerModalOnClose();
+														}}
+														style={{ background: "#00A9FF", color: "#FFFFFF" }}>
+														Add Component
+													</Button>
+												</div>
 											</div>
-										</div>
-									))}
-								</div>
+										))}
+									</div>
+								)}
 							</ModalBody>
+
 						</>
 					)}
 				</ModalContent>
