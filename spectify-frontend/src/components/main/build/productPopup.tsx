@@ -345,9 +345,8 @@ export default function ProductPopUp({
 
 							<ModalBody>
 								{filteredSearchProducts.length === 0 ? (
-									// Render skeleton loading UI when no products are available
-									<div style={{ display: "flex", flexWrap: "wrap" }}>
-										{Array(28).fill('').map((_, index) => (
+									<div className="mr-2" style={{ display: "flex", flexWrap: "wrap"}}>
+										{Array(32).fill('').map((_, index) => (
 											<Card key={index} className="w-[200px] space-y-5 p-4 mr-5 mt-5" radius="lg">
 												<Skeleton className="rounded-lg">
 													<div className="h-24 rounded-lg bg-default-300"></div>
