@@ -290,13 +290,26 @@ export default function ProductPopUp({
 					break;
 			}
 
-			if (typeProduct === "MB" && selectedCpuSocket) {
-				const compatibleMobos = products.filter((product) => (product as moboProducts).socketCPU === selectedCpuSocket);
-				products = compatibleMobos;
-			} else if (typeProduct === "RAM" && selectedMoboRamType) {
-				const compatibleRams = products.filter((product) => (product as ramProducts).type === selectedMoboRamType);
-				products = compatibleRams;
-			}
+            if (selectedCpuSocket || selectedMoboRamType) {
+                if (typeProduct === "MB") {
+                    products = products.filter(product => 
+                        (!selectedCpuSocket || (product as moboProducts).socketCPU === selectedCpuSocket) &&
+                        (!selectedMoboRamType || (product as moboProducts).ramslot === selectedMoboRamType)
+                    );
+                }
+
+                if (typeProduct === "CPU") {
+                    products = products.filter(product => 
+                        !selectedCpuSocket || (product as cpuProducts).socket === selectedCpuSocket
+                    );
+                }
+
+                if (typeProduct === "RAM") {
+                    products = products.filter(product => 
+                        !selectedMoboRamType || (product as ramProducts).type === selectedMoboRamType
+                    );
+                }
+            }
 
 			setAllProducts(products);
 			setFilteredSearchProducts(products);

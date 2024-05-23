@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import ProductPopUp, { Product } from '@/components/main/build/productPopup';
 import { cpuProducts } from "@/components/main/product/productPage";
 import { moboProducts } from "@/components/main/product/productPage";
+import { ramProducts } from "@/components/main/product/productPage";
 
 export type SelectedProducts = {
     [key: string]: Product | null;
@@ -30,19 +31,28 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.setItem(typeProduct, product.id);
     
-            if (typeProduct === 'CPU' && 'socket' in product) {
+            // if (typeProduct === 'CPU' && 'socket' in product) {
+            //     const cpuProduct = product as cpuProducts;
+            //     setSelectedCpuSocket(cpuProduct.socket);
+            // } else if (typeProduct === 'MB' && 'ramslot' in product) {
+            //     const moboProduct = product as unknown as moboProducts;
+            //     setSelectedMoboRamType(moboProduct.ramslot);
+            // }
+            if (typeProduct === 'CPU') {
                 const cpuProduct = product as cpuProducts;
                 setSelectedCpuSocket(cpuProduct.socket);
-            } else if (typeProduct === 'MB' && 'ramslot' in product) {
-                const moboProduct = product as unknown as moboProducts;
+            } else if (typeProduct === 'MB') {
+                const moboProduct = product as moboProducts;
+                setSelectedCpuSocket(moboProduct.socketCPU);
                 setSelectedMoboRamType(moboProduct.ramslot);
+            } else if (typeProduct === 'RAM') {
+                const ramProduct = product as ramProducts;
+                setSelectedMoboRamType(ramProduct.type);
             }
     
             return newProducts;
         });
     };
-    
-    
 
     const handleDeselectProduct = (typeProduct: string) => {
         
@@ -53,9 +63,10 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             
             if (typeProduct === 'CPU') {
                 setSelectedCpuSocket(null);
-            }
-            
-            if (typeProduct === 'MB') {
+            } else if (typeProduct === 'MB') {
+                setSelectedCpuSocket(null);
+                setSelectedMoboRamType(null);
+            } else if (typeProduct === 'RAM') {
                 setSelectedMoboRamType(null);
             }
             
