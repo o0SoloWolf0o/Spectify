@@ -180,7 +180,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 
 	const handleSelectResolution = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setSelectedResolution(event.target.value);
-		console.log("Selected resolution:", event.target.value);
+		// console.log("Selected resolution:", event.target.value);
 	};
 
 	const resolutions = [
