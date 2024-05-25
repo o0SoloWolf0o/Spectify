@@ -15,9 +15,15 @@ export default function SearchBarComponent({ onSearch, searchValue, placeholder 
 const [search, setSearch] = useState(searchValue || "");
 
 const handleSearch = useDebouncedCallback((value: string) => {
-	console.log("searching",value);
 	onSearch(value);
 }, 1000);
+
+const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        handleSearch(search);
+    }
+}
 
     return (
         <>
@@ -32,6 +38,7 @@ const handleSearch = useDebouncedCallback((value: string) => {
                         setSearch(e.target.value);
                         handleSearch(e.target.value);
                     }}
+                    onKeyDown={handleKeyPress}
                     startContent={<IoSearch className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
                 />
             </form>
