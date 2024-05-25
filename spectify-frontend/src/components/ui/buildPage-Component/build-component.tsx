@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import ProductPopUp, { Product } from '@/components/main/build/productPopup';
 import { cpuProducts } from "@/components/main/product/productPage";
 import { moboProducts } from "@/components/main/product/productPage";
+import { GrClearOption } from "react-icons/gr";
 
 export type SelectedProducts = {
     [key: string]: Product | null;
@@ -76,9 +77,27 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
 
     const totalPrice = useMemo(calculateTotalPrice, [selectedProducts]);
 
+    // Remove all selected products
+    const handleRemoveAllProducts = () => {
+        setSelectedProducts({
+            CPU: null,
+            MB: null,
+            RAM: null,
+            GPU: null,
+            SSD: null,
+            PSU: null,
+            Case: null,
+            Cooler: null,
+        });
+        localStorage.clear();
+    };
+
     return (
         <>
-            
+            <div onClick={handleRemoveAllProducts} className='flex justify-end mr-5 text-red-600 cursor-pointer'>
+                <GrClearOption className="mt-0.5" />
+                <h1>&nbsp;<strong>Clear All</strong></h1>
+            </div>
             <div className='grid grid-cols-1 grid-rows-8 gap-4 place-items-center m-5'>
                 {Object.entries(selectedProducts).map(([type, product]) => (
                     <ProductPopUp
