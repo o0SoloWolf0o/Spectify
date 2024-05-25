@@ -123,7 +123,6 @@ interface Product {
 }
 
 const Optimization = () => {
-
     let product: Product = {};
 
     if (typeof localStorage !== 'undefined') {
@@ -149,15 +148,15 @@ const Optimization = () => {
     return (
         <>
             {totalTDP > 0 && (
-                <div className="col-12 text-center">
+                <div className="w-full text-center p-4">
                     {psuWattage ? (
                         totalTDP <= psuWattage ? (
-                            <strong className="text-xl">Your build is optimized!</strong>
+                            <strong className="text-xl text-green-600">Your build is optimized!</strong>
                         ) : (
-                            <strong className="text-xl">Warning: Your build exceeds PSU wattage!</strong>
+                            <strong className="text-xl text-red-600">Warning: Your build exceeds PSU wattage!</strong>
                         )
                     ) : (
-                        <strong className="text-xl">Please select a power supply!</strong>
+                        <strong className="text-xl text-yellow-600">Please select a power supply!</strong>
                     )}
                 </div>
             )}

@@ -214,286 +214,283 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 
 						{/* FHD */}
 						{selectedResolution === "FHD" && (
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-									<Image
-										src={`/images/games/valo.webp`}
-										alt={`Valorant Game`}
-										width="110"
-										height="75"
-										sizes="100vw"
-										priority={true}
-										className="shadow-lg rounded-sm"
-									/>
-									<div className="flex flex-col gap-4 w-full font-bold">
-										<p className="text-xl">Valorant</p>
-										<div className="flex flex-col w-full">
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Low Setting is FPS: {FPS_Valorant_Low}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Medium Setting is FPS: {FPS_Valorant_Medium}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">High Setting is FPS: {FPS_Valorant_High}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Ultra Setting is FPS: {FPS_Valorant_Ultra}</p>
-											</div>
+							<div className="flex flex-col lg:flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<Image
+									src={`/images/games/valo.webp`}
+									alt={`Valorant Game`}
+									width="110"
+									height="75"
+									sizes="100vw"
+									priority={true}
+									className="shadow-lg rounded-sm"
+								/>
+								<div className="flex flex-col gap-4 w-full font-bold">
+									<p className="text-xl">Valorant</p>
+									<div className="flex flex-col w-full">
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Low Setting is FPS: {FPS_Valorant_Low}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Medium Setting is FPS: {FPS_Valorant_Medium}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">High Setting is FPS: {FPS_Valorant_High}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Ultra Setting is FPS: {FPS_Valorant_Ultra}</p>
 										</div>
 									</div>
 								</div>
+							</div>
 						)}
 						{selectedResolution === "FHD" && (
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-									<Image
-										src={`/images/games/lol.webp`}
-										alt={`League of Legends Game`}
-										width="110"
-										height="75"
-										sizes="100vw"
-										priority={true}
-										className="shadow-lg rounded-sm"
-									/>
-									<div className="flex flex-col gap-4 w-full font-bold">
-										<p className="text-xl">League of Legends</p>
-										<div className="flex flex-col w-full">
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Low Setting is FPS: {FPS_LeagueOfLegends_Low}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Medium Setting is FPS: {FPS_LeagueOfLegends_Medium}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">High Setting is FPS: {FPS_LeagueOfLegends_High}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Ultra Setting is FPS: {FPS_LeagueOfLegends_Ultra}</p>
-											</div>
+							<div className="flex flex-col lg:flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<Image
+									src={`/images/games/lol.webp`}
+									alt={`League of Legends Game`}
+									width="110"
+									height="75"
+									sizes="100vw"
+									priority={true}
+									className="shadow-lg rounded-sm"
+								/>
+								<div className="flex flex-col gap-4 w-full font-bold">
+									<p className="text-xl">League of Legends</p>
+									<div className="flex flex-col w-full">
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Low Setting is FPS: {FPS_LeagueOfLegends_Low}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Medium Setting is FPS: {FPS_LeagueOfLegends_Medium}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">High Setting is FPS: {FPS_LeagueOfLegends_High}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Ultra Setting is FPS: {FPS_LeagueOfLegends_Ultra}</p>
 										</div>
 									</div>
 								</div>
+							</div>
 						)}
 						{selectedResolution === "FHD" && (
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-									<Image
-										src={`/images/games/ow.webp`}
-										alt={`Overwatch 2 Game`}
-										width="110"
-										height="75"
-										sizes="100vw"
-										priority={true}
-										className="shadow-lg rounded-sm"
-									/>
-									<div className="flex flex-col gap-4 w-full font-bold">
-										<p className="text-xl">Overwatch 2</p>
-										<div className="flex flex-col w-full">
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Low Setting is FPS: {FPS_Overwatch2_Low}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Medium Setting is FPS: {FPS_Overwatch2_Medium}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">High Setting is FPS: {FPS_Overwatch2_High}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Ultra Setting is FPS: {FPS_Overwatch2_Ultra}</p>
-											</div>
+							<div className="flex flex-col lg:flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<Image
+									src={`/images/games/ow.webp`}
+									alt={`Overwatch 2 Game`}
+									width="110"
+									height="75"
+									sizes="100vw"
+									priority={true}
+									className="shadow-lg rounded-sm"
+								/>
+								<div className="flex flex-col gap-4 w-full font-bold">
+									<p className="text-xl">Overwatch 2</p>
+									<div className="flex flex-col w-full">
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Low Setting is FPS: {FPS_Overwatch2_Low}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Medium Setting is FPS: {FPS_Overwatch2_Medium}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">High Setting is FPS: {FPS_Overwatch2_High}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Ultra Setting is FPS: {FPS_Overwatch2_Ultra}</p>
 										</div>
 									</div>
 								</div>
+							</div>
 						)}
 
 						{/* QHD */}
 						{selectedResolution === "QHD" && (
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-									<Image
-										src={`/images/games/valo.webp`}
-										alt={`Valorant Game`}
-										width="110"
-										height="75"
-										sizes="100vw"
-										priority={true}
-										className="shadow-lg rounded-sm"
-									/>
-									<div className="flex flex-col gap-4 w-full font-bold">
-										<p className="text-xl">Valorant</p>
-										<div className="flex flex-col w-full">
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Low Setting is FPS: {FPS_Valorant_Low_1440}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Medium Setting is FPS: {FPS_Valorant_Medium_1440}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">High Setting is FPS: {FPS_Valorant_High_1440}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Ultra Setting is FPS: {FPS_Valorant_Ultra_1440}</p>
-											</div>
+							<div className="flex flex-col lg:flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<Image
+									src={`/images/games/valo.webp`}
+									alt={`Valorant Game`}
+									width="110"
+									height="75"
+									sizes="100vw"
+									priority={true}
+									className="shadow-lg rounded-sm"
+								/>
+								<div className="flex flex-col gap-4 w-full font-bold">
+									<p className="text-xl">Valorant</p>
+									<div className="flex flex-col w-full">
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Low Setting is FPS: {FPS_Valorant_Low_1440}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Medium Setting is FPS: {FPS_Valorant_Medium_1440}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">High Setting is FPS: {FPS_Valorant_High_1440}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Ultra Setting is FPS: {FPS_Valorant_Ultra_1440}</p>
 										</div>
 									</div>
 								</div>
+							</div>
 						)}
-
 						{selectedResolution === "QHD" && (
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-									<Image
-										src={`/images/games/lol.webp`}
-										alt={`League of Legends Game`}
-										width="110"
-										height="75"
-										sizes="100vw"
-										priority={true}
-										className="shadow-lg rounded-sm"
-									/>
-									<div className="flex flex-col gap-4 w-full font-bold">
-										<p className="text-xl">League of Legends</p>
-										<div className="flex flex-col w-full">
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Low Setting is FPS: {FPS_LeagueOfLegends_Low_1440}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Medium Setting is FPS: {FPS_LeagueOfLegends_Medium_1440}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">High Setting is FPS: {FPS_LeagueOfLegends_High_1440}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Ultra Setting is FPS: {FPS_LeagueOfLegends_Ultra_1440}</p>
-											</div>
+							<div className="flex flex-col lg:flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<Image
+									src={`/images/games/lol.webp`}
+									alt={`League of Legends Game`}
+									width="110"
+									height="75"
+									sizes="100vw"
+									priority={true}
+									className="shadow-lg rounded-sm"
+								/>
+								<div className="flex flex-col gap-4 w-full font-bold">
+									<p className="text-xl">League of Legends</p>
+									<div className="flex flex-col w-full">
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Low Setting is FPS: {FPS_LeagueOfLegends_Low_1440}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Medium Setting is FPS: {FPS_LeagueOfLegends_Medium_1440}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">High Setting is FPS: {FPS_LeagueOfLegends_High_1440}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Ultra Setting is FPS: {FPS_LeagueOfLegends_Ultra_1440}</p>
 										</div>
 									</div>
 								</div>
+							</div>
 						)}
-
 						{selectedResolution === "QHD" && (
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-									<Image
-										src={`/images/games/ow.webp`}
-										alt={`Overwatch 2 Game`}
-										width="110"
-										height="75"
-										sizes="100vw"
-										priority={true}
-										className="shadow-lg rounded-sm"
-									/>
-									<div className="flex flex-col gap-4 w-full font-bold">
-										<p className="text-xl">Overwatch 2</p>
-										<div className="flex flex-col w-full">
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Low Setting is FPS: {FPS_Overwatch2_Low_1440}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Medium Setting is FPS: {FPS_Overwatch2_Medium_1440}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">High Setting is FPS: {FPS_Overwatch2_High_1440}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Ultra Setting is FPS: {FPS_Overwatch2_Ultra_1440}</p>
-											</div>
+							<div className="flex flex-col lg:flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<Image
+									src={`/images/games/ow.webp`}
+									alt={`Overwatch 2 Game`}
+									width="110"
+									height="75"
+									sizes="100vw"
+									priority={true}
+									className="shadow-lg rounded-sm"
+								/>
+								<div className="flex flex-col gap-4 w-full font-bold">
+									<p className="text-xl">Overwatch 2</p>
+									<div className="flex flex-col w-full">
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Low Setting is FPS: {FPS_Overwatch2_Low_1440}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Medium Setting is FPS: {FPS_Overwatch2_Medium_1440}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">High Setting is FPS: {FPS_Overwatch2_High_1440}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Ultra Setting is FPS: {FPS_Overwatch2_Ultra_1440}</p>
 										</div>
 									</div>
 								</div>
+							</div>
 						)}
 
 						{/* 4K */}
 						{selectedResolution === "UHD" && (
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-									<Image
-										src={`/images/games/valo.webp`}
-										alt={`Valorant Game`}
-										width="110"
-										height="75"
-										sizes="100vw"
-										priority={true}
-										className="shadow-lg rounded-sm"
-									/>
-									<div className="flex flex-col gap-4 w-full font-bold">
-										<p className="text-xl">Valorant</p>
-										<div className="flex flex-col w-full">
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Low Setting is FPS: {FPS_Valorant_Low_4K}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Medium Setting is FPS: {FPS_Valorant_Medium_4K}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">High Setting is FPS: {FPS_Valorant_High_4K}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Ultra Setting is FPS: {FPS_Valorant_Ultra_4K}</p>
-											</div>
+							<div className="flex flex-col lg:flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<Image
+									src={`/images/games/valo.webp`}
+									alt={`Valorant Game`}
+									width="110"
+									height="75"
+									sizes="100vw"
+									priority={true}
+									className="shadow-lg rounded-sm"
+								/>
+								<div className="flex flex-col gap-4 w-full font-bold">
+									<p className="text-xl">Valorant</p>
+									<div className="flex flex-col w-full">
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Low Setting is FPS: {FPS_Valorant_Low_4K}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Medium Setting is FPS: {FPS_Valorant_Medium_4K}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">High Setting is FPS: {FPS_Valorant_High_4K}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Ultra Setting is FPS: {FPS_Valorant_Ultra_4K}</p>
 										</div>
 									</div>
 								</div>
+							</div>
 						)}
-
 						{selectedResolution === "UHD" && (
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-									<Image
-										src={`/images/games/lol.webp`}
-										alt={`League of Legends Game`}
-										width="110"
-										height="75"
-										sizes="100vw"
-										priority={true}
-										className="shadow-lg rounded-sm"
-									/>
-									<div className="flex flex-col gap-4 w-full font-bold">
-										<p className="text-xl">League of Legends</p>
-										<div className="flex flex-col w-full">
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Low Setting is FPS: {FPS_LeagueOfLegends_Low_4K}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Medium Setting is FPS: {FPS_LeagueOfLegends_Medium_4K}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">High Setting is FPS: {FPS_LeagueOfLegends_High_4K}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Ultra Setting is FPS: {FPS_LeagueOfLegends_Ultra_4K}</p>
-											</div>
+							<div className="flex flex-col lg:flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<Image
+									src={`/images/games/lol.webp`}
+									alt={`League of Legends Game`}
+									width="110"
+									height="75"
+									sizes="100vw"
+									priority={true}
+									className="shadow-lg rounded-sm"
+								/>
+								<div className="flex flex-col gap-4 w-full font-bold">
+									<p className="text-xl">League of Legends</p>
+									<div className="flex flex-col w-full">
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Low Setting is FPS: {FPS_LeagueOfLegends_Low_4K}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Medium Setting is FPS: {FPS_LeagueOfLegends_Medium_4K}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">High Setting is FPS: {FPS_LeagueOfLegends_High_4K}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Ultra Setting is FPS: {FPS_LeagueOfLegends_Ultra_4K}</p>
 										</div>
 									</div>
 								</div>
+							</div>
 						)}
-
 						{selectedResolution === "UHD" && (
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
-									<Image
-										src={`/images/games/ow.webp`}
-										alt={`Overwatch 2 Game`}
-										width="110"
-										height="75"
-										sizes="100vw"
-										priority={true}
-										className="shadow-lg rounded-sm"
-									/>
-									<div className="flex flex-col gap-4 w-full font-bold">
-										<p className="text-xl">Overwatch 2</p>
-										<div className="flex flex-col w-full">
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Low Setting is FPS: {FPS_Overwatch2_Low_4K}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Medium Setting is FPS: {FPS_Overwatch2_Medium_4K}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">High Setting is FPS: {FPS_Overwatch2_High_4K}</p>
-											</div>
-											<div className="flex flex-row w-full justify-between align-middle items-center">
-												<p className="text-lg">Ultra Setting is FPS: {FPS_Overwatch2_Ultra_4K}</p>
-											</div>
+							<div className="flex flex-col lg:flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<Image
+									src={`/images/games/ow.webp`}
+									alt={`Overwatch 2 Game`}
+									width="110"
+									height="75"
+									sizes="100vw"
+									priority={true}
+									className="shadow-lg rounded-sm"
+								/>
+								<div className="flex flex-col gap-4 w-full font-bold">
+									<p className="text-xl">Overwatch 2</p>
+									<div className="flex flex-col w-full">
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Low Setting is FPS: {FPS_Overwatch2_Low_4K}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Medium Setting is FPS: {FPS_Overwatch2_Medium_4K}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">High Setting is FPS: {FPS_Overwatch2_High_4K}</p>
+										</div>
+										<div className="flex flex-row w-full justify-between align-middle items-center">
+											<p className="text-lg">Ultra Setting is FPS: {FPS_Overwatch2_Ultra_4K}</p>
 										</div>
 									</div>
 								</div>
+							</div>
 						)}
 					</div>
 				)}
 			</div>
 		</>
+
 	);
 }
