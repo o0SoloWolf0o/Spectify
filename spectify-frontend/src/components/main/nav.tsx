@@ -66,7 +66,7 @@ export default function NavComponent() {
 					<Link href="/" className="hidden md:block">
 						<Image src="/images/Logo.png" alt="Logo" width="150" height="150" priority={true} className="w-32 h-32 mx-auto"></Image>
 					</Link>
-
+					<p className="text-gray-400 text-lg ml-2">Menu</p>
 					<Link href="/">
 						<Button
 							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
@@ -77,7 +77,7 @@ export default function NavComponent() {
 							Home
 						</Button>
 					</Link>
-
+					<div className="mt-2"></div>
 					<Link href="/search">
 						<Button
 							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
@@ -88,6 +88,7 @@ export default function NavComponent() {
 							Search Users
 						</Button>
 					</Link>
+					<div className="mt-2"></div>
 
 					{isSession ? (
 						<Link href="/following">
@@ -103,6 +104,7 @@ export default function NavComponent() {
 					) : (
 						<></>
 					)}
+					<div className="mt-2"></div>
 
 					{isSession ? (
 						<Link href={`/profile/${sessionUser?.username}`}>
@@ -120,6 +122,7 @@ export default function NavComponent() {
 					)}
 
 					<div className="py-6" />
+					<p className="text-gray-400 text-lg ml-2">Action</p>
 
 					<Link href="/build">
 						<Button
@@ -132,6 +135,8 @@ export default function NavComponent() {
 						</Button>
 					</Link>
 
+					<div className="mt-2"></div>
+
 					<Link href="/product">
 						<Button
 							className={`w-full gap-4 text-xl font-bold justify-start bg-white text-black hover:bg-primary1-3 hover:text-white ${
@@ -142,6 +147,7 @@ export default function NavComponent() {
 							Product
 						</Button>
 					</Link>
+					<div className="mt-2"></div>
 
 					<Link href="/compare">
 						<Button

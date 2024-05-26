@@ -7,7 +7,7 @@ import { getUserById } from "@/database/user";
 import { getUserImg } from "@/action/updateProfile";
 import FollowButton from "@/components/main/profile/followButton";
 import Link from "next/link";
-import {getBuildsIdbyUserId} from "@/database/build";
+import { getBuildsIdbyUserId } from "@/database/build";
 import BuildPopupComponent from "@/components/main/build/buildPopup";
 
 export default function FollowingBuildsComponent() {
@@ -25,7 +25,7 @@ export default function FollowingBuildsComponent() {
                     followingData.map(async (follow) => {
                         const user = await getUserById(follow.followingId);
                         const image = await getUserImg(follow.followingId);
-                       
+
                         return {
                             ...user,
                             image,
@@ -51,7 +51,7 @@ export default function FollowingBuildsComponent() {
                         }
                     })
                 );
-                
+
                 const followingBuilds = Array.from(followingBuildsMap.values());
                 followingBuilds.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
                 setBuilds(followingBuilds as never[]);
@@ -65,23 +65,25 @@ export default function FollowingBuildsComponent() {
         }
     }, [sessionUser?.id]);
 
-    
+
     if (isFetching) {
         return <div>Loading...</div>;
     }
 
     return (
         <>
-        {(builds as { buildId: string, followingImg: string, followingUsername: string}[]).map((build) => (
-            <div key={build.buildId} className="flex justify-center mb-10 space-y-4">
-                <div className="flex justify-center flex-col pb-12 border-b border-gray-300">
-                    <div className="flex justify-start mb-4">
-                        <div><Link href={`/profile/${build.followingUsername}`}><Avatar src={build.followingImg} alt="user img" size="sm" /></Link></div>
-                        <div><Link href={`/profile/${build.followingUsername}`}><p className="ml-2">{build.followingUsername}</p></Link></div>
+            {(builds as { buildId: string, followingImg: string, followingUsername: string }[]).map((build) => (
+                <div key={build.buildId} className="flex justify-center mb-10 space-y-4">
+                    <div className="p-2 rounded-md box-border shadow-md">
+                        <div className="flex justify-center flex-col pb-12 border-b border-gray-300" >
+                            <div className="flex justify-start mb-4" >
+                                <div><Link href={`/profile/${build.followingUsername}`}><Avatar src={build.followingImg} alt="user img" size="sm" /></Link></div>
+                                <div><Link href={`/profile/${build.followingUsername}`}><p className="ml-2">{build.followingUsername}</p></Link></div>
+                            </div>
+                            <BuildPopupComponent size="large" buildId={build.buildId} />
+                        </div>
                     </div>
-                       <BuildPopupComponent size="large" buildId={build.buildId} />
-                    </div>
-               </div>
+                </div>
             ))}
         </>
     );
