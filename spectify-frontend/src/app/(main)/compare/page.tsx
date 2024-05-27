@@ -31,8 +31,8 @@ export default function ComparePage() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [secondSelectedProduct, setSecondSelectedProduct] =
     useState<Product | null>(null);
-  const [selectedBuilds, setSelectedBuilds] = useState<any | null>([null]);
-  const [secondselectedBuilds, setSecondSelectedBuilds] = useState<any | null>([null]);
+  const [selectedBuilds, setSelectedBuilds] = useState<any | null>(null);
+  const [secondSelectedBuilds, setSecondSelectedBuilds] = useState<any | null>(null);
   const [compareBuildDatas, setCompareBuildData] = useState<any[]>([]);
   const { compareCounts, setCompareCounts } = useContext(CompareCountContext);
 
@@ -120,7 +120,6 @@ export default function ComparePage() {
     setSelectedProducts(updatedProducts);
     setCompareCounts(compareCounts - 1);
 
-    // Remove details of the product being removed from selectedProduct and secondSelectedProduct
     if (selectedProduct === product) {
       setSelectedProduct(null);
     }
@@ -142,29 +141,33 @@ export default function ComparePage() {
     if (selectedBuilds && selectedBuilds.build && selectedBuilds.build.id === buildId) {
       setSelectedBuilds(null);
     }
-    if (secondselectedBuilds && secondselectedBuilds.build && secondselectedBuilds.build.id === buildId) {
+    if (secondSelectedBuilds && secondSelectedBuilds.build && secondSelectedBuilds.build.id === buildId) {
       setSecondSelectedBuilds(null);
     }
   };
 
-
-const handleBuildClick = (build: any) => {
-  // Check if the build is already selected
-  if (selectedBuilds && selectedBuilds.build && selectedBuilds.build.id === build.build.id) {
-    setSelectedBuilds(null); // Deselect if it's already selected
-  } else if (secondselectedBuilds && secondselectedBuilds.build && secondselectedBuilds.build.id === build.build.id) {
-    setSecondSelectedBuilds(null); // Deselect if it's already selected
-  } else if (!selectedBuilds || !selectedBuilds.build) {
-    setSelectedBuilds(build); // Select as the first build
-  } else if (!secondselectedBuilds || !secondselectedBuilds.build) {
-    setSecondSelectedBuilds(build); // Select as the second build
-  }
-};
-
-
+  const handleBuildClick = (build: any) => {
+    if (selectedBuilds && selectedBuilds.build && selectedBuilds.build.id === build.build.id) {
+      setSelectedBuilds(null);
+    } else if (secondSelectedBuilds && secondSelectedBuilds.build && secondSelectedBuilds.build.id === build.build.id) {
+      setSecondSelectedBuilds(null);
+    } else if (!selectedBuilds || !selectedBuilds.build) {
+      setSelectedBuilds(build);
+    } else if (!secondSelectedBuilds || !secondSelectedBuilds.build) {
+      setSecondSelectedBuilds(build);
+    }
+  };
 
   const handleProductClick = (product: Product) => {
-    if (selectedProduct === product) {
+    const productType = product.typeProduct;
+
+    if (
+      (selectedProduct && selectedProduct.typeProduct !== productType) ||
+      (secondSelectedProduct && secondSelectedProduct.typeProduct !== productType)
+    ) {
+      setSelectedProduct(product);
+      setSecondSelectedProduct(null);
+    } else if (selectedProduct === product) {
       setSelectedProduct(null);
     } else if (secondSelectedProduct === product) {
       setSecondSelectedProduct(null);
@@ -174,8 +177,6 @@ const handleBuildClick = (build: any) => {
       setSecondSelectedProduct(product);
     }
   };
-
-
 
   const renderProductSection = (type: string) => {
     const products = filterProductsByType(type, selectedProducts);
@@ -202,8 +203,9 @@ const handleBuildClick = (build: any) => {
                 boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
                 cursor: "pointer",
                 position: "relative",
-                // Highlight the selected product with a border
                 border: (product === selectedProduct || product === secondSelectedProduct) ? "2px solid #00A9FF" : "none",
+                pointerEvents: selectedBuilds || secondSelectedBuilds ? "none" : "auto",
+                opacity: selectedBuilds || secondSelectedBuilds ? 0.5 : 1,
               }}
               onClick={() => handleProductClick(product)}
             />
@@ -220,6 +222,7 @@ const handleBuildClick = (build: any) => {
       </>
     );
   };
+
   const renderBuildSection = () => {
     return (
       <>
@@ -236,9 +239,9 @@ const handleBuildClick = (build: any) => {
                 boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
                 cursor: "pointer",
                 position: "relative",
-                border: (build === selectedBuilds || build === secondselectedBuilds) ? "2px solid #00A9FF" : "none",
-                maxWidth: "80px", 
-                maxHeight: "80px", 
+                border: (build === selectedBuilds || build === secondSelectedBuilds) ? "2px solid #00A9FF" : "none",
+                pointerEvents: selectedProduct || secondSelectedProduct ? "none" : "auto",
+                opacity: selectedProduct || secondSelectedProduct ? 0.5 : 1,
               }}
               onClick={() => handleBuildClick(build)}
             />
@@ -255,6 +258,7 @@ const handleBuildClick = (build: any) => {
       </>
     );
   };
+
   const calculateTotalPricefirstbuild = () => {
     if (!selectedBuilds) return 0;
 
@@ -276,17 +280,17 @@ const handleBuildClick = (build: any) => {
   };
 
   const calculateTotalPricesecondbuild = () => {
-    if (!secondselectedBuilds) return 0;
+    if (!secondSelectedBuilds) return 0;
 
     const components = [
-      secondselectedBuilds.caseData,
-      secondselectedBuilds.coolerData,
-      secondselectedBuilds.cpuData,
-      secondselectedBuilds.gpuData,
-      secondselectedBuilds.moboData,
-      secondselectedBuilds.psuData,
-      secondselectedBuilds.ramData,
-      secondselectedBuilds.ssdData,
+      secondSelectedBuilds.caseData,
+      secondSelectedBuilds.coolerData,
+      secondSelectedBuilds.cpuData,
+      secondSelectedBuilds.gpuData,
+      secondSelectedBuilds.moboData,
+      secondSelectedBuilds.psuData,
+      secondSelectedBuilds.ramData,
+      secondSelectedBuilds.ssdData,
     ];
 
     return components.reduce((total, component) => {
@@ -294,6 +298,7 @@ const handleBuildClick = (build: any) => {
       return total + price;
     }, 0);
   };
+
   return (
     <>
       <div
@@ -338,7 +343,7 @@ const handleBuildClick = (build: any) => {
             {renderProductSection("CPU Cooler")}
             {renderProductSection("Monitor")}
           </div>
-            
+
           {/* Right side content */}
           <div
             style={{
@@ -352,7 +357,6 @@ const handleBuildClick = (build: any) => {
               position: "relative",
             }}
           >
-            
             {selectedProduct && (
               <button
                 onClick={() => setSelectedProduct(null)}
@@ -397,11 +401,10 @@ const handleBuildClick = (build: any) => {
                       boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
                     }}
                   />
-
                 </div>
               </div>
             )}
-            {selectedBuilds && selectedBuilds.build &&(
+            {selectedBuilds && selectedBuilds.build && (
               <>
                 <button
                   onClick={() => setSelectedBuilds(null)}
@@ -445,10 +448,9 @@ const handleBuildClick = (build: any) => {
                   </div>
                 </div>
                 <div style={{ textAlign: "left" }}>
-
                   <p>CPU: {selectedBuilds.cpuData.name}</p>
                   <p>GPU: {selectedBuilds.gpuData.name}</p>
-                  <p>Mainborad: {selectedBuilds.moboData.name}</p>
+                  <p>Mainboard: {selectedBuilds.moboData.name}</p>
                   <p>Powersupply: {selectedBuilds.psuData.name}</p>
                   <p>RAM: {selectedBuilds.ramData.name}</p>
                   <p>SSD: {selectedBuilds.ssdData.name}</p>
@@ -496,7 +498,9 @@ const handleBuildClick = (build: any) => {
                       {(selectedProduct as gpuProducts).performance}
                     </p>
                     <p>Year: {(selectedProduct as gpuProducts).year}</p>
-                    <p>Series: {(selectedProduct as gpuProducts).series}</p>
+                    <p>
+                      Series: {(selectedProduct as gpuProducts).series}
+                    </p>
                     <p>VRAM: {(selectedProduct as gpuProducts).vram}</p>
                     <p>TDP: {(selectedProduct as gpuProducts).tdp} W</p>
                     <p>
@@ -565,38 +569,23 @@ const handleBuildClick = (build: any) => {
                 )}
                 {selectedProduct?.typeProduct === "CPU Cooler" && (
                   <div>
-                    <p>
-                      Socket: {(selectedProduct as cpuCoolerProducts).socket}
-                    </p>
+                    <p>Socket: {(selectedProduct as cpuCoolerProducts).socket}</p>
                   </div>
                 )}
                 {selectedProduct?.typeProduct === "Monitor" && (
                   <div>
-                    <p>
-                      Panel Type:{" "}
-                      {(selectedProduct as monitorProducts).panelType}
-                    </p>
-                    <p>
-                      Resolution:{" "}
-                      {(selectedProduct as monitorProducts).resolution}
-                    </p>
-                    <p>
-                      Refresh Rate:{" "}
-                      {(selectedProduct as monitorProducts).refreshRate}
-                    </p>
+                    <p>Panel Type: {(selectedProduct as monitorProducts).panelType}</p>
+                    <p>Resolution: {(selectedProduct as monitorProducts).resolution}</p>
+                    <p>Refresh Rate: {(selectedProduct as monitorProducts).refreshRate}</p>
                     <p>Size: {(selectedProduct as monitorProducts).size}</p>
-                    <p>
-                      FreeSync: {(selectedProduct as monitorProducts).freesync}
-                    </p>
+                    <p>FreeSync: {(selectedProduct as monitorProducts).freesync}</p>
                     <p>G-Sync: {(selectedProduct as monitorProducts).gsync}</p>
                   </div>
                 )}
-
-
               </div>
             )}
           </div>
-          {/*more right side content*/}
+          {/* More right side content */}
           <div
             style={{
               width: "400px",
@@ -609,7 +598,7 @@ const handleBuildClick = (build: any) => {
               position: "relative",
             }}
           >
-              {secondselectedBuilds && secondselectedBuilds.build &&(
+            {secondSelectedBuilds && secondSelectedBuilds.build && (
               <>
                 <button
                   onClick={() => setSecondSelectedBuilds(null)}
@@ -631,7 +620,7 @@ const handleBuildClick = (build: any) => {
                     fontSize: "24px",
                   }}
                 >
-                  {secondselectedBuilds.build.buildName}
+                  {secondSelectedBuilds.build.buildName}
                 </p>
                 <div
                   style={{
@@ -642,8 +631,8 @@ const handleBuildClick = (build: any) => {
                 >
                   <div style={{ display: "grid", gridTemplateColumns: "1fr" }}>
                     <Image
-                      src={secondselectedBuilds.build.image}
-                      alt={secondselectedBuilds.build.buildName}
+                      src={secondSelectedBuilds.build.image}
+                      alt={secondSelectedBuilds.build.buildName}
                       width={200}
                       height={200}
                       style={{
@@ -653,15 +642,14 @@ const handleBuildClick = (build: any) => {
                   </div>
                 </div>
                 <div style={{ textAlign: "left" }}>
-
-                  <p>CPU: {secondselectedBuilds.cpuData.name}</p>
-                  <p>GPU: {secondselectedBuilds.gpuData.name}</p>
-                  <p>Mainborad: {secondselectedBuilds.moboData.name}</p>
-                  <p>Powersupply: {secondselectedBuilds.psuData.name}</p>
-                  <p>RAM: {secondselectedBuilds.ramData.name}</p>
-                  <p>SSD: {secondselectedBuilds.ssdData.name}</p>
-                  <p>Cooler: {secondselectedBuilds.coolerData.name}</p>
-                  <p>Case: {secondselectedBuilds.caseData.name}</p>
+                  <p>CPU: {secondSelectedBuilds.cpuData.name}</p>
+                  <p>GPU: {secondSelectedBuilds.gpuData.name}</p>
+                  <p>Mainboard: {secondSelectedBuilds.moboData.name}</p>
+                  <p>Powersupply: {secondSelectedBuilds.psuData.name}</p>
+                  <p>RAM: {secondSelectedBuilds.ramData.name}</p>
+                  <p>SSD: {secondSelectedBuilds.ssdData.name}</p>
+                  <p>Cooler: {secondSelectedBuilds.coolerData.name}</p>
+                  <p>Case: {secondSelectedBuilds.caseData.name}</p>
                   <p>Total Price: {calculateTotalPricesecondbuild()} THB</p>
                 </div>
               </>
@@ -817,11 +805,11 @@ const handleBuildClick = (build: any) => {
                     <p>Size: {(secondSelectedProduct as hddProducts).size}</p>
                     <p>
                       Read Speed:{" "}
-                      {(secondSelectedProduct as ssdProducts).speedRead}
+                      {(secondSelectedProduct as hddProducts).speedRead}
                     </p>
                     <p>
                       Write Speed:{" "}
-                      {(secondSelectedProduct as ssdProducts).speedWrite}
+                      {(secondSelectedProduct as hddProducts).speedWrite}
                     </p>
                   </div>
                 )}
@@ -867,9 +855,7 @@ const handleBuildClick = (build: any) => {
                       Refresh Rate:{" "}
                       {(secondSelectedProduct as monitorProducts).refreshRate}
                     </p>
-                    <p>
-                      Size: {(secondSelectedProduct as monitorProducts).size}
-                    </p>
+                    <p>Size: {(secondSelectedProduct as monitorProducts).size}</p>
                     <p>
                       FreeSync:{" "}
                       {(secondSelectedProduct as monitorProducts).freesync}

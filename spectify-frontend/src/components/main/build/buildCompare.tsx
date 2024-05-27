@@ -25,7 +25,7 @@ export default function BuildCompareComponent({ build_id }: { build_id: string |
             return null;
         }
     };
-
+    
     const handleCompareClick = async (buildId: string) => {
         const compareBuildData = localStorage.getItem("compareBuildData");
         let updatedCompareData: any[] = compareBuildData ? JSON.parse(compareBuildData) : [];
@@ -45,7 +45,19 @@ export default function BuildCompareComponent({ build_id }: { build_id: string |
         }
 
         saveToLocalStorage(updatedCompareData);
-        setCompareCounts(updatedCompareData.length);
+        updateCompareCounts();
+    };
+
+    const updateCompareCounts = () => {
+        const compareItem = localStorage.getItem("compareData");
+        const compareBuild = localStorage.getItem("compareBuildData");
+
+        const totalItem = Object.keys(JSON.parse(compareItem || "{}")).length;
+        const totalBuild = Object.keys(JSON.parse(compareBuild || "{}")).length;
+
+        const totalCompare = totalItem + totalBuild;
+
+        setCompareCounts(totalCompare);
     };
 
     useEffect(() => {
@@ -55,6 +67,7 @@ export default function BuildCompareComponent({ build_id }: { build_id: string |
             const existingBuildIds = existingBuildData.map(data => data.build?.id).filter(id => id !== undefined);
             setSelectedBuildIds(existingBuildIds);
         }
+        updateCompareCounts();
     }, []);
 
     if (!build_id) {

@@ -293,16 +293,24 @@ export default function ProductPage() {
 	const { compareCounts, setCompareCounts } = useContext(CompareCountContext);
 	function updateCompareCounts() {
 		const compareItem = localStorage.getItem("compareData");
-		// const compareBuild = localStorage.getItem("compareBuild");
+		const compareBuild = localStorage.getItem("compareBuildData");
 
 		const totalItem = Object.keys(JSON.parse(compareItem || "{}")).length;
-		// const totalBuild = Object.keys(JSON.parse(compareBuild || "{}")).length;
+		const totalBuild = Object.keys(JSON.parse(compareBuild || "{}")).length;
 
-		// const totalCompare =  compareItem + compareBuild
-		const totalCompare = totalItem;
+		const totalCompare =  totalItem + totalBuild
 
-		setCompareCounts(totalItem);
+		setCompareCounts(totalCompare);
 	}
+
+	useEffect(() => {
+		// Retrieve data from local storage on component mount
+		const storedData = localStorage.getItem("compareData");
+		if (storedData) {
+		  const parsedData = JSON.parse(storedData) as Product[];
+		  setSelectedProducts(parsedData);
+		}
+	  }, []);
 
 	return (
 		<>
