@@ -13,7 +13,7 @@ export type SelectedProducts = {
 interface BuildComponentProps {
     selectedProducts: SelectedProducts;
     setSelectedProducts: React.Dispatch<React.SetStateAction<SelectedProducts>>;
-  }
+}
 
 const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSelectedProducts }) => {
 
@@ -33,7 +33,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             const newProducts = { ...prevProducts, [typeProduct]: product };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.setItem(typeProduct, product.id);
-    
+
             if (typeProduct === 'CPU') {
                 const cpuProduct = product as cpuProducts;
                 setSelectedCpuSocket(cpuProduct.socket);
@@ -45,7 +45,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
                 const ramProduct = product as ramProducts;
                 setSelectedMoboRamType(ramProduct.type);
             }
-    
+
             return newProducts;
         });
     };
@@ -59,7 +59,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             const newProducts = { ...prevProducts, [typeProduct]: null };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
             localStorage.removeItem(typeProduct);
-    
+
             if (typeProduct === 'CPU') {
                 setSelectedCpuSocket(null);
             } else if (typeProduct === 'MB') {
@@ -68,49 +68,49 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
             } else if (typeProduct === 'RAM') {
                 setSelectedMoboRamType(null);
             }
-    
+
             return newProducts;
         });
-    }; 
+    };
 
     const calculateTotalPrice = () => {
-    
+
         return Object.values(selectedProducts).reduce((total, product) => {
             if (product && !isNaN(Number(product.price))) {
                 return total + Number(product.price);
             }
-        
+
             return total;
-        }, 0); 
+        }, 0);
     };
 
     const totalPrice = useMemo(calculateTotalPrice, [selectedProducts]);
 
-return (
-    <>
-        <div className='grid grid-cols-1 grid-rows-8 gap-4 place-items-center m-5'>
-            
-            {selectionOrder.map((typeProduct, index) => (
-                <ProductPopUp
-                    key={typeProduct}
-                    typeProduct={typeProduct}
-                    onSelectProduct={(product) => handleSelectProduct(typeProduct, product)}
-                    onDeselectProduct={() => handleDeselectProduct(typeProduct)}
-                    selectedProduct={selectedProducts[typeProduct]}
-                    selectedCpuSocket={typeProduct === 'MB' ? selectedCpuSocket : undefined}
-                    selectedMoboRamType={typeProduct === 'RAM' ? selectedMoboRamType : undefined}
-                    disabled={index > 0 && !isComponentSelected(index)}
-                />
-            ))}
+    return (
+        <>
+            <div className='grid grid-cols-1 grid-rows-8 gap-4 place-items-center m-5'>
 
-            <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
-                <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
-                    Total price: {totalPrice} Baht
-                </h2>
+                {selectionOrder.map((typeProduct, index) => (
+                    <ProductPopUp
+                        key={typeProduct}
+                        typeProduct={typeProduct}
+                        onSelectProduct={(product) => handleSelectProduct(typeProduct, product)}
+                        onDeselectProduct={() => handleDeselectProduct(typeProduct)}
+                        selectedProduct={selectedProducts[typeProduct]}
+                        selectedCpuSocket={typeProduct === 'MB' ? selectedCpuSocket : undefined}
+                        selectedMoboRamType={typeProduct === 'RAM' ? selectedMoboRamType : undefined}
+                        disabled={index > 0 && !isComponentSelected(index)}
+                    />
+                ))}
+
+                <div className='flex shadow-xl rounded-xl h-12 w-full text-center mt-3 bg-[#D9D9D9]'>
+                    <h2 className='text-xl font-semibold flex justify-center my-2 mx-2'>
+                        Total price: {totalPrice} Baht
+                    </h2>
+                </div>
             </div>
-        </div>
-    </>
-);
+        </>
+    );
 };
 
 export default BuildComponent;
