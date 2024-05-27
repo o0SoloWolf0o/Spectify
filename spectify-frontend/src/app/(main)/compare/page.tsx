@@ -15,6 +15,15 @@ import {
   psuProducts,
 } from "@/components/main/product/productPage";
 import { Image } from "@nextui-org/react";
+import { getBuildById } from "@/database/build";
+import { getCaseComputerById } from "@/database/caseComputerProduct";
+import { getCpuCoolerById } from "@/database/cpuCoolerProduct";
+import { getCpuProductById } from "@/database/cpuProduct";
+import { getGpuProductById } from "@/database/gpuProduct";
+import { getMoboProductById } from "@/database/moboProduct";
+import { getPsuProductById } from "@/database/psuProduct";
+import { getRamProductById } from "@/database/ramProduct";
+import { getSsdProductById } from "@/database/ssdProduct";
 import { CompareCountContext } from "@/app/(main)/layout";
 
 export default function ComparePage() {
@@ -26,27 +35,77 @@ export default function ComparePage() {
   const [secondselectedBuilds, setSecondSelectedBuilds] = useState<any | null>([null]);
   const [compareBuildDatas, setCompareBuildData] = useState<any[]>([]);
   const { compareCounts, setCompareCounts } = useContext(CompareCountContext);
+
+  const fetchBuildData = async (buildId: string) => {
+    try {
+      const build = await getBuildById(buildId);
+
+      if (!build) {
+        console.error("Build not found:", buildId);
+        return null;
+      }
+
+      const [
+        cpuData,
+        moboData,
+        ramData,
+        gpuData,
+        ssdData,
+        psuData,
+        caseData,
+        coolerData
+      ] = await Promise.all([
+        getCpuProductById(build.cpu_id),
+        getMoboProductById(build.mobo_id),
+        getRamProductById(build.ram_id),
+        getGpuProductById(build.gpu_id),
+        getSsdProductById(build.ssd_id ?? ''),
+        getPsuProductById(build.psu_id),
+        getCaseComputerById(build.case_id),
+        getCpuCoolerById(build.cpuCooler_id)
+      ]);
+
+      return {
+        build,
+        cpuData,
+        moboData,
+        ramData,
+        gpuData,
+        ssdData,
+        psuData,
+        caseData,
+        coolerData
+      };
+    } catch (error) {
+      console.error("Error fetching build data:", error);
+      return null;
+    }
+  };
+
   useEffect(() => {
-    // Fetch selected products from local storage
-    const savedProducts = localStorage.getItem("compareData");
-    if (savedProducts) {
-      const parsedProducts: Product[] = JSON.parse(savedProducts);
-      setSelectedProducts(parsedProducts);
-    }
+    const initializeComparisonData = async () => {
+      const savedProducts = localStorage.getItem("compareData");
+      if (savedProducts) {
+        const parsedProducts: Product[] = JSON.parse(savedProducts);
+        setSelectedProducts(parsedProducts);
+      }
 
-    // Fetch compareBuildData from local storage
-    const savedBuildData = localStorage.getItem("compareBuildData");
-    if (savedBuildData) {
-      const parsedBuildData: any[] = JSON.parse(savedBuildData);
-      setCompareBuildData(parsedBuildData);
-    }
+      const savedBuildData = localStorage.getItem("compareBuildData");
+      if (savedBuildData) {
+        const parsedBuildData: { build: { id: string } }[] = JSON.parse(savedBuildData);
 
-    // Update compare counts
-    const totalProducts = savedProducts ? JSON.parse(savedProducts).length : 0;
-    const totalBuilds = savedBuildData ? JSON.parse(savedBuildData).length : 0;
-    setCompareCounts(totalProducts + totalBuilds);
-  }, []);
+        const buildDetailsPromises = parsedBuildData.map((data) => fetchBuildData(data.build.id));
+        const buildDetails = await Promise.all(buildDetailsPromises);
+        setCompareBuildData(buildDetails.filter((detail) => detail !== null));
+      }
 
+      const totalProducts = savedProducts ? JSON.parse(savedProducts).length : 0;
+      const totalBuilds = savedBuildData ? JSON.parse(savedBuildData).length : 0;
+      setCompareCounts(totalProducts + totalBuilds);
+    };
+
+    initializeComparisonData();
+  }, [setCompareCounts]);
 
   const filterProductsByType = (
     type: string,
@@ -71,11 +130,14 @@ export default function ComparePage() {
   };
 
   const removeBuildFromLocalStorage = (buildId: string) => {
-    // Remove the build data from compareBuildDatas state and update localStorage
     const updatedBuildData = compareBuildDatas.filter((data) => data.build.id !== buildId);
-    localStorage.setItem("compareBuildData", JSON.stringify(updatedBuildData));
+    try {
+      localStorage.setItem("compareBuildData", JSON.stringify(updatedBuildData));
+    } catch (error) {
+      console.error("Error setting localStorage:", error);
+    }
     setCompareBuildData(updatedBuildData);
-    setCompareCounts(compareCounts- 1);
+    setCompareCounts(compareCounts - 1);
 
     if (selectedBuilds && selectedBuilds.build && selectedBuilds.build.id === buildId) {
       setSelectedBuilds(null);
