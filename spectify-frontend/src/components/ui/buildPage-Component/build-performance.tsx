@@ -222,7 +222,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 									height="75"
 									sizes="100vw"
 									priority={true}
-									className="shadow-lg rounded-sm"
+									className="shadow-lg rounded-sm object-scale-down"
 								/>
 								<div className="flex flex-col gap-4 w-full font-bold">
 									<p className="text-xl">Valorant</p>
@@ -252,7 +252,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 									height="75"
 									sizes="100vw"
 									priority={true}
-									className="shadow-lg rounded-sm"
+									className="shadow-lg rounded-sm object-scale-down"
 								/>
 								<div className="flex flex-col gap-4 w-full font-bold">
 									<p className="text-xl">League of Legends</p>
@@ -282,7 +282,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 									height="75"
 									sizes="100vw"
 									priority={true}
-									className="shadow-lg rounded-sm"
+									className="shadow-lg rounded-sm object-scale-down"
 								/>
 								<div className="flex flex-col gap-4 w-full font-bold">
 									<p className="text-xl">Overwatch 2</p>
@@ -314,7 +314,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 									height="75"
 									sizes="100vw"
 									priority={true}
-									className="shadow-lg rounded-sm"
+									className="shadow-lg rounded-sm object-scale-down"
 								/>
 								<div className="flex flex-col gap-4 w-full font-bold">
 									<p className="text-xl">Valorant</p>
@@ -344,7 +344,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 									height="75"
 									sizes="100vw"
 									priority={true}
-									className="shadow-lg rounded-sm"
+									className="shadow-lg rounded-sm object-scale-down"
 								/>
 								<div className="flex flex-col gap-4 w-full font-bold">
 									<p className="text-xl">League of Legends</p>
@@ -374,7 +374,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 									height="75"
 									sizes="100vw"
 									priority={true}
-									className="shadow-lg rounded-sm"
+									className="shadow-lg rounded-sm object-scale-down"
 								/>
 								<div className="flex flex-col gap-4 w-full font-bold">
 									<p className="text-xl">Overwatch 2</p>
@@ -406,7 +406,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 									height="75"
 									sizes="100vw"
 									priority={true}
-									className="shadow-lg rounded-sm"
+									className="shadow-lg rounded-sm object-scale-down"
 								/>
 								<div className="flex flex-col gap-4 w-full font-bold">
 									<p className="text-xl">Valorant</p>
@@ -436,7 +436,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 									height="75"
 									sizes="100vw"
 									priority={true}
-									className="shadow-lg rounded-sm"
+									className="shadow-lg rounded-sm object-scale-down"
 								/>
 								<div className="flex flex-col gap-4 w-full font-bold">
 									<p className="text-xl">League of Legends</p>
@@ -466,7 +466,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 									height="75"
 									sizes="100vw"
 									priority={true}
-									className="shadow-lg rounded-sm"
+									className="shadow-lg rounded-sm object-scale-down"
 								/>
 								<div className="flex flex-col gap-4 w-full font-bold">
 									<p className="text-xl">Overwatch 2</p>
