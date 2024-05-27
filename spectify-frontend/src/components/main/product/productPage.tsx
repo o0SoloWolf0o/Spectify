@@ -37,6 +37,7 @@ export type cpuProducts = {
 };
 
 export type ramProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -49,6 +50,7 @@ export type ramProducts = {
 };
 
 export type gpuProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -72,6 +74,7 @@ export type gpuProducts = {
 };
 
 export type moboProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -83,6 +86,7 @@ export type moboProducts = {
 };
 
 export type hddProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -94,6 +98,7 @@ export type hddProducts = {
 };
 
 export type ssdProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -106,6 +111,7 @@ export type ssdProducts = {
 };
 
 export type cpuCoolerProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -115,6 +121,7 @@ export type cpuCoolerProducts = {
 };
 
 export type monitorProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -129,6 +136,7 @@ export type monitorProducts = {
 };
 
 export type psuProducts = {
+	id: string;
 	typeProduct: string;
 	name: string;
 	image: string;
@@ -260,23 +268,25 @@ export default function ProductPage() {
 	const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
 	function handleCompareClick(product: Product) {
-		// Additional logic if needed before adding to the array
-		const updatedSelectedProducts = [...selectedProducts, product];
-
-		// Limit the array to 2 products if needed
-		// const limitedSelectedProducts = updatedSelectedProducts.slice(0, 2);
-
-		// Remove the limit on the array size
-		const unlimitedSelectedProducts = updatedSelectedProducts;
-
+		// Check if the product is already in the array
+		const productIndex = selectedProducts.findIndex(products => products.id === product.id);
+	
+		let updatedSelectedProducts;
+	
+		if (productIndex !== -1) {
+			// Product is already selected, so remove it
+			updatedSelectedProducts = selectedProducts.filter(products => products.id !== product.id);
+		} else {
+			// Product is not selected, so add it
+			updatedSelectedProducts = [...selectedProducts, product];
+		}
+	
 		// Update the state
-		// setSelectedProducts(limitedSelectedProducts);
-		setSelectedProducts(unlimitedSelectedProducts);
-
+		setSelectedProducts(updatedSelectedProducts);
+	
 		// Save to local storage
-		// saveToLocalStorage(limitedSelectedProducts);
-		saveToLocalStorage(unlimitedSelectedProducts);
-
+		saveToLocalStorage(updatedSelectedProducts);
+	
 		updateCompareCounts();
 	}
 
@@ -382,7 +392,9 @@ export default function ProductPage() {
 								)}
 							</div>
 
-							<GoArrowSwitch className="h-6 w-6" onClick={() => handleCompareClick(product)} />
+							<GoArrowSwitch className="h-6 w-6"
+							style = {{color: selectedProducts.some(p => p.id === product.id) ? "#00A9FF" : "black"}} 
+							onClick={() => handleCompareClick(product)} />
 						</div>
 					</div>
 				))}
