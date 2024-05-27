@@ -7,6 +7,7 @@ import Image from "next/image";
 type ProductImageMap = { [key in keyof SelectedProducts]: string };
 
 const productTypeToImageUrl: ProductImageMap = {
+
   CPU: '/images/vispng/CPU.png',
   GPU: '/images/vispng/GPU.png',
   MB: '/images/vispng/MB2.png',
@@ -15,6 +16,7 @@ const productTypeToImageUrl: ProductImageMap = {
   PSU: '/images/vispng/PSU2.png',
   Case: '/images/vispng/Case.png',
   Cooler: '/images/vispng/Cooler.png',
+
 };
 
 interface VisualizationProps {
@@ -22,34 +24,30 @@ interface VisualizationProps {
 }
 
 const Visualization: React.FC<VisualizationProps> = ({ selectedProducts }) => {
+
   const safeSelectedProducts = selectedProducts || {};
 
-  const hasSelectedProducts = Object.values(safeSelectedProducts).some(product => product);
-
   return (
-    <div className="relative text-center" style={{ width: '430px', height: '430px' }}>
-      {hasSelectedProducts ? (
-        Object.entries(safeSelectedProducts).map(([type, product]) => {
-          if (!product) return null;
-          const imageUrl = productTypeToImageUrl[type as keyof SelectedProducts];
-          return (
-            <div key={type}>
-              <Image
-                key={type}
-                src={imageUrl}
-                alt={type}
-                layout='fill'
-                objectFit='contain'
-              />
-            </div>
-          );
-        })
-      ) : (
-          <div className='mx-auto block text-center'>
-          <strong className="text-xl text-yellow-600 ml-9">Please select a component</strong>
-        </div>
-      )}
+
+    <div className="relative mx-auto text-center w-full h-64 sm:h-80 md:h-96 lg:h-[430px]">
+      {Object.entries(safeSelectedProducts).map(([type, product]) => {
+
+        if (!product) return null;
+        const imageUrl = productTypeToImageUrl[type as keyof SelectedProducts];
+        return (
+          <div key={type}>
+            <Image
+              src={imageUrl}
+              alt={type}
+              layout="fill"
+              objectFit="contain"
+              className="relative"
+            />
+          </div>
+        );
+      })}
     </div>
+
   );
 };
 
