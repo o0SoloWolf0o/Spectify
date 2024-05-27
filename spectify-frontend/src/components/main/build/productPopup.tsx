@@ -169,21 +169,24 @@ export interface ProductContextType {
 };
 
 interface ProductPopUpProps {
-	typeProduct: string;
-	onSelectProduct: (product: Product) => void;
-	onDeselectProduct: () => void;
-	selectedProduct: Product | null;
-	selectedCpuSocket?: string | null;
-	selectedMoboRamType?: string | null;
-};
+    typeProduct: string;
+    onSelectProduct: (product: Product) => void;
+    onDeselectProduct: () => void;
+    selectedProduct: Product | null;
+    selectedCpuSocket?: string | null;
+    selectedMoboRamType?: string | null;
+    disabled?: boolean;  // Add disabled prop
+}
 
 export default function ProductPopUp({
-	typeProduct,
-	onSelectProduct,
-	onDeselectProduct,
-	selectedCpuSocket,
-	selectedMoboRamType,
-	selectedProduct }: ProductPopUpProps) {
+    typeProduct,
+    onSelectProduct,
+    onDeselectProduct,
+    selectedCpuSocket,
+    selectedMoboRamType,
+    selectedProduct,
+    disabled = false 
+}: ProductPopUpProps) {
 
 	const [allProducts, setAllProducts] = useState<Product[]>([]);
 	const [searchValue, setSearchValue] = useState("");
@@ -252,11 +255,11 @@ export default function ProductPopUp({
 
 	const { isOpen: outerModalOpen, onOpen: outerModalOpenHandler, onOpenChange: outerModalOpenChangeHandler } = useDisclosure();
 	const { isOpen: innerModalOpen, onOpen: innerModalOpenHandler, onOpenChange: innerModalOpenChangeHandler } = useDisclosure();
-
+	
 	useEffect(() => {
 		const fetchData = async () => {
 			let products: Product[] = [];
-
+	
 			switch (typeProduct) {
 				case "CPU":
 					products = await getCpuProducts();
@@ -289,63 +292,55 @@ export default function ProductPopUp({
 					products = await getCaseComputersProducts();
 					break;
 			}
-
-            if (selectedCpuSocket || selectedMoboRamType) {
-                if (typeProduct === "MB") {
-                    products = products.filter(product => 
-                        (!selectedCpuSocket || (product as moboProducts).socketCPU === selectedCpuSocket) &&
-                        (!selectedMoboRamType || (product as moboProducts).ramslot === selectedMoboRamType)
-                    );
-                }
-
-                if (typeProduct === "CPU") {
-                    products = products.filter(product => 
-                        !selectedCpuSocket || (product as cpuProducts).socket === selectedCpuSocket
-                    );
-                }
-
-                if (typeProduct === "RAM") {
-                    products = products.filter(product => 
-                        !selectedMoboRamType || (product as ramProducts).type === selectedMoboRamType
-                    );
-                }
-            }
-
+	
+			if (selectedCpuSocket || selectedMoboRamType) {
+				products = products.filter(product => {
+					if (typeProduct === "MB") {
+						return (!selectedCpuSocket || (product as moboProducts).socketCPU === selectedCpuSocket) &&
+							   (!selectedMoboRamType || (product as moboProducts).ramslot === selectedMoboRamType);
+					}
+					if (typeProduct === "CPU") {
+						return !selectedCpuSocket || (product as cpuProducts).socket === selectedCpuSocket;
+					}
+					if (typeProduct === "RAM") {
+						return !selectedMoboRamType || (product as ramProducts).type === selectedMoboRamType;
+					}
+					return true;
+				});
+			}
+	
 			setAllProducts(products);
 			setFilteredSearchProducts(products);
 		};
 		fetchData();
-
 	}, [typeProduct, selectedCpuSocket, selectedMoboRamType]);
 
 	return (
 		<>
-
-			<div onClick={() => {
-				handleSearch("");
-				outerModalOpenHandler();
-			}} className="relative flex shadow-xl rounded-xl h-16 w-full text-center bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer duration-200">
-
-				<Image src={displayImage || defaultProductImage} alt="Product Image" style={{ display: 'inline-block', marginRight: '1rem' }} width={65} height={65} />
-
-				{selectedProduct ? (
-					<span className="flex items-center">{displayText}</span>
-				) : (
-					<p className="flex items-center justify-center">{typeProduct}</p>
-				)}
-
-				{selectedProduct && (
-					<div onClick={(event) => {
-						event.stopPropagation();
-						handleDeselectClick();
-					}} className="absolute inset-y-0 right-0 bg-red-700 text-white p-2 cursor-pointer rounded-xl"
-					>
-						<VscClose className="flex items-center my-3" />
-					</div>
-				)}
-
-			</div>
-
+        <div onClick={() => {
+            if (!disabled) {
+                handleSearch("");
+                outerModalOpenHandler();
+            }
+        }} className={`relative flex shadow-xl rounded-xl h-16 w-full text-center ${disabled ? "bg-gray-200 cursor-not-allowed text-gray-600" : "bg-white hover:bg-[#00A9FF] hover:text-white hover:cursor-pointer"} duration-200`}>
+            <Image src={displayImage || defaultProductImage} alt="Product Image" style={{ display: 'inline-block', marginRight: '1rem' }} width={65} height={65} />
+            {selectedProduct ? (
+                <span className="flex items-center">{displayText}</span>
+            ) : (
+                <p className="flex items-center justify-center">{typeProduct}</p>
+            )}
+            {selectedProduct && (
+                <div onClick={(event) => {
+                    if (!disabled) {
+                        event.stopPropagation();
+                        handleDeselectClick();
+                    }
+                }} className="absolute inset-y-0 right-0 bg-red-700 text-white p-2 cursor-pointer rounded-xl">
+                    <VscClose className="flex items-center my-3" />
+                </div>
+            )}
+        </div>
+			
 			<Modal isOpen={outerModalOpen} onOpenChange={outerModalOpenChangeHandler} size={"full"}>
 				<ModalContent>
 					{(outerModalOnClose) => (

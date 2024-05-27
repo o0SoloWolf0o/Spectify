@@ -29,7 +29,7 @@ const Visualization: React.FC<VisualizationProps> = ({ selectedProducts }) => {
 
   return (
 
-    <div className="relative text-center" style={{ width: '430px', height: '430px' }}>
+    <div className="relative mx-auto text-center w-full h-64 sm:h-80 md:h-96 lg:h-[430px]">
       {Object.entries(safeSelectedProducts).map(([type, product]) => {
 
         if (!product) return null;
@@ -37,11 +37,11 @@ const Visualization: React.FC<VisualizationProps> = ({ selectedProducts }) => {
         return (
           <div key={type}>
             <Image
-              key={type}
               src={imageUrl}
               alt={type}
-              layout='fill'
-              objectFit='contain'
+              layout="fill"
+              objectFit="contain"
+              className="relative"
             />
           </div>
         );
