@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Product } from "@/components/main/product/productPage";
 import { IoMdClose } from "react-icons/io";
 import {
@@ -15,21 +15,39 @@ import {
   psuProducts,
 } from "@/components/main/product/productPage";
 import { Image } from "@nextui-org/react";
+import { CompareCountContext } from "@/app/(main)/layout";
 
 export default function ComparePage() {
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [secondSelectedProduct, setSecondSelectedProduct] =
     useState<Product | null>(null);
+  const [selectedBuilds, setSelectedBuilds] = useState<any | null>([null]);
+  const [secondselectedBuilds, setSecondSelectedBuilds] = useState<any | null>([null]);
+  const [compareBuildDatas, setCompareBuildData] = useState<any[]>([]);
+  const { compareCounts, setCompareCounts } = useContext(CompareCountContext);
   useEffect(() => {
-    // Fetch selected products from local storage or props
+    // Fetch selected products from local storage
     const savedProducts = localStorage.getItem("compareData");
     if (savedProducts) {
       const parsedProducts: Product[] = JSON.parse(savedProducts);
       setSelectedProducts(parsedProducts);
     }
+
+    // Fetch compareBuildData from local storage
+    const savedBuildData = localStorage.getItem("compareBuildData");
+    if (savedBuildData) {
+      const parsedBuildData: any[] = JSON.parse(savedBuildData);
+      setCompareBuildData(parsedBuildData);
+    }
+
+    // Update compare counts
+    const totalProducts = savedProducts ? JSON.parse(savedProducts).length : 0;
+    const totalBuilds = savedBuildData ? JSON.parse(savedBuildData).length : 0;
+    setCompareCounts(totalProducts + totalBuilds);
   }, []);
-  
+
+
   const filterProductsByType = (
     type: string,
     selectedProducts: Product[]
@@ -41,7 +59,8 @@ export default function ComparePage() {
     const updatedProducts = selectedProducts.filter((p) => p !== product);
     localStorage.setItem("compareData", JSON.stringify(updatedProducts));
     setSelectedProducts(updatedProducts);
-    
+    setCompareCounts(compareCounts - 1);
+
     // Remove details of the product being removed from selectedProduct and secondSelectedProduct
     if (selectedProduct === product) {
       setSelectedProduct(null);
@@ -50,7 +69,37 @@ export default function ComparePage() {
       setSecondSelectedProduct(null);
     }
   };
-  
+
+  const removeBuildFromLocalStorage = (buildId: string) => {
+    // Remove the build data from compareBuildDatas state and update localStorage
+    const updatedBuildData = compareBuildDatas.filter((data) => data.build.id !== buildId);
+    localStorage.setItem("compareBuildData", JSON.stringify(updatedBuildData));
+    setCompareBuildData(updatedBuildData);
+    setCompareCounts(compareCounts- 1);
+
+    if (selectedBuilds && selectedBuilds.build && selectedBuilds.build.id === buildId) {
+      setSelectedBuilds(null);
+    }
+    if (secondselectedBuilds && secondselectedBuilds.build && secondselectedBuilds.build.id === buildId) {
+      setSecondSelectedBuilds(null);
+    }
+  };
+
+
+const handleBuildClick = (build: any) => {
+  // Check if the build is already selected
+  if (selectedBuilds && selectedBuilds.build && selectedBuilds.build.id === build.build.id) {
+    setSelectedBuilds(null); // Deselect if it's already selected
+  } else if (secondselectedBuilds && secondselectedBuilds.build && secondselectedBuilds.build.id === build.build.id) {
+    setSecondSelectedBuilds(null); // Deselect if it's already selected
+  } else if (!selectedBuilds || !selectedBuilds.build) {
+    setSelectedBuilds(build); // Select as the first build
+  } else if (!secondselectedBuilds || !secondselectedBuilds.build) {
+    setSecondSelectedBuilds(build); // Select as the second build
+  }
+};
+
+
 
   const handleProductClick = (product: Product) => {
     if (selectedProduct === product) {
@@ -63,6 +112,8 @@ export default function ComparePage() {
       setSecondSelectedProduct(product);
     }
   };
+
+
 
   const renderProductSection = (type: string) => {
     const products = filterProductsByType(type, selectedProducts);
@@ -107,7 +158,80 @@ export default function ComparePage() {
       </>
     );
   };
+  const renderBuildSection = () => {
+    return (
+      <>
+        <p style={{ fontSize: "24px", marginTop: "30px", marginBottom: "15px" }}>PC build</p>
+        <div style={{ marginLeft: "45%" }}></div>
+        {compareBuildDatas.map((build, index) => (
+          <div key={index} style={{ display: "inline-block", textAlign: "center", margin: "0 10px" }}>
+            <Image
+              src={build.build.image}
+              alt={build.build.buildName}
+              width={80}
+              height={80}
+              style={{
+                boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+                cursor: "pointer",
+                position: "relative",
+                border: (build === selectedBuilds || build === secondselectedBuilds) ? "2px solid #00A9FF" : "none",
+                maxWidth: "80px", 
+                maxHeight: "80px", 
+              }}
+              onClick={() => handleBuildClick(build)}
+            />
+            <p>
+              {build.build.buildName.length > 9
+                ? `${build.build.buildName.substring(0, 9)}...`
+                : build.build.buildName}
+            </p>
+            <button onClick={() => removeBuildFromLocalStorage(build.build.id)}>
+              <IoMdClose style={{ width: "20px", height: "20px" }} />
+            </button>
+          </div>
+        ))}
+      </>
+    );
+  };
+  const calculateTotalPricefirstbuild = () => {
+    if (!selectedBuilds) return 0;
 
+    const components = [
+      selectedBuilds.caseData,
+      selectedBuilds.coolerData,
+      selectedBuilds.cpuData,
+      selectedBuilds.gpuData,
+      selectedBuilds.moboData,
+      selectedBuilds.psuData,
+      selectedBuilds.ramData,
+      selectedBuilds.ssdData,
+    ];
+
+    return components.reduce((total, component) => {
+      const price = parseFloat(component.price || "0");
+      return total + price;
+    }, 0);
+  };
+
+  const calculateTotalPricesecondbuild = () => {
+    if (!secondselectedBuilds) return 0;
+
+    const components = [
+      secondselectedBuilds.caseData,
+      secondselectedBuilds.coolerData,
+      secondselectedBuilds.cpuData,
+      secondselectedBuilds.gpuData,
+      secondselectedBuilds.moboData,
+      secondselectedBuilds.psuData,
+      secondselectedBuilds.ramData,
+      secondselectedBuilds.ssdData,
+    ];
+
+    return components.reduce((total, component) => {
+      const price = parseFloat(component.price || "0");
+      return total + price;
+    }, 0);
+  };
   return (
     <>
       <div
@@ -140,19 +264,8 @@ export default function ComparePage() {
               Select
             </p>
 
-            {/* PC build section 
-            <p
-              style={{
-                fontSize: "24px",
-                marginTop: "30px",
-                marginBottom: "15px",
-              }}
-            >
-              PC build
-            </p>*/}
-
             <div style={{ marginLeft: "45%" }}></div>
-
+            {renderBuildSection()}
             {renderProductSection("CPU")}
             {renderProductSection("GPU")}
             {renderProductSection("RAM")}
@@ -163,7 +276,7 @@ export default function ComparePage() {
             {renderProductSection("CPU Cooler")}
             {renderProductSection("Monitor")}
           </div>
-
+            
           {/* Right side content */}
           <div
             style={{
@@ -177,6 +290,7 @@ export default function ComparePage() {
               position: "relative",
             }}
           >
+            
             {selectedProduct && (
               <button
                 onClick={() => setSelectedProduct(null)}
@@ -224,6 +338,63 @@ export default function ComparePage() {
 
                 </div>
               </div>
+            )}
+            {selectedBuilds && selectedBuilds.build &&(
+              <>
+                <button
+                  onClick={() => setSelectedBuilds(null)}
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  <IoMdClose style={{ width: "20px", height: "20px" }} />
+                </button>
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    fontSize: "24px",
+                  }}
+                >
+                  {selectedBuilds.build.buildName}
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr" }}>
+                    <Image
+                      src={selectedBuilds.build.image}
+                      alt={selectedBuilds.build.buildName}
+                      width={200}
+                      height={200}
+                      style={{
+                        boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+                      }}
+                    />
+                  </div>
+                </div>
+                <div style={{ textAlign: "left" }}>
+
+                  <p>CPU: {selectedBuilds.cpuData.name}</p>
+                  <p>GPU: {selectedBuilds.gpuData.name}</p>
+                  <p>Mainborad: {selectedBuilds.moboData.name}</p>
+                  <p>Powersupply: {selectedBuilds.psuData.name}</p>
+                  <p>RAM: {selectedBuilds.ramData.name}</p>
+                  <p>SSD: {selectedBuilds.ssdData.name}</p>
+                  <p>Cooler: {selectedBuilds.coolerData.name}</p>
+                  <p>Case: {selectedBuilds.caseData.name}</p>
+                  <p>Total Price: {calculateTotalPricefirstbuild()} THB</p>
+                </div>
+              </>
             )}
             {selectedProduct && (
               <div style={{ textAlign: "left" }}>
@@ -358,6 +529,8 @@ export default function ComparePage() {
                     <p>G-Sync: {(selectedProduct as monitorProducts).gsync}</p>
                   </div>
                 )}
+
+
               </div>
             )}
           </div>
@@ -374,6 +547,63 @@ export default function ComparePage() {
               position: "relative",
             }}
           >
+              {secondselectedBuilds && secondselectedBuilds.build &&(
+              <>
+                <button
+                  onClick={() => setSecondSelectedBuilds(null)}
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  <IoMdClose style={{ width: "20px", height: "20px" }} />
+                </button>
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    fontSize: "24px",
+                  }}
+                >
+                  {secondselectedBuilds.build.buildName}
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr" }}>
+                    <Image
+                      src={secondselectedBuilds.build.image}
+                      alt={secondselectedBuilds.build.buildName}
+                      width={200}
+                      height={200}
+                      style={{
+                        boxShadow: "2px 4px 8px rgba(0, 0, 0, 0.1)",
+                      }}
+                    />
+                  </div>
+                </div>
+                <div style={{ textAlign: "left" }}>
+
+                  <p>CPU: {secondselectedBuilds.cpuData.name}</p>
+                  <p>GPU: {secondselectedBuilds.gpuData.name}</p>
+                  <p>Mainborad: {secondselectedBuilds.moboData.name}</p>
+                  <p>Powersupply: {secondselectedBuilds.psuData.name}</p>
+                  <p>RAM: {secondselectedBuilds.ramData.name}</p>
+                  <p>SSD: {secondselectedBuilds.ssdData.name}</p>
+                  <p>Cooler: {secondselectedBuilds.coolerData.name}</p>
+                  <p>Case: {secondselectedBuilds.caseData.name}</p>
+                  <p>Total Price: {calculateTotalPricesecondbuild()} THB</p>
+                </div>
+              </>
+            )}
             {secondSelectedProduct && (
               <button
                 onClick={() => setSecondSelectedProduct(null)}
@@ -545,7 +775,7 @@ export default function ComparePage() {
                   <div>
                     <p>Size: {(secondSelectedProduct as moboProducts).size}</p>
                     <p>
-                      Socket: {(selectedProduct as moboProducts).socketCPU}
+                      Socket: {(secondSelectedProduct as moboProducts).socketCPU}
                     </p>
                     <p>
                       Ram Slot:{" "}
