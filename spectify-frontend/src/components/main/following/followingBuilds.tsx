@@ -74,14 +74,12 @@ export default function FollowingBuildsComponent() {
         <>
             {(builds as { buildId: string, followingImg: string, followingUsername: string }[]).map((build) => (
                 <div key={build.buildId} className="flex justify-center mb-10 space-y-4">
-                    <div className="p-2 rounded-md box-border shadow-md">
-                        <div className="flex justify-center flex-col pb-12 border-b border-gray-300" >
-                            <div className="flex justify-start mb-4" >
-                                <div><Link href={`/profile/${build.followingUsername}`}><Avatar src={build.followingImg} alt="user img" size="sm" /></Link></div>
-                                <div><Link href={`/profile/${build.followingUsername}`}><p className="ml-2">{build.followingUsername}</p></Link></div>
-                            </div>
-                            <BuildPopupComponent size="large" buildId={build.buildId} />
+                    <div className="flex justify-center flex-col pb-12 border-b border-gray-300" >
+                        <div className="flex justify-start mb-4" >
+                            <div><Link href={`/profile/${build.followingUsername}`}><Avatar src={build.followingImg} alt="user img" size="sm" /></Link></div>
+                            <div><Link href={`/profile/${build.followingUsername}`}><p className="ml-2">{build.followingUsername}</p></Link></div>
                         </div>
+                        <BuildPopupComponent size="large" buildId={build.buildId} />
                     </div>
                 </div>
             ))}

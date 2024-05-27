@@ -19,20 +19,18 @@ export default function BuildReccomendComponent() {
 
     return (
         <>
-           {isFetching ? (
+            {isFetching ? (
                 <div>Loading...</div>
             ) : (
 
                 <div className="flex justify-center">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-                    {(builds as {build_id: string}[]).slice(0, 10).map((build: {build_id: string}) => (
-                        <div key={build.build_id} className="flex justify-start">
-                            <div className="p-2 rounded-md box-border shadow-md">
-                            <BuildPopupComponent buildId={build.build_id} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                        {(builds as { build_id: string }[]).slice(0, 10).map((build: { build_id: string }) => (
+                            <div key={build.build_id} className="flex justify-start">
+                                <BuildPopupComponent buildId={build.build_id} />
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
                 </div>
             )}
         </>
