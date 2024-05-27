@@ -194,9 +194,17 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 			<div className={`${paramCpu && paramGpu ? "" : "mb-5"}`}>
 				{product.CPU && product.GPU && (
 					<div className={`${paramCpu && paramGpu ? "" : "ml-4 mr-4"}`}>
-						<p className="text-l">
-							FPS count by settings For {product.CPU.name} and {product.GPU.name}
-						</p>
+						<div className="text-l">
+							<p>
+								FPS count by settings for
+							</p>
+							<p>
+								{product.CPU.name} and
+							</p>
+							<p>
+								{product.GPU.name}
+							</p>
+						</div>
 						<div className="mt-2 mb-2">
 							<Select
 								label="Select Resolution"
@@ -215,7 +223,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 						{/* FHD */}
 						{selectedResolution === "FHD" && (
 							<>
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<div className="flex flex-row gap-4 w-full rounded-lg p-2">
 									<Image
 										src={`/images/games/valo.webp`}
 										alt={`Valorant Game`}
@@ -247,7 +255,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 						)}
 						{selectedResolution === "FHD" && (
 							<>
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<div className="flex flex-row gap-4 w-full rounded-lg p-2">
 									<Image
 										src={`/images/games/lol.webp`}
 										alt={`League of Legends Game`}
@@ -279,7 +287,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 						)}
 						{selectedResolution === "FHD" && (
 							<>
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<div className="flex flex-row gap-4 w-full rounded-lg p-2">
 									<Image
 										src={`/images/games/ow.webp`}
 										alt={`Overwatch 2 Game`}
@@ -313,7 +321,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 						{/* QHD */}
 						{selectedResolution === "QHD" && (
 							<>
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<div className="flex flex-row gap-4 w-full rounded-lg p-2">
 									<Image
 										src={`/images/games/valo.webp`}
 										alt={`Valorant Game`}
@@ -346,7 +354,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 
 						{selectedResolution === "QHD" && (
 							<>
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<div className="flex flex-row gap-4 w-full rounded-lg p-2">
 									<Image
 										src={`/images/games/lol.webp`}
 										alt={`League of Legends Game`}
@@ -379,7 +387,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 
 						{selectedResolution === "QHD" && (
 							<>
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<div className="flex flex-row gap-4 w-full rounded-lg p-2">
 									<Image
 										src={`/images/games/ow.webp`}
 										alt={`Overwatch 2 Game`}
@@ -413,7 +421,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 						{/* 4K */}
 						{selectedResolution === "UHD" && (
 							<>
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<div className="flex flex-row gap-4 w-full rounded-lg p-2">
 									<Image
 										src={`/images/games/valo.webp`}
 										alt={`Valorant Game`}
@@ -446,7 +454,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 
 						{selectedResolution === "UHD" && (
 							<>
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<div className="flex flex-row gap-4 w-full rounded-lg p-2">
 									<Image
 										src={`/images/games/lol.webp`}
 										alt={`League of Legends Game`}
@@ -479,7 +487,7 @@ export default function Performance({ paramCpu, paramGpu }: Tprops) {
 
 						{selectedResolution === "UHD" && (
 							<>
-								<div className="flex flex-row gap-4 w-full shadow-lg rounded-lg p-2">
+								<div className="flex flex-row gap-4 w-full rounded-lg p-2">
 									<Image
 										src={`/images/games/ow.webp`}
 										alt={`Overwatch 2 Game`}
