@@ -48,7 +48,7 @@ export const getLikesCount = async (build_id: string) => {
 };
 
 export const getMostLiked = async () => {
-    return await prisma.like.groupBy({
+    const mostLikedBuilds = await prisma.like.groupBy({
         by: ["build_id"],
         _count: {
             build_id: true,
@@ -59,4 +59,21 @@ export const getMostLiked = async () => {
             },
         },
     });
+
+    const buildsWithUser = await Promise.all(mostLikedBuilds.map(async (build) => {
+        const buildDetails = await prisma.build.findUnique({
+            where: { id: build.build_id },
+            select: { user_id: true }
+        });
+        return {
+            build_id: build.build_id,
+            user_id: buildDetails?.user_id,
+            like_count: build._count.build_id,
+        };
+    }));
+
+    return buildsWithUser;
 };
+
+
+
