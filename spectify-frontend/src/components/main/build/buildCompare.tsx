@@ -10,7 +10,7 @@ export default function BuildCompareComponent({ build_id }: { build_id: string |
     const saveToLocalStorage = (data: any[]) => {
         try {
             localStorage.setItem("compareBuildData", JSON.stringify(data));
-            console.log("Data saved to local storage:", data);
+            // console.log("Data saved to local storage:", data);
         } catch (error) {
             console.error("Error saving data to local storage:", error);
         }
