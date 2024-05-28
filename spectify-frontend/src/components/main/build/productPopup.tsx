@@ -250,7 +250,7 @@ export default function ProductPopUp({
 	}, [selectedProduct, typeProduct]);
 
 	useEffect(() => {
-		console.log("Selected Product IDs:", selectedProductIDs);
+		// console.log("Selected Product IDs:", selectedProductIDs);
 	}, [selectedProductIDs]);
 
 	const { isOpen: outerModalOpen, onOpen: outerModalOpenHandler, onOpenChange: outerModalOpenChangeHandler } = useDisclosure();
