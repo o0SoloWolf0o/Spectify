@@ -99,7 +99,7 @@ const Generator: React.FC<{ setSelectedProducts: React.Dispatch<React.SetStateAc
                     setCaseComputerProducts(caseComputerProducts);
                     setCpuCoolerProducts(cpuCoolerProducts);
                 } else {
-                    console.log("Products already fetched. Skipping...");
+                    // console.log("Products already fetched. Skipping...");
                 }
             } catch (error) {
                 console.error("Error fetching products:", error);

@@ -162,7 +162,7 @@ export default function ProductPage() {
 	const [filteredSearchProducts, setFilteredSearchProducts] = useState<Product[]>([]);
 
 	useEffect(() => {
-		console.log("Fetching products...");
+		// console.log("Fetching products...");
 		const fetchProducts = async () => {
 			try {
 				const [
@@ -202,7 +202,7 @@ export default function ProductPage() {
 				setFilteredSearchProducts(combinedProducts);
 				setAllProducts(combinedProducts);
 
-				console.log(combinedProducts);
+				// console.log(combinedProducts);
 			} catch (error) {
 				// Handle errors here
 				console.error("Error fetching products:", error);
@@ -259,7 +259,7 @@ export default function ProductPage() {
 		try {
 			const jsonData = JSON.stringify(data);
 			localStorage.setItem("compareData", jsonData);
-			console.log("Data saved to local storage:", jsonData);
+			// console.log("Data saved to local storage:", jsonData);
 		} catch (error) {
 			console.error("Error saving data to local storage:", error);
 		}

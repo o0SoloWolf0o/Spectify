@@ -84,29 +84,33 @@ export default function SaveBuildComponent({ className }: IsaveBuildComponent) {
 
 	useEffect(() => {
 		if (isOpen) {
-			const cpu = localStorage.getItem("CPU") || "";
-			const mb = localStorage.getItem("MB") || "";
-			const ram = localStorage.getItem("RAM") || "";
-			const gpu = localStorage.getItem("GPU") || "";
-			const ssd = localStorage.getItem("SSD") || "";
-			const psu = localStorage.getItem("PSU") || "";
-			const cases = localStorage.getItem("Case") || "";
-			const cooler = localStorage.getItem("Cooler") || "";
+			const allproduct = localStorage.getItem("selectedProducts");
+			const selectedProducts = allproduct ? JSON.parse(allproduct) : {};
 
-			if (cpu && mb && ram && gpu && ssd && psu && cases && cooler) {
-				buildForm.setValue("cpu", cpu);
-				buildForm.setValue("mb", mb);
-				buildForm.setValue("ram", ram);
-				buildForm.setValue("gpu", gpu);
-				buildForm.setValue("ssd", ssd);
-				buildForm.setValue("psu", psu);
-				buildForm.setValue("cases", cases);
-				buildForm.setValue("cooler", cooler);
+			const cpuid = selectedProducts.CPU?.id ?? null;
+			const mbid = selectedProducts.MB?.id ?? null;
+			const ramid = selectedProducts.RAM?.id ?? null;
+			const gpuid = selectedProducts.GPU?.id ?? null;
+			const ssdid = selectedProducts.SSD?.id ?? null;
+			const psuid = selectedProducts.PSU?.id ?? null;
+			const caseid = selectedProducts.Case?.id ?? null;
+			const coolerid = selectedProducts.Cooler?.id ?? null;
+
+			if (cpuid && mbid && ramid && gpuid && ssdid && psuid && caseid && coolerid) {
+				buildForm.setValue("cpu", cpuid);
+				buildForm.setValue("mb", mbid);
+				buildForm.setValue("ram", ramid);
+				buildForm.setValue("gpu", gpuid);
+				buildForm.setValue("ssd", ssdid);
+				buildForm.setValue("psu", psuid);
+				buildForm.setValue("cases", caseid);
+				buildForm.setValue("cooler", coolerid);
 			} else {
 				setComponentFill(false);
 			}
 		}
 	}, [buildForm, isOpen]);
+
 
 
 

@@ -33,7 +33,7 @@ const BuildComponent: React.FC<BuildComponentProps> = ({ selectedProducts, setSe
         setSelectedProducts(prevProducts => {
             const newProducts = { ...prevProducts, [typeProduct]: product };
             localStorage.setItem('selectedProducts', JSON.stringify(newProducts));
-            localStorage.setItem(typeProduct, product.id);
+            // localStorage.setItem(typeProduct, product.id);
 
             if (typeProduct === 'CPU') {
                 const cpuProduct = product as cpuProducts;
